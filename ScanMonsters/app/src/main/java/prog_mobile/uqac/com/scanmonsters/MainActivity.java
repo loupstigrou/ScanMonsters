@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void goToWhateverActivity() {
-//        Intent intent = new Intent(MainActivity.this, ScanMonsterActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, ScanMonsterActivity.class);
+        startActivity(intent);
     }
 }

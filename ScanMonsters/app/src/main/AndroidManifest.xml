@@ -17,6 +17,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name=".ScanMonsterActivity"
+            android:label="@string/title_activity_scan_monster" >
+        </activity>
     </application>
 
 </manifest>
