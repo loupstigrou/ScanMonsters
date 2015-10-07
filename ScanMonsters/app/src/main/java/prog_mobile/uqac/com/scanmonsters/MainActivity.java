@@ -76,8 +76,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void goToConnectionActivity() {
-//        Intent intent = new Intent(MainActivity.this, ConnectionActivity.class);
-//        startActivity(intent);
+        Intent intent = new Intent(MainActivity.this, ConnectionActivity.class);
+        startActivity(intent);
     }
 
     private void goToWhateverActivity() {

@@ -9,4 +9,5 @@
     <string name="cheat_button">Application</string>
     <string name="title_activity_scan_monster">ScanMonsterActivity</string>
     <string name="title_activity_inscription">InscriptionActivity</string>
+    <string name="title_activity_connection">ConnectionActivity</string>
 </resources>
