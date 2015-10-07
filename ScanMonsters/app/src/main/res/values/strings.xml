@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">ScanMonsters</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="inscription_button">S\'inscrire</string>
+    <string name="connection_button">Se connecter</string>
+    <string name="cheat_button">Application</string>
 </resources>
