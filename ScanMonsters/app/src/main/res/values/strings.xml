@@ -10,8 +10,7 @@
     <string name="title_activity_scan_monster">ScanMonsterActivity</string>
     <string name="title_activity_inscription">InscriptionActivity</string>
     <string name="title_activity_connection">ConnectionActivity</string>
-    <string name="hint_prenom">Prénom</string>
-    <string name="hint_nom">Nom de famille</string>
-    <string name="hint_email">E-mail</string>
     <string name="hint_password">Mot de passe</string>
+    <string name="action_signin">S\'inscrire</string>
+    <string name="hint_login">Login</string>
 </resources>

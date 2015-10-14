@@ -26,33 +26,15 @@
             android:layout_height="wrap_content">
 
             <EditText
-                android:id="@+id/inscription_prenom"
+                android:id="@+id/inscription_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/hint_prenom"
-                android:inputType="textPersonName"
-                android:maxLines="1"
-                android:singleLine="true"/>
-
-            <EditText
-                android:id="@+id/inscription_nom"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_nom"
-                android:inputType="textPersonName"
+                android:hint="@string/hint_login"
+                android:inputType="text"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:layout_below="@id/inscription_prenom"/>
-
-            <EditText
-                android:id="@+id/inscription_email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:layout_below="@id/inscription_nom"/>
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"/>
 
             <EditText
                 android:id="@+id/inscription_password"
@@ -62,7 +44,10 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:layout_below="@id/inscription_email"/>
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/action_signin"
+                android:imeOptions="actionUnspecified"
+                android:layout_below="@id/inscription_login"/>
 
             <Button
                 android:id="@+id/signin_button"
