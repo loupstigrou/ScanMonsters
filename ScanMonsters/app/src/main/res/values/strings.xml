@@ -13,4 +13,7 @@
     <string name="hint_password">Mot de passe</string>
     <string name="action_signin">S\'inscrire</string>
     <string name="hint_login">Login</string>
+    <string name="error_invalid_password">Mot de passe incorrect !</string>
+    <string name="error_invalid_login">Login incorrect</string>
+    <string name="error_field_required">Champ requis</string>
 </resources>
