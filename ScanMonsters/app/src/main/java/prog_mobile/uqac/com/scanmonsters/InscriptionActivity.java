@@ -159,12 +159,12 @@ public class InscriptionActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            loginView.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginView.animate().setDuration(shortAnimTime).alpha(
+            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            loginFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    loginView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -180,7 +180,7 @@ public class InscriptionActivity extends AppCompatActivity {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginView.setVisibility(show ? View.GONE : View.VISIBLE);
+            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
