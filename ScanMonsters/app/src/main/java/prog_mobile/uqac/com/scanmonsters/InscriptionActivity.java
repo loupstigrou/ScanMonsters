@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -249,9 +250,11 @@ public class InscriptionActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                Toast.makeText(this.context, "Success", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(InscriptionActivity.this, ScanMonsterActivity.class);
+                startActivity(intent);
             } else {
-                Toast.makeText(this.context, "No Success", Toast.LENGTH_SHORT).show();
+                loginView.setError(getString(R.string.error_login_taken));
+                loginView.requestFocus();
             }
         }
 
