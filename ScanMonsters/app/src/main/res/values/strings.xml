@@ -18,4 +18,5 @@
     <string name="error_field_required">Champ requis</string>
     <string name="error_login_taken">Ce login est déjà utilisé !</string>
     <string name="action_signup">Se connecter</string>
+    <string name="error_wrong_login_or_password">Erreur de Login ou Mot de Passe</string>
 </resources>
