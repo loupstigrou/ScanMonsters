@@ -18,7 +18,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -250,8 +249,8 @@ public class InscriptionActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(InscriptionActivity.this, ScanMonsterActivity.class);
-                startActivity(intent);
+                Intent intent = new Intent(this.context, ScanMonsterActivity.class);
+                context.startActivity(intent);
             } else {
                 loginView.setError(getString(R.string.error_login_taken));
                 loginView.requestFocus();
