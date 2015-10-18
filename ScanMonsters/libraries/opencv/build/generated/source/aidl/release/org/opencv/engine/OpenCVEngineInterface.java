@@ -1,6 +1,6 @@
 /*
  * This file is auto-generated.  DO NOT MODIFY.
- * Original file: C:\\Users\\Major\\Documents\\Projet GIT\\ScanMonsters\\ScanMonsters\\libraries\\opencv\\src\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
+ * Original file: C:\\Users\\Jerome\\Documents\\Dev\\Projet Prog Mobile\\ScanMonsters\\libraries\\opencv\\src\\org\\opencv\\engine\\OpenCVEngineInterface.aidl
  */
 package org.opencv.engine;
 /**
