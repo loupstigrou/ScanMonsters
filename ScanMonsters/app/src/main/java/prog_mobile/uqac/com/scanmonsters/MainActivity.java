@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button inscriptionButton;
     private Button connectionButton;
     private Button cheatButton;
-
+    private Button tesseractButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,10 +22,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.inscriptionButton = (Button) findViewById(R.id.inscription_button);
         this.connectionButton = (Button) findViewById(R.id.connection_button);
         this.cheatButton = (Button) findViewById(R.id.cheat_button);
+        this.tesseractButton = (Button) findViewById(R.id.tesseract_button);
 
         this.inscriptionButton.setOnClickListener(this);
         this.connectionButton.setOnClickListener(this);
         this.cheatButton.setOnClickListener(this);
+        this.tesseractButton.setOnClickListener(this);
     }
 
     @Override
@@ -65,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this.goToWhateverActivity();
                 break;
 
+            case R.id.tesseract_button:
+                this.goToTesseractActivity();
+                break;
+
             default:
                 break;
         }
@@ -82,6 +88,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void goToWhateverActivity() {
         Intent intent = new Intent(MainActivity.this, ScanMonsterActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToTesseractActivity(){
+        Intent intent = new Intent(MainActivity.this, OCRActivity.class);
         startActivity(intent);
     }
 }

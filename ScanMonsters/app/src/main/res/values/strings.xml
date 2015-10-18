@@ -7,6 +7,7 @@
     <string name="inscription_button">S\'inscrire</string>
     <string name="connection_button">Se connecter</string>
     <string name="cheat_button">Application</string>
+    <string name="tesseract_button">Lancer tesseract</string>
     <string name="title_activity_scan_monster">ScanMonsterActivity</string>
     <string name="title_activity_inscription">InscriptionActivity</string>
     <string name="title_activity_connection">ConnectionActivity</string>
@@ -19,4 +20,9 @@
     <string name="error_login_taken">Ce login est déjà utilisé !</string>
     <string name="action_signup">Se connecter</string>
     <string name="error_wrong_login_or_password">Erreur de Login ou Mot de Passe</string>
+    <string name="image_dialog_description">Ttot</string>
+    <string name="title_activity_tesseract">TesseractActivity</string>
+
+    <string name="ac_tesseract_btn_gallery">Gallery</string>
+    <string name="ac_tesseract_btn_camera">Camera</string>
 </resources>
