@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,7 +18,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -159,12 +159,12 @@ public class InscriptionActivity extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
-            loginView.setVisibility(show ? View.GONE : View.VISIBLE);
-            loginView.animate().setDuration(shortAnimTime).alpha(
+            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            loginFormView.animate().setDuration(shortAnimTime).alpha(
                     show ? 0 : 1).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    loginView.setVisibility(show ? View.GONE : View.VISIBLE);
+                    loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                 }
             });
 
@@ -180,7 +180,7 @@ public class InscriptionActivity extends AppCompatActivity {
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             progressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            loginView.setVisibility(show ? View.GONE : View.VISIBLE);
+            loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 
@@ -249,9 +249,11 @@ public class InscriptionActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
-                Toast.makeText(this.context, "Success", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(this.context, ScanMonsterActivity.class);
+                context.startActivity(intent);
             } else {
-                Toast.makeText(this.context, "No Success", Toast.LENGTH_SHORT).show();
+                loginView.setError(getString(R.string.error_login_taken));
+                loginView.requestFocus();
             }
         }
 
