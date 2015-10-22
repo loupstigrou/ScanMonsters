@@ -5,6 +5,3 @@
 .DS_Store
 /build
 /captures
-/libraries/opencv/build
-/libraries/tess-two/build
-*.iml
