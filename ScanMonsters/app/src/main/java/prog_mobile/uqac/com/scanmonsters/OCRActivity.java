@@ -16,6 +16,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +24,10 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class OCRActivity extends Activity implements OnClickListener {
+/**
+ * @author Jerome
+ */
+public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	private TessOCR mTessOCR;
 	private TextView mResult;
 	private ProgressDialog mProgressDialog;
@@ -126,9 +130,6 @@ public class OCRActivity extends Activity implements OnClickListener {
 		}
 	}
 
-	/**
-	 * http://developer.android.com/training/camera/photobasics.html
-	 */
 	private File createImageFile() throws IOException {
 		// Create an image file name
 		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
@@ -237,10 +238,8 @@ public class OCRActivity extends Activity implements OnClickListener {
 
 						mProgressDialog.dismiss();
 					}
-
 				});
-
-			};
+			}
 		}).start();
 	}
 }

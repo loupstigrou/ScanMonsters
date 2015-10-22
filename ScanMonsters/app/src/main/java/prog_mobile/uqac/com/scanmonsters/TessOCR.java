@@ -7,11 +7,14 @@ import android.os.Environment;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
+/**
+ * @author Jerome
+ */
 public class TessOCR {
 	private TessBaseAPI mTess;
 	
-	public TessOCR() {
-		// TODO Auto-generated constructor stub
+	public TessOCR()
+	{
 		mTess = new TessBaseAPI();
 		String datapath = Environment.getExternalStorageDirectory() + "/tesseract/";
 		String language = "eng";
@@ -21,17 +24,14 @@ public class TessOCR {
 		mTess.init(datapath, language);
 	}
 	
-	public String getOCRResult(Bitmap bitmap) {
-		
+	public String getOCRResult(Bitmap bitmap)
+	{
 		mTess.setImage(bitmap);
-		String result = mTess.getUTF8Text();
-
-		return result;
+		return mTess.getUTF8Text();
     }
 	
 	public void onDestroy() {
 		if (mTess != null)
 			mTess.end();
 	}
-	
 }

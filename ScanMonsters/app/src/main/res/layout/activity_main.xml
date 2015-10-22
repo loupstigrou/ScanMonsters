@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="250dp"
-        android:layout_height="230dp"
+        android:layout_height="310dp"
         android:layout_centerInParent="true"
         android:id="@+id/relativeLayout">
 
@@ -35,22 +35,21 @@
             android:id="@+id/cheat_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/blue"
             android:text="@string/cheat_button"
             android:textColor="@color/white"
             android:layout_below="@id/connection_button"/>
 
-    </RelativeLayout>
+        <Button
+            android:id="@+id/tesseract_button"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/blue"
+            android:layout_below="@id/cheat_button"
+            android:text="@string/tesseract_button"
+            android:textColor="@color/white"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/tesseract_button"
-        android:id="@+id/tesseract_button"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="34dp"
-        android:textColor="@color/white"
-        android:background="@color/blue" />
+    </RelativeLayout>
 
 </RelativeLayout>
