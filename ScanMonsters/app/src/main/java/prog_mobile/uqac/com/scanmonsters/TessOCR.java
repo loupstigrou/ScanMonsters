@@ -1,11 +1,12 @@
 package prog_mobile.uqac.com.scanmonsters;
 
-import java.io.File;
-
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
+
+import java.io.File;
 
 /**
  * @author Jerome
@@ -16,14 +17,20 @@ public class TessOCR {
 	public TessOCR()
 	{
 		mTess = new TessBaseAPI();
-		String datapath = Environment.getExternalStorageDirectory() + "/tesseract/";
-		String language = "eng";
+		//TODO Recupere la bibliotheque venant du res et non sur la memoire du device
+		String datapath = Environment.getExternalStorageDirectory() + "/tesseract/"; //Definition du lieu ou se trouve la bibliotheque
+		String language = "eng"; //Definition de la langue de la bibliotheque
 		File dir = new File(datapath + "tessdata/");
-		if (!dir.exists()) 
+		if (!dir.exists())
 			dir.mkdirs();
-		mTess.init(datapath, language);
+		mTess.init(datapath, language); //Initialisation de la bibliotheque avec la bonne langue
 	}
-	
+
+	/**
+	 * Recupere le texte present sur l image
+	 * @param bitmap image a analyser
+	 * @return texte de l image
+	 */
 	public String getOCRResult(Bitmap bitmap)
 	{
 		mTess.setImage(bitmap);

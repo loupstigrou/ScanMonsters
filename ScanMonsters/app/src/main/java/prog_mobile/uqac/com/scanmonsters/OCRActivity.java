@@ -51,6 +51,10 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		mTessOCR = new TessOCR();
 	}
 
+	/**
+	 * Recupere l image a partir de l URI
+	 * @param uri URI de l image a traiter
+	 */
 	private void uriOCR(Uri uri) {
 		if (uri != null) {
 			InputStream is = null;
@@ -60,14 +64,12 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 				mImage.setImageBitmap(bitmap);
 				doOCR(bitmap);
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} finally {
 				if (is != null) {
 					try {
 						is.close();
 					} catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -109,6 +111,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		mTessOCR.onDestroy();
 	}
 
+	/**
+	 *Recupere une image venant de l appareil photo
+	 */
 	private void dispatchTakePictureIntent() {
 		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		// Ensure that there's a camera activity to handle the intent
@@ -130,9 +135,14 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * Creer une image JPEG
+	 * @return File
+	 * @throws IOException
+	 */
 	private File createImageFile() throws IOException {
 		// Create an image file name
-		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss")
+		String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss") //Horodatage
 				.format(new Date());
 		String imageFileName = "JPEG_" + timeStamp + "_";
 		String storageDir = Environment.getExternalStorageDirectory()
@@ -164,6 +174,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * Traitement sur l image obtenue pour l ajuster a l ecran
+	 */
 	private void setPic() {
 		// Get the dimensions of the View
 		int targetW = mImage.getWidth();
@@ -203,16 +216,26 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			break;
 		}
 	}
-	
+
+	/**
+	 * Recupere une photo dans la memoire du device
+	 */
 	private void pickPhoto() {
 		Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 		startActivityForResult(intent, REQUEST_PICK_PHOTO);
 	}
 
+	/**
+	 * Lance le processus pour recuperer l image a partir de l appareil photo
+	 */
 	private void takePhoto() {
 		dispatchTakePictureIntent();
 	}
 
+	/**
+	 * Lance le processus de detection de texte
+	 * @param bitmap
+	 */
 	private void doOCR(final Bitmap bitmap) {
 		if (mProgressDialog == null) {
 			mProgressDialog = ProgressDialog.show(this, "Processing",
@@ -222,7 +245,7 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			mProgressDialog.show();
 		}
 		
-		new Thread(new Runnable() {
+		new Thread(new Runnable() { //Creation d'un thread annexe  pour realiser la detection
 			public void run() {
 
 				final String result = mTessOCR.getOCRResult(bitmap);
