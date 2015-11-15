@@ -25,4 +25,6 @@
 
     <string name="ac_tesseract_btn_gallery">Gallery</string>
     <string name="ac_tesseract_btn_camera">Camera</string>
+    <string name="location_button">Localisation Joueur</string>
+    <string name="title_activity_location">LocationActivity</string>
 </resources>
