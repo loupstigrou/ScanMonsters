@@ -25,6 +25,12 @@
 
     <string name="ac_tesseract_btn_gallery">Gallery</string>
     <string name="ac_tesseract_btn_camera">Camera</string>
+
     <string name="location_button">Localisation Joueur</string>
     <string name="title_activity_location">LocationActivity</string>
+    <string name="new_location">New location : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s, Précision = %4$s metres</string>
+    <string name="provider_disabled">The provider %s is now disabled.</string>
+    <string name="provider_new_status">The provider %1$s has now a new status %2$s</string>
+    <string name="provider_enabled">The provider %s is now enabled</string>
+
 </resources>
