@@ -15,8 +15,11 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
     private LocationManager lm;
     private double latitude;
     private double longitude;
-    private double altitude;
-    private float accuracy;
+
+    //48.420048, -71.052508 : latitude et longitude du centre du batiment principal
+    private static double LATITUDE_CENTER = 48.420048;
+    private static double LONGITUDE_CENTER = -71.052508;
+    private static int DISTANCE_ACCURACY = 300; // distance in meters acceptable between the center and the user to assume the user is in the zone
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,12 +69,14 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
     public void onLocationChanged(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        altitude = location.getAltitude();
-        accuracy = location.getAccuracy();
 
-        String msg = String.format(
-                getResources().getString(R.string.new_location), latitude,
-                longitude, altitude, accuracy);
+        String msg = "";
+
+        // If the user is in the University => ok
+        if (userInZone(latitude, longitude))
+            msg = "ok";
+        else
+            msg = "nok";
         Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
 
     }
@@ -108,5 +113,21 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
         String msg = String.format(
                 getResources().getString(R.string.provider_enabled), provider);
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    public boolean userInZone(double latitude, double longitude) {
+        Location location1 = new Location("");
+        location1.setLatitude(latitude);
+        location1.setLongitude(longitude);
+        Location location2 = new Location("");
+        location2.setLatitude(LATITUDE_CENTER);
+        location2.setLongitude(LONGITUDE_CENTER);
+
+        double d = location1.distanceTo(location2);
+
+        if (d <= DISTANCE_ACCURACY)
+            return true;
+        else
+            return false;
     }
 }
