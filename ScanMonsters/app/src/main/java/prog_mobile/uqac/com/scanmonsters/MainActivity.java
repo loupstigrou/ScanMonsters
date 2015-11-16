@@ -10,6 +10,8 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
+    SessionManager session;
+
     private Button inscriptionButton;
     private Button connectionButton;
     private Button cheatButton;
@@ -20,6 +22,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.session = new SessionManager(getApplicationContext());
+        // Directly redirect if user is already logged in
+//        if (this.session.isLoggedIn()) {
+//            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+
 
         this.inscriptionButton = (Button) findViewById(R.id.inscription_button);
         this.connectionButton = (Button) findViewById(R.id.connection_button);

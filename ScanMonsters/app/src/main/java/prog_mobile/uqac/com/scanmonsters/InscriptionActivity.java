@@ -32,6 +32,8 @@ import java.util.regex.Pattern;
 
 public class InscriptionActivity extends AppCompatActivity {
 
+    SessionManager session;
+
     private EditText loginView;
     private EditText passwordView;
     private Button inscriptionButton;
@@ -50,6 +52,8 @@ public class InscriptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inscription);
+
+        this.session = new SessionManager(getApplicationContext());
 
         this.loginView = (EditText) findViewById(R.id.inscription_login);
         this.passwordView = (EditText) findViewById(R.id.inscription_password);
@@ -249,8 +253,10 @@ public class InscriptionActivity extends AppCompatActivity {
             showProgress(false);
 
             if (success) {
+                session.createLoginSession(user.getLogin());
                 Intent intent = new Intent(this.context, ScanMonsterActivity.class);
                 context.startActivity(intent);
+                finish();
             } else {
                 loginView.setError(getString(R.string.error_login_taken));
                 loginView.requestFocus();

@@ -4,13 +4,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import java.util.HashMap;
 
 public class ScanMonsterActivity extends AppCompatActivity {
+
+    SessionManager session;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_monster);
+
+        this.session = new SessionManager(getApplicationContext());
+        this.session.checkLogin();
+        HashMap<String, String> user = this.session.getUserDetails();
+
+        String login = user.get(SessionManager.KEY_LOGIN);
+        Toast.makeText(getApplicationContext(), "User : "+login, Toast.LENGTH_LONG).show();
     }
 
     @Override
