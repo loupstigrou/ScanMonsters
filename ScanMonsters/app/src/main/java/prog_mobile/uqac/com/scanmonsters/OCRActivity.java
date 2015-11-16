@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -24,11 +25,17 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.LoaderCallbackInterface;
+import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Mat;
+
 /**
  * @author Jerome
  */
 public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	private TessOCR mTessOCR;
+	private  Mat mat;
 	private TextView mResult;
 	private ProgressDialog mProgressDialog;
 	private ImageView mImage;
@@ -36,6 +43,23 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	private String mCurrentPhotoPath;
 	private static final int REQUEST_TAKE_PHOTO = 1;
 	private static final int REQUEST_PICK_PHOTO = 2;
+
+	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
+		@Override
+		public void onManagerConnected(int status) {
+			switch (status) {
+				case LoaderCallbackInterface.SUCCESS: {
+					Log.i("Load", "OpenCV loaded successfully");
+					mat = new Mat();
+				}
+				break;
+				default: {
+					super.onManagerConnected(status);
+				}
+				break;
+			}
+		}
+	};
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +85,8 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			try {
 				is = getContentResolver().openInputStream(uri);
 				Bitmap bitmap = BitmapFactory.decodeStream(is);
+				OpencvTreatment myTreat = new OpencvTreatment();
+				myTreat.opencvTreatment(bitmap);
 				mImage.setImageBitmap(bitmap);
 				doOCR(bitmap);
 			} catch (FileNotFoundException e) {
@@ -81,6 +107,8 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
+		//mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
+    	OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
 
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEND.equals(intent.getAction())) {
@@ -198,10 +226,14 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		bmOptions.inPurgeable = true;
 
 		Bitmap bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
+		OpencvTreatment myTreat = new OpencvTreatment();
+		myTreat.opencvTreatment(bitmap);
 		mImage.setImageBitmap(bitmap);
 		doOCR(bitmap);
 
 	}
+
+
 
 	@Override
 	public void onClick(View v) {
