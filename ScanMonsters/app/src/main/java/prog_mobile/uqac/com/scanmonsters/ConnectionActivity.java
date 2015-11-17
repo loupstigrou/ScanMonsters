@@ -3,6 +3,7 @@ package prog_mobile.uqac.com.scanmonsters;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -29,7 +30,7 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class ConnectionActivity extends AppCompatActivity {
+public class ConnectionActivity extends Activity {
 
     SessionManager session;
 
@@ -53,6 +54,11 @@ public class ConnectionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_connection);
 
         this.session = new SessionManager(getApplicationContext());
+        if (this.session.isLoggedIn()) {
+            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         this.loginView = (EditText) findViewById(R.id.connection_login);
         this.passwordView = (EditText) findViewById(R.id.connection_password);
@@ -79,6 +85,16 @@ public class ConnectionActivity extends AppCompatActivity {
 
         this.progressView = findViewById(R.id.connection_login_progress);
         this.loginFormView = findViewById(R.id.connection_login_form);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (this.session.isLoggedIn()) {
+            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void proceedLogin() {

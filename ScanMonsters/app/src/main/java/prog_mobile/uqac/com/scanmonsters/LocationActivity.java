@@ -1,5 +1,6 @@
 package prog_mobile.uqac.com.scanmonsters;
 
+import android.app.Activity;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,7 +13,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class LocationActivity extends AppCompatActivity implements LocationListener {
+public class LocationActivity extends Activity implements LocationListener {
 
     SessionManager session;
 

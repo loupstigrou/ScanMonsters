@@ -1,5 +1,6 @@
 package prog_mobile.uqac.com.scanmonsters;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,7 +9,7 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class ScanMonsterActivity extends AppCompatActivity {
+public class ScanMonsterActivity extends Activity {
 
     SessionManager session;
 

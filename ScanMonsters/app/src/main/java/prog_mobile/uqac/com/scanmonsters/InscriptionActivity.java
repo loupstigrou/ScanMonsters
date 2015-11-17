@@ -3,6 +3,7 @@ package prog_mobile.uqac.com.scanmonsters;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,7 +31,7 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class InscriptionActivity extends AppCompatActivity {
+public class InscriptionActivity extends Activity {
 
     SessionManager session;
 
@@ -54,6 +55,11 @@ public class InscriptionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_inscription);
 
         this.session = new SessionManager(getApplicationContext());
+        if (this.session.isLoggedIn()) {
+            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         this.loginView = (EditText) findViewById(R.id.inscription_login);
         this.passwordView = (EditText) findViewById(R.id.inscription_password);
@@ -80,6 +86,16 @@ public class InscriptionActivity extends AppCompatActivity {
 
         this.progressView = findViewById(R.id.login_progress);
         this.loginFormView = findViewById(R.id.loginForm);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (this.session.isLoggedIn()) {
+            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
+            startActivity(intent);
+            finish();
+        }
     }
 
     private void proceedInscription() {
