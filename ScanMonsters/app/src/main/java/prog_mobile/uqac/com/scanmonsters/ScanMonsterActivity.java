@@ -1,8 +1,10 @@
 package prog_mobile.uqac.com.scanmonsters;
 
 import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -54,7 +56,24 @@ public class ScanMonsterActivity extends Activity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.menu_logout) {
-            this.session.logoutUser();
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Warning !");
+            alertDialog.setMessage("Are you sure you want to Log Out ?");
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Log Out", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    session.logoutUser();
+                }
+            });
+            alertDialog.show();
+
         }
 
         return super.onOptionsItemSelected(item);
