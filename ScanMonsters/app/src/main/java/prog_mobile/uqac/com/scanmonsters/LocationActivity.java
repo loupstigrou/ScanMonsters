@@ -10,7 +10,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 public class LocationActivity extends AppCompatActivity implements LocationListener {
+
+    SessionManager session;
 
     private LocationManager lm;
     private double latitude;
@@ -25,11 +29,17 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
+
+        this.session = new SessionManager(getApplicationContext());
+//        this.session.checkLogin();
+//        HashMap<String, String> user = this.session.getUserDetails();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+//        this.session.checkLogin();
+
         lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
         if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER))
@@ -43,13 +53,23 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
         lm.removeUpdates(this);
     }
 
+    /**
+     * Menu with a logout option if the user is logged in
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_location, menu);
+        if (this.session.isLoggedIn())
+            getMenuInflater().inflate(R.menu.menu_logged_in, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu, menu);
+
         return true;
     }
 
+    /**
+     * Logout functionnality
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -60,6 +80,8 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.menu_logout) {
+            this.session.logoutUser();
         }
 
         return super.onOptionsItemSelected(item);

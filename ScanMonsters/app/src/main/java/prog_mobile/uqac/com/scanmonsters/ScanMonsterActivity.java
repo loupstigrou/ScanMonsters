@@ -26,9 +26,19 @@ public class ScanMonsterActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        this.session.checkLogin();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_scan_monster, menu);
+        if (this.session.isLoggedIn())
+            getMenuInflater().inflate(R.menu.menu_logged_in, menu);
+        else
+            getMenuInflater().inflate(R.menu.menu, menu);
+
         return true;
     }
 
@@ -42,6 +52,8 @@ public class ScanMonsterActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        } else if (id == R.id.menu_logout) {
+            this.session.logoutUser();
         }
 
         return super.onOptionsItemSelected(item);

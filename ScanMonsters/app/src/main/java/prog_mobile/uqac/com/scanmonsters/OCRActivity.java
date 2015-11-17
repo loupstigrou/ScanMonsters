@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -18,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -37,10 +39,17 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	private static final int REQUEST_TAKE_PHOTO = 1;
 	private static final int REQUEST_PICK_PHOTO = 2;
 
+	SessionManager session;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tesseract);
+
+		// Current user session
+		this.session = new SessionManager(getApplicationContext());
+//		this.session.checkLogin();
+//		HashMap<String, String> user = this.session.getUserDetails();
 
 		mResult = (TextView) findViewById(R.id.tv_result);
 		mImage = (ImageView) findViewById(R.id.image);
@@ -82,6 +91,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		// TODO Auto-generated method stub
 		super.onResume();
 
+		//If not logged in => return to first activity
+//		this.session.checkLogin();
+
 		Intent intent = getIntent();
 		if (Intent.ACTION_SEND.equals(intent.getAction())) {
 			Uri uri = (Uri) intent
@@ -96,11 +108,38 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		super.onPause();
 	}
 
+	/**
+	 * Menu with a logout option if the user is logged in
+	 */
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		if (this.session.isLoggedIn())
+			getMenuInflater().inflate(R.menu.menu_logged_in, menu);
+		else
+			getMenuInflater().inflate(R.menu.menu, menu);
+
 		return true;
+	}
+
+	/**
+	 * Logout functionnality
+	 */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle action bar item clicks here. The action bar will
+		// automatically handle clicks on the Home/Up button, so long
+		// as you specify a parent activity in AndroidManifest.xml.
+		int id = item.getItemId();
+
+		//noinspection SimplifiableIfStatement
+		if (id == R.id.action_settings) {
+			return true;
+		} else if (id == R.id.menu_logout) {
+			this.session.logoutUser();
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
