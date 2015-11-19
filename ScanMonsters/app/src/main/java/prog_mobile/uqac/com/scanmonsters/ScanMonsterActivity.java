@@ -22,9 +22,9 @@ public class ScanMonsterActivity extends Activity {
 
         this.session = new SessionManager(getApplicationContext());
         this.session.checkLogin();
-        HashMap<String, String> user = this.session.getUserDetails();
+        User user = this.session.getUser();
 
-        String login = user.get(SessionManager.KEY_LOGIN);
+        String login = user.getLogin();
         Toast.makeText(getApplicationContext(), "User : "+login, Toast.LENGTH_LONG).show();
     }
 

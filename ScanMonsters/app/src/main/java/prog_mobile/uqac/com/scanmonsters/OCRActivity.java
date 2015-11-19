@@ -49,7 +49,7 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		// Current user session
 		this.session = new SessionManager(getApplicationContext());
 //		this.session.checkLogin();
-//		HashMap<String, String> user = this.session.getUserDetails();
+		User user = this.session.getUser();
 
 		mResult = (TextView) findViewById(R.id.tv_result);
 		mImage = (ImageView) findViewById(R.id.image);

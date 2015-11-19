@@ -252,11 +252,7 @@ public class ConnectionActivity extends Activity {
                 e.printStackTrace();
             }
 
-            if (this.serverResponse.charAt(0) != 'O' || this.serverResponse.charAt(1) != 'K') {
-                return false;
-            } else {
-                return true;
-            }
+            return this.serverResponse.equals("OK");
         }
 
         @Override
@@ -265,7 +261,7 @@ public class ConnectionActivity extends Activity {
             showProgress(false);
 
             if (success) {
-                session.createLoginSession(user.getLogin());
+                session.createLoginSession(user);
                 Intent intent = new Intent(this.context, ScanMonsterActivity.class);
                 context.startActivity(intent);
                 finish();

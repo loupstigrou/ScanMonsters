@@ -34,6 +34,8 @@ public class SessionManager {
     private static final String IS_LOGIN = "IsLoggedIn";
     // User login (make variable public to access from outside)
     public static final String KEY_LOGIN = "login";
+    // User password
+    public static final String KEY_PASSWORD = "password";
 
     /**
      * Constructor
@@ -47,11 +49,12 @@ public class SessionManager {
 
     /**
      * Create Log In session
-     * @param login - user's login
+     * @param user
      */
-    public void createLoginSession(String login) {
+    public void createLoginSession(User user) {
         this.editor.putBoolean(IS_LOGIN, true);
-        this.editor.putString(KEY_LOGIN, login);
+        this.editor.putString(KEY_LOGIN, user.getLogin());
+        this.editor.putString(KEY_PASSWORD, user.getPassword());
         this.editor.commit();
     }
 
@@ -78,12 +81,8 @@ public class SessionManager {
     /**
      * Return stored session data
      */
-    public HashMap<String, String> getUserDetails() {
-        HashMap<String, String> user = new HashMap<String, String>();
-
-        user.put(KEY_LOGIN, pref.getString(KEY_LOGIN, null));
-
-        return user;
+    public User getUser() {
+        return new User(pref.getString(KEY_LOGIN, null), pref.getString(KEY_PASSWORD, null));
     }
 
     /**

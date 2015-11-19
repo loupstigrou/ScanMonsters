@@ -1,17 +1,30 @@
 package prog_mobile.uqac.com.scanmonsters;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
+import android.os.AsyncTask;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Scanner;
 
 public class LocationActivity extends Activity implements LocationListener {
 
@@ -26,14 +39,23 @@ public class LocationActivity extends Activity implements LocationListener {
     private static double LONGITUDE_CENTER = -71.052508;
     private static int DISTANCE_ACCURACY = 300; // distance in meters acceptable between the center and the user to assume the user is in the zone
 
+    private User user;
+    private static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
+    private int notificationID = 1;
+    private NotificationManager notificationManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
         this.session = new SessionManager(getApplicationContext());
-//        this.session.checkLogin();
-//        HashMap<String, String> user = this.session.getUserDetails();
+        this.session.checkLogin();
+        this.user = this.session.getUser(); // Get the current user
+        this.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        UserLocationTask getIsInUQAC = new UserLocationTask(this.user, "getIsInUQAC", false); // False or true does not matter when request is getIsInUQAC
+        getIsInUQAC.execute((Void) null);
     }
 
     @Override
@@ -95,12 +117,12 @@ public class LocationActivity extends Activity implements LocationListener {
 
         String msg = "";
 
-        // If the user is in the University => ok
-        if (userInZone(latitude, longitude))
-            msg = "ok";
-        else
-            msg = "nok";
-        Toast.makeText(this, msg, Toast.LENGTH_LONG).show();
+//        userLoginTask = new UserLoginTask(this, login, password);
+//        userLoginTask.execute((Void) null);
+        boolean uiz = userInZone(latitude, longitude);
+
+        UserLocationTask ult = new UserLocationTask(this.user, "isInUQAC", uiz);
+        ult.execute((Void) null);
 
     }
 
@@ -152,5 +174,123 @@ public class LocationActivity extends Activity implements LocationListener {
             return true;
         else
             return false;
+    }
+
+    public class UserLocationTask extends AsyncTask<Void, Void, Boolean> {
+
+        private User user;
+        private String request;
+        private String serverResponse;
+        private boolean isInUQAC;
+        private ArrayList<String> usersInUQAC;
+
+        public UserLocationTask(User user, String request, boolean isInUQAC) {
+            this.user = user;
+            this.request = request;
+            this.serverResponse = "";
+            this.isInUQAC = isInUQAC;
+            this.usersInUQAC = new ArrayList<>();
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            URL url;
+            HttpURLConnection connection;
+            String urlParameters;
+
+            if (request == "isInUQAC") {
+
+                try {
+                    url = new URL(webserviceURL);
+                    urlParameters =
+                            "requestType=isInUQAC"+
+                                    "&login=" + URLEncoder.encode(user.getLogin(), "UTF-8") +
+                                    "&password=" + URLEncoder.encode(user.getPassword(), "UTF-8") +
+                                    "&value=" + URLEncoder.encode(String.valueOf(this.isInUQAC), "UTF-8");
+
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoOutput(true);
+                    connection.setRequestMethod("POST");
+
+                    connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                    PrintWriter out = new PrintWriter(connection.getOutputStream());
+                    out.print(urlParameters);
+                    out.close();
+
+                    Scanner inStream = new Scanner(connection.getInputStream());
+
+                    while (inStream.hasNextLine())
+                        this.serverResponse += inStream.nextLine();
+
+                    if (this.serverResponse.equals("OK"))
+                        return true;
+                    else
+                        return false;
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } else if (request == "getIsInUQAC") {
+                try {
+                    url = new URL(webserviceURL);
+                    urlParameters = "getIsInUQAC=";
+
+                    connection = (HttpURLConnection) url.openConnection();
+                    connection.setDoOutput(true);
+                    connection.setRequestMethod("POST");
+
+                    connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
+                    connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                    PrintWriter out = new PrintWriter(connection.getOutputStream());
+                    out.print(urlParameters);
+                    out.close();
+
+                    Scanner inStream = new Scanner(connection.getInputStream());
+
+                    while (inStream.hasNextLine())
+                        this.serverResponse += inStream.nextLine();
+
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return true;
+
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            if (aBoolean) {
+                if (this.serverResponse.equals("OK")) {
+                    //Toast.makeText(getApplicationContext(), "Location registered", Toast.LENGTH_SHORT).show();
+                } else {
+                    String[] tabUsers = this.serverResponse.split(",");
+                    for (int i=0; i<tabUsers.length; i++)
+                        usersInUQAC.add(tabUsers[i].split("-")[0]);
+
+                    NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
+                            .setSmallIcon(R.drawable.ic_explore_black_24dp)
+                            .setContentTitle("Users in your area")
+                            .setContentText(String.format("There are %d users in your area !", usersInUQAC.size() - 1));
+
+                    notificationManager.notify(notificationID, builder.build());
+                }
+            }
+        }
     }
 }
