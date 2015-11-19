@@ -19,6 +19,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,14 +27,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.opencv.android.BaseLoaderCallback;
+import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.core.Core;
 import org.opencv.core.Mat;
+import org.opencv.android.JavaCameraView;
+import org.opencv.imgproc.Imgproc;
 
 /**
  * @author Jerome
  */
-public class OCRActivity extends AppCompatActivity implements OnClickListener {
+public class OCRActivity extends AppCompatActivity implements OnClickListener, CameraBridgeViewBase.CvCameraViewListener2 {
 	private TessOCR mTessOCR;
 	private  Mat mat;
 	private TextView mResult;
@@ -50,6 +55,7 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			switch (status) {
 				case LoaderCallbackInterface.SUCCESS: {
 					Log.i("Load", "OpenCV loaded successfully");
+					mOpenCVCameraView.enableView();
 					mat = new Mat();
 				}
 				break;
@@ -60,6 +66,8 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			}
 		}
 	};
+
+	private JavaCameraView mOpenCVCameraView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +81,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		mButtonCamera = (Button) findViewById(R.id.bt_camera);
 		mButtonCamera.setOnClickListener(this);
 		mTessOCR = new TessOCR();
+		mOpenCVCameraView = (JavaCameraView) findViewById(R.id.CameraView);
+		mOpenCVCameraView.setVisibility(SurfaceView.VISIBLE);
+		mOpenCVCameraView.setCvCameraViewListener(this);
 	}
 
 	/**
@@ -135,6 +146,10 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
+		if(mOpenCVCameraView != null)
+		{
+			mOpenCVCameraView.disableView();
+		}
 
 		mTessOCR.onDestroy();
 	}
@@ -296,5 +311,25 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 				});
 			}
 		}).start();
+	}
+
+	@Override
+	public void onCameraViewStarted(int width, int height) {
+
+	}
+
+	@Override
+	public void onCameraViewStopped() {
+
+	}
+
+	@Override
+	public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
+		Mat mGray = inputFrame.gray();
+		Mat mGrayT = mGray.t();
+		Core.flip(mGray.t(), mGrayT, 1);
+		Imgproc.resize(mGrayT, mGrayT, mGray.size());
+		return mGrayT;
+		//return inputFrame.gray();
 	}
 }

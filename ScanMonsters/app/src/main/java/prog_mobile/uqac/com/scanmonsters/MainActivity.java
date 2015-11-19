@@ -8,6 +8,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.opencv.android.CameraBridgeViewBase;
+import org.opencv.core.Mat;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button inscriptionButton;
@@ -95,4 +98,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(MainActivity.this, OCRActivity.class);
         startActivity(intent);
     }
+
 }
