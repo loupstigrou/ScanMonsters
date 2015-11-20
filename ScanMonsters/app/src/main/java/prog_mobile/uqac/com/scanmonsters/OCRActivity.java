@@ -12,6 +12,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.hardware.camera2.CameraDevice;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -33,14 +34,15 @@ import org.opencv.android.OpenCVLoader;
 import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.android.JavaCameraView;
+import org.opencv.core.Point;
+import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
 /**
  * @author Jerome
  */
-public class OCRActivity extends AppCompatActivity implements OnClickListener, CameraBridgeViewBase.CvCameraViewListener2 {
+public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	private TessOCR mTessOCR;
-	private  Mat mat;
 	private TextView mResult;
 	private ProgressDialog mProgressDialog;
 	private ImageView mImage;
@@ -48,6 +50,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener, C
 	private String mCurrentPhotoPath;
 	private static final int REQUEST_TAKE_PHOTO = 1;
 	private static final int REQUEST_PICK_PHOTO = 2;
+	private Point p1,p2;
+	private Scalar rectColor;
+	//private JavaCameraView mOpenCVCameraView;
 
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
@@ -55,8 +60,7 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener, C
 			switch (status) {
 				case LoaderCallbackInterface.SUCCESS: {
 					Log.i("Load", "OpenCV loaded successfully");
-					mOpenCVCameraView.enableView();
-					mat = new Mat();
+					//mOpenCVCameraView.enableView();
 				}
 				break;
 				default: {
@@ -67,7 +71,7 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener, C
 		}
 	};
 
-	private JavaCameraView mOpenCVCameraView;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -81,9 +85,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener, C
 		mButtonCamera = (Button) findViewById(R.id.bt_camera);
 		mButtonCamera.setOnClickListener(this);
 		mTessOCR = new TessOCR();
-		mOpenCVCameraView = (JavaCameraView) findViewById(R.id.CameraView);
-		mOpenCVCameraView.setVisibility(SurfaceView.VISIBLE);
-		mOpenCVCameraView.setCvCameraViewListener(this);
+		//mOpenCVCameraView = (JavaCameraView) findViewById(R.id.CameraView);
+		//mOpenCVCameraView.setVisibility(SurfaceView.VISIBLE);
+		//mOpenCVCameraView.setCvCameraViewListener(this);
 	}
 
 	/**
@@ -146,10 +150,10 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener, C
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		if(mOpenCVCameraView != null)
+		/*if(mOpenCVCameraView != null)
 		{
 			mOpenCVCameraView.disableView();
-		}
+		}*/
 
 		mTessOCR.onDestroy();
 	}
@@ -313,9 +317,11 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener, C
 		}).start();
 	}
 
-	@Override
+	/*@Override
 	public void onCameraViewStarted(int width, int height) {
-
+		//p1 = new Point(width / 4, height * 5 / 12);
+		//p2 = new Point(width * 3 / 4, height * 7 / 12);
+		rectColor = new Scalar(0, 0, 255);
 	}
 
 	@Override
@@ -323,13 +329,22 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener, C
 
 	}
 
-	@Override
-	public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
-		Mat mGray = inputFrame.gray();
+	/*@Override
+	public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame){
+		//Mat mGray = inputFrame.gray();
+		Mat mGray = inputFrame.rgba();
 		Mat mGrayT = mGray.t();
 		Core.flip(mGray.t(), mGrayT, 1);
 		Imgproc.resize(mGrayT, mGrayT, mGray.size());
+		/*Imgproc.rectangle(mGrayT, new Point(mGrayT.width() / 4, mGrayT.height() * 5 / 12), new Point(
+				mGrayT.width() * 3 / 4, mGrayT.height() * 7 / 12), rectColor, 10);
+		mGray.release();
+		try {
+			mOpenCVCameraView.wait(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		return mGrayT;
-		//return inputFrame.gray();
-	}
+		//return inputFrame.rgba();
+	}*/
 }
