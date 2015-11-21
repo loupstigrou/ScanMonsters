@@ -31,7 +31,7 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class InscriptionActivity extends Activity {
+public class InscriptionActivity extends AppCompatActivity {
 
     SessionManager session;
 

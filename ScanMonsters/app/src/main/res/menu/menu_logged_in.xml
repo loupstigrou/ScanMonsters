@@ -9,8 +9,13 @@ tools:context="prog_mobile.uqac.com.scanmonsters.ScanMonsterActivity">
     app:showAsAction="never" />
 
     <item android:id="@+id/menu_logout"
-    android:title="Logout"
+    android:title="@string/menu_logout"
     android:orderInCategory="105"
     app:showAsAction="never"/>
+
+    <item android:id="@+id/menu_infos"
+        android:title="@string/menu_informations"
+        android:orderInCategory="110"
+        android:showAsAction="never"/>
 
 </menu>

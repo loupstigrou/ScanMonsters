@@ -1,8 +1,9 @@
 package prog_mobile.uqac.com.scanmonsters;
 
-import android.app.Activity;
 import android.app.NotificationManager;
-import android.content.Context;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -23,10 +24,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Scanner;
 
-public class LocationActivity extends Activity implements LocationListener {
+public class LocationActivity extends AppCompatActivity implements LocationListener {
 
     SessionManager session;
 
@@ -105,6 +105,9 @@ public class LocationActivity extends Activity implements LocationListener {
             return true;
         } else if (id == R.id.menu_logout) {
             this.session.logoutUser();
+        } else if (id == R.id.menu_infos) {
+            Intent intent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -286,7 +289,19 @@ public class LocationActivity extends Activity implements LocationListener {
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                             .setSmallIcon(R.drawable.ic_explore_black_24dp)
                             .setContentTitle("Users in your area")
-                            .setContentText(String.format("There are %d users in your area !", usersInUQAC.size() - 1));
+                            .setContentText(String.format("There are %d users in your area !", usersInUQAC.size() - 1))
+                            .setAutoCancel(true);
+                    Intent resultIntent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
+
+                    TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
+                    stackBuilder.addParentStack(PlayersBoardActivity.class);
+                    stackBuilder.addNextIntent(resultIntent);
+                    PendingIntent resultPendingIntent =
+                            stackBuilder.getPendingIntent(
+                                    0,
+                                    PendingIntent.FLAG_UPDATE_CURRENT
+                            );
+                    builder.setContentIntent(resultPendingIntent);
 
                     notificationManager.notify(notificationID, builder.build());
                 }

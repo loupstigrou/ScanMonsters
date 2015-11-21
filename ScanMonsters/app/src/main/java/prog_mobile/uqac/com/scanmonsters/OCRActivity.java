@@ -137,6 +137,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			return true;
 		} else if (id == R.id.menu_logout) {
 			this.session.logoutUser();
+		} else if (id == R.id.menu_infos) {
+			Intent intent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
+			startActivity(intent);
 		}
 
 		return super.onOptionsItemSelected(item);

@@ -3,7 +3,7 @@
     package="prog_mobile.uqac.com.scanmonsters" >
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -17,7 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/Theme.AppCompat.Light" >
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main" >
@@ -46,6 +46,10 @@
         <activity
             android:name=".LocationActivity"
             android:label="@string/title_activity_location" >
+        </activity>
+        <activity
+            android:name=".PlayersBoardActivity"
+            android:label="@string/title_activity_players_board" >
         </activity>
     </application>
 

@@ -30,7 +30,7 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
-public class ConnectionActivity extends Activity {
+public class ConnectionActivity extends AppCompatActivity {
 
     SessionManager session;
 

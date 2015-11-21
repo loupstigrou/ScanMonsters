@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">ScanMonsters</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_main">Scan Monster</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -8,9 +8,9 @@
     <string name="connection_button">Se connecter</string>
     <string name="cheat_button">Application</string>
     <string name="tesseract_button">Lancer tesseract</string>
-    <string name="title_activity_scan_monster">ScanMonsterActivity</string>
-    <string name="title_activity_inscription">InscriptionActivity</string>
-    <string name="title_activity_connection">ConnectionActivity</string>
+    <string name="title_activity_scan_monster">Scan Monster</string>
+    <string name="title_activity_inscription">Inscription</string>
+    <string name="title_activity_connection">Connexion</string>
     <string name="hint_password">Mot de passe</string>
     <string name="action_signin">S\'inscrire</string>
     <string name="hint_login">Login</string>
@@ -27,10 +27,13 @@
     <string name="ac_tesseract_btn_camera">Camera</string>
 
     <string name="location_button">Localisation Joueur</string>
-    <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_location">Localisation</string>
     <string name="new_location">New location : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s, Précision = %4$s metres</string>
     <string name="provider_disabled">The provider %s is now disabled.</string>
     <string name="provider_new_status">The provider %1$s has now a new status %2$s</string>
     <string name="provider_enabled">The provider %s is now enabled</string>
+    <string name="title_activity_players_board">Information</string>
+    <string name="menu_logout">Logout</string>
+    <string name="menu_informations">Informations</string>
 
 </resources>
