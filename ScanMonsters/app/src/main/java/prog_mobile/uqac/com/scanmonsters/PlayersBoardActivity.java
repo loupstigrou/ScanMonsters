@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -206,9 +208,29 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
         @Override
         protected void onPostExecute(Boolean aBoolean) {
-            ScrollView usersInUqacView = (ScrollView) findViewById(R.id.section1);
+            TableLayout usersInUqacView = (TableLayout) findViewById(R.id.container_section1);
             TableLayout leaderBoardView = (TableLayout) findViewById(R.id.table_leader_board);
 
+            // User In UQAC Tab //
+            ArrayList<String> users = new ArrayList<>();
+            for (int i=0; i<this.playersInUqac.split(",").length; i++) {
+                users.add(this.playersInUqac.split(",")[i].split("-")[0]);
+            }
+
+            for (String user : users) {
+                TextView tv = new TextView(getApplicationContext());
+                tv.setText(user);
+                tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
+                tv.setTextColor(Color.DKGRAY);
+                tv.setGravity(Gravity.CENTER_HORIZONTAL);
+                TableLayout.LayoutParams lp = new TableLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                lp.setMargins(0, 0, 0, 35);
+                tv.setLayoutParams(lp);
+
+                usersInUqacView.addView(tv);
+            }
+
+            // Leader Board Tab //
             Map<String, Integer> scores = new HashMap<>();
             for (int i=0; i<this.leaderBoard.split(",").length; i++) {
                 scores.put(
