@@ -293,7 +293,7 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
                         usersInUQAC.add(tabUsers[i].split("-")[0]);
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                            .setSmallIcon(R.drawable.ic_explore_black_24dp)
+                            .setSmallIcon(R.mipmap.ic_explore_white_24dp)
                             .setContentTitle("Users in your area")
                             .setContentText(String.format("There are %d users in your area !", usersInUQAC.size() - 1))
                             .setAutoCancel(true);

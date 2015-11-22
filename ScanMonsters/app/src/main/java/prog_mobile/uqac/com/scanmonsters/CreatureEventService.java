@@ -24,7 +24,7 @@ public class CreatureEventService extends Service {
                 NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                        .setSmallIcon(R.drawable.ic_pets_black_24dp)
+                        .setSmallIcon(R.mipmap.ic_pets_white_24dp)
                         .setContentTitle("A creature has appeared !")
                         .setContentText(String.format("You can find it at the room %s", "P4-2350"))
                         .setAutoCancel(true);
