@@ -32,11 +32,11 @@
             android:label="@string/title_activity_scan_monster" >
         </activity>
         <activity
-            android:name=".InscriptionActivity"
+            android:name=".authentication.InscriptionActivity"
             android:label="@string/title_activity_inscription" >
         </activity>
         <activity
-            android:name=".ConnectionActivity"
+            android:name=".authentication.ConnectionActivity"
             android:label="@string/title_activity_connection" >
         </activity>
         <activity

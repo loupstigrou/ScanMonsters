@@ -11,6 +11,10 @@ import prog_mobile.uqac.com.scanmonsters.R;
 /**
  * Created by Major on 21/11/2015.
  */
+
+/**
+ * Fragment qui contient la vue pour le Leader Board
+ */
 public class LeaderBoardFragment extends Fragment {
 
     @Override

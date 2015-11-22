@@ -1,9 +1,8 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.authentication;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -31,6 +30,14 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.ScanMonsterActivity;
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+import prog_mobile.uqac.com.scanmonsters.user.User;
+
+/**
+ * Activité d'inscription (Login + Mdp)
+ */
 public class InscriptionActivity extends AppCompatActivity {
 
     SessionManager session;
@@ -98,6 +105,11 @@ public class InscriptionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Méthode qui va tenter une inscription
+     * après avoir effectuer les vérifications nécessaires
+     * (Champs remplis, longueur correct, regex ok)
+     */
     private void proceedInscription() {
         if (userRegisterTask != null)
             return;
@@ -171,6 +183,10 @@ public class InscriptionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Animation de progression durant l'inscription
+     * @param show
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -204,6 +220,10 @@ public class InscriptionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Tâche asyncrone qui va inscrire l'utilisateur
+     * via le webservice
+     */
     public class UserRegisterTask extends AsyncTask<Void, Void, Boolean> {
 
         private Context context;

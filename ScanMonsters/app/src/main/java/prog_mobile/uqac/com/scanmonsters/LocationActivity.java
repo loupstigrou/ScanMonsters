@@ -26,6 +26,12 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+import prog_mobile.uqac.com.scanmonsters.user.User;
+
+/**
+ * Activité temporaire pour gérer la localisation de l'utilisateur
+ */
 public class LocationActivity extends AppCompatActivity implements LocationListener {
 
     SessionManager session;

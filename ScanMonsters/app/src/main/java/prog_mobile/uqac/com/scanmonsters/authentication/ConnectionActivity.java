@@ -1,9 +1,8 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.authentication;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -30,6 +29,15 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.ScanMonsterActivity;
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+import prog_mobile.uqac.com.scanmonsters.user.User;
+
+/**
+ * Activité de Connexion
+ * (login + mdp)
+ */
 public class ConnectionActivity extends AppCompatActivity {
 
     SessionManager session;
@@ -97,6 +105,11 @@ public class ConnectionActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Méthode qui va effectuer toute les vérifications
+     * (Champs rempli, longueur et regex correct)
+     * Et tenter la connexion si c'est bon
+     */
     private void proceedLogin() {
         if (userLoginTask != null)
             return;
@@ -148,6 +161,10 @@ public class ConnectionActivity extends AppCompatActivity {
         return this.passwordPattern.matcher(password).matches() && password.length() < 20;
     }
 
+    /**
+     * Animation de progression durant la connexion
+     * @param show
+     */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     public void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -203,6 +220,10 @@ public class ConnectionActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Tâche asyncrone qui va se connecter au service pour
+     * vérifier que le login et le password correspondent
+     */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private Context context;

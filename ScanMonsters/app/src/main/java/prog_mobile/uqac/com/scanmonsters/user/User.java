@@ -1,9 +1,14 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.user;
 
 import java.io.Serializable;
 
 /**
  * Created by Major on 14/10/2015.
+ */
+
+/**
+ * Classe représentant un utilisateur
+ * Login + Password
  */
 public class User implements Serializable {
 

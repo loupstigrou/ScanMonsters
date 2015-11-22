@@ -1,6 +1,5 @@
 package prog_mobile.uqac.com.scanmonsters;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,6 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import prog_mobile.uqac.com.scanmonsters.authentication.ConnectionActivity;
+import prog_mobile.uqac.com.scanmonsters.authentication.InscriptionActivity;
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+
+/**
+ * Activité principale
+ * Connexion + Inscription depuis ici
+ * Redirige automatiquement si l'utilisateur est déjà connecté (Désactivé en développement)
+ * Contient des raccourcis pour les autres activités en dev
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     SessionManager session;

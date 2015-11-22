@@ -1,14 +1,19 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.user;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import java.util.HashMap;
+import prog_mobile.uqac.com.scanmonsters.MainActivity;
 
 /**
  * Created by Major on 16/11/2015.
+ */
+
+/**
+ * Classe qui va gérer les sesssions utilisateurs, afin de pouvoir récupérer les informations
+ * de l'utilsateur au sein de toute les activités
  */
 public class SessionManager {
 

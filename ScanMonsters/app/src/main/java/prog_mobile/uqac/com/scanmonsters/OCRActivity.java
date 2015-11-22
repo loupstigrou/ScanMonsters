@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -25,6 +24,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+import prog_mobile.uqac.com.scanmonsters.user.User;
 
 /**
  * @author Jerome

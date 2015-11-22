@@ -7,6 +7,12 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * Created by Major on 21/11/2015.
  */
+
+/**
+ * Classe qui va s'occuper de la gestion des Tabs de
+ * l'activité PlayersBoardActivity
+ * Elle retourne le fragment correspondant à la tab
+ */
 public class TabsPagerAdapter extends FragmentPagerAdapter{
 
     public TabsPagerAdapter(FragmentManager fm) {

@@ -1,18 +1,20 @@
 package prog_mobile.uqac.com.scanmonsters;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ContextThemeWrapper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.HashMap;
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+import prog_mobile.uqac.com.scanmonsters.user.User;
 
+/**
+ * Activité principale après connexion
+ */
 public class ScanMonsterActivity extends AppCompatActivity {
 
     SessionManager session;

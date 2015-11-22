@@ -38,6 +38,11 @@ import java.util.Scanner;
 
 import prog_mobile.uqac.com.scanmonsters.playerboard.TabsPagerAdapter;
 
+/**
+ * Activité qui contient le Leader Board +
+ * La liste des joueurs présents dans l'UQAC
+ * Séparés en 2 tab
+ */
 public class PlayersBoardActivity extends AppCompatActivity implements ActionBar.TabListener{
 
     private ViewPager viewPager;
@@ -120,6 +125,13 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
     }
 
+    /**
+     * Méthode de tri d'une Map par valeur
+     * dans l'ordre décroissant pour des valeures entieres dans
+     * notre cas
+     * @param map => La map à trier
+     * @return => La map triée
+     */
     private static Map sortByValue(Map map) {
         List list = new LinkedList(map.entrySet());
         Collections.sort(list, new Comparator() {
@@ -137,6 +149,11 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
         return result;
     }
 
+    /**
+     * Tâche asyncrone qui va envoyer 2 requêtes au webservice
+     * afin de récupérer la liste des joueurs de l'UQAC +
+     * le Leader Board afin de modifier les Vues en conséquence
+     */
     public class GetPlayersTask extends AsyncTask<Void, Void, Boolean> {
 
         private String playersInUqac;
