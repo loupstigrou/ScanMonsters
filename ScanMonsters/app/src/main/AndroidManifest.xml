@@ -51,6 +51,12 @@
             android:name=".PlayersBoardActivity"
             android:label="@string/title_activity_players_board" >
         </activity>
+
+        <service
+            android:name=".CreatureEventService"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
     </application>
 
 </manifest>

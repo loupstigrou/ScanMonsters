@@ -18,6 +18,7 @@ import prog_mobile.uqac.com.scanmonsters.user.User;
 public class ScanMonsterActivity extends AppCompatActivity {
 
     SessionManager session;
+    Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +31,15 @@ public class ScanMonsterActivity extends AppCompatActivity {
 
         String login = user.getLogin();
         Toast.makeText(getApplicationContext(), "User : "+login, Toast.LENGTH_LONG).show();
+
+        this.serviceIntent = new Intent(this, CreatureEventService.class);
+        this.startService(serviceIntent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        this.stopService(serviceIntent);
+        super.onDestroy();
     }
 
     @Override
