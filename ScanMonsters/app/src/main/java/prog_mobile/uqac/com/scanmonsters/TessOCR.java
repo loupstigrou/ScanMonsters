@@ -24,6 +24,7 @@ public class TessOCR {
 		if (!dir.exists())
 			dir.mkdirs();
 		mTess.init(datapath, language); //Initialisation de la bibliotheque avec la bonne langue
+		mTess.setVariable(TessBaseAPI.VAR_CHAR_WHITELIST, "P0123456789-"); //Liste des caracteres acceptable
 	}
 
 	/**
