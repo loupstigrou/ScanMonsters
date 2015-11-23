@@ -1,13 +1,21 @@
 package prog_mobile.uqac.com.scanmonsters;
 
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
+
+import java.util.Set;
 
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
@@ -20,6 +28,23 @@ public class ScanMonsterActivity extends AppCompatActivity {
     SessionManager session;
     Intent serviceIntent;
 
+//    private static final int REQUEST_ENABLE_BT = 1;
+//
+//    String devices = "";
+//    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+//        public void onReceive(Context context, Intent intent) {
+//            String action = intent.getAction();
+//            // When discovery finds a device
+//            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
+//                // Get the BluetoothDevice object from the Intent
+//                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+//                // Add the name and address to an array adapter to show in a ListView
+//                devices += device.getName() + device.getAddress() + "\n";
+//                Toast.makeText(getApplicationContext(), devices, Toast.LENGTH_LONG).show();
+//            }
+//        }
+//    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,13 +52,35 @@ public class ScanMonsterActivity extends AppCompatActivity {
 
         this.session = new SessionManager(getApplicationContext());
         this.session.checkLogin();
-        User user = this.session.getUser();
-
-        String login = user.getLogin();
-        Toast.makeText(getApplicationContext(), "User : "+login, Toast.LENGTH_LONG).show();
 
         this.serviceIntent = new Intent(this, CreatureEventService.class);
         this.startService(serviceIntent);
+
+//        Intent discoverableIntent = new
+//                Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
+//        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
+//        startActivity(discoverableIntent);
+
+//        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+//        if (bluetoothAdapter != null) {
+//            if (!bluetoothAdapter.isEnabled()) {
+//                Intent enableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+//                startActivityForResult(enableIntent, REQUEST_ENABLE_BT);
+//            } else {
+//                Set<BluetoothDevice> pairedDevices = bluetoothAdapter.getBondedDevices();
+//                String devices = "";
+//                if (pairedDevices.size() > 0) {
+//
+//                    for (BluetoothDevice device : pairedDevices) {
+//                        devices += device.getName() + device.getAddress() + "\n";
+//                    }
+//
+//                } else {
+//                    IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
+//                    registerReceiver(mReceiver, filter); // Don't forget to unregister during onDestroy
+//                }
+//            }
+//        }
     }
 
     @Override

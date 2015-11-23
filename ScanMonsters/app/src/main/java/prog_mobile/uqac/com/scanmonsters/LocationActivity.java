@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -294,7 +295,8 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                             .setSmallIcon(R.mipmap.ic_explore_white_24dp)
-                            .setContentTitle("Users in your area")
+                            .setColor(Color.argb(1, 41, 128, 185))
+                            .setContentTitle("ScanMonster : Users in your area")
                             .setContentText(String.format("There are %d users in your area !", usersInUQAC.size() - 1))
                             .setAutoCancel(true);
                     Intent resultIntent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
