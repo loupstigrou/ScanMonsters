@@ -1,6 +1,7 @@
 package prog_mobile.uqac.com.scanmonsters;
 
 
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
@@ -14,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -37,6 +37,8 @@ import java.util.Map;
 import java.util.Scanner;
 
 import prog_mobile.uqac.com.scanmonsters.playerboard.TabsPagerAdapter;
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+import prog_mobile.uqac.com.scanmonsters.user.User;
 
 /**
  * Activité qui contient le Leader Board +
@@ -45,17 +47,25 @@ import prog_mobile.uqac.com.scanmonsters.playerboard.TabsPagerAdapter;
  */
 public class PlayersBoardActivity extends AppCompatActivity implements ActionBar.TabListener{
 
+    SessionManager session;
+
     private ViewPager viewPager;
     private TabsPagerAdapter adapter;
     private android.support.v7.app.ActionBar actionBar;
-    private String[] tabs = {"Users in UQAC", "Leader Board"};
+    private String[] tabs = {"Users in UQAC", "Leader Board", "Score"};
 
     private static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
+
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_board);
+
+        this.session = new SessionManager(getApplicationContext());
+        this.session.checkLogin();
+        this.user = this.session.getUser();
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
@@ -84,7 +94,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
             }
         });
 
-        GetPlayersTask gpt = new GetPlayersTask();
+        GetPlayersTask gpt = new GetPlayersTask(this);
         gpt.execute((Void) null);
     }
 
@@ -156,10 +166,12 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
      */
     public class GetPlayersTask extends AsyncTask<Void, Void, Boolean> {
 
+        private Context context;
         private String playersInUqac;
         private String leaderBoard;
 
-        public GetPlayersTask() {
+        public GetPlayersTask(Context context) {
+            this.context = context;
             this.playersInUqac = "";
             this.leaderBoard = "";
         }
@@ -235,7 +247,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
             }
 
             for (String user : users) {
-                TextView tv = new TextView(getApplicationContext());
+                TextView tv = new TextView(this.context);
                 tv.setText(user);
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
                 tv.setTextColor(Color.DKGRAY);
@@ -261,15 +273,15 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 String key = entry.getKey();
                 int value = entry.getValue();
 
-                TableRow row = new TableRow(getApplicationContext());
+                TableRow row = new TableRow(this.context);
                 row.setLayoutParams(new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT));
 
-                TextView pseudo = new TextView(getApplicationContext());
+                TextView pseudo = new TextView(this.context);
                 pseudo.setText(key);
                 pseudo.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 pseudo.setLayoutParams(new TableRow.LayoutParams(1));
                 pseudo.setTextColor(Color.BLACK);
-                TextView score = new TextView(getApplicationContext());
+                TextView score = new TextView(this.context);
                 score.setText(String.valueOf(value));
                 score.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                 score.setTextColor(Color.BLACK);
@@ -278,7 +290,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 row.addView(score);
                 leaderBoardView.addView(row);
 
-                View separationLine = new View(getApplicationContext());
+                View separationLine = new View(this.context);
                 separationLine.setBackgroundColor(Color.BLACK);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.setMargins(0, 5, 0, 5);
@@ -287,6 +299,11 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
                 leaderBoardView.addView(separationLine);
             }
+
+            // Own Score //
+            int ownScore = scoresSorted.get(user.getLogin());
+//            TextView os = (TextView) findViewById(R.id.own_score);
+//            os.setText(String.valueOf(ownScore));
         }
     }
 }
