@@ -1,0 +1,40 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="prog_mobile.uqac.com.scanmonsters.MiniGameActivity">
+
+    <TextView
+        android:id="@+id/title_capture_creature"
+        android:text="@string/title_capture_creature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ProgressBar
+            android:id="@+id/progressbar_life"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            style="@style/CustomProgressBar"
+            android:layout_below="@id/title_capture_creature"
+            android:progress="100"
+            android:max="100"
+            android:secondaryProgress="0"
+            android:layout_margin="8dip" />
+    <View
+        android:id="@+id/canvasImageCreature"
+        android:layout_below="@id/progressbar_life"
+        android:layout_width="wrap_content"
+        android:layout_height="50dip" />
+
+    <Button
+        android:id="@+id/capture_button"
+        android:layout_below="@id/canvasImageCreature"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/blue"
+        android:text="@string/capture_button"
+        android:textColor="@color/white"/>
+</RelativeLayout>
+

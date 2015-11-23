@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void goToMiniGameActivity() {
-        Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+        Intent intent = new Intent(MainActivity.this, MiniGameActivity.class);
         startActivity(intent);
     }
 }

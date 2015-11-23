@@ -50,6 +50,10 @@
             android:label="@string/title_activity_location" >
         </activity>
         <activity
+            android:name=".MiniGameActivity"
+            android:label="@string/title_activity_mini_game" >
+        </activity>
+        <activity
             android:name=".PlayersBoardActivity"
             android:label="@string/title_activity_players_board" >
         </activity>

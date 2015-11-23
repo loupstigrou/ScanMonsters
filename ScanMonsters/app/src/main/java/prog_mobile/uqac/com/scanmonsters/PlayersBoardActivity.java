@@ -301,7 +301,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
             }
 
             // Own Score //
-            int ownScore = scoresSorted.get(user.getLogin());
+           // int ownScore = scoresSorted.get(user.getLogin());
 //            TextView os = (TextView) findViewById(R.id.own_score);
 //            os.setText(String.valueOf(ownScore));
         }

@@ -37,4 +37,8 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_informations">Informations</string>
 
+    <string name="title_activity_mini_game">Capture la créature</string>
+    <string name="title_capture_creature">Appuie sur le bouton pour frapper la créature</string>
+    <string name="capture_button">Attaquer</string>
+
 </resources>
