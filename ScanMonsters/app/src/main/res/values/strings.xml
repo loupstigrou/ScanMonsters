@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
     <string name="app_name">ScanMonsters</string>
     <string name="title_activity_main">Scan Monster</string>
 
@@ -8,6 +8,7 @@
     <string name="connection_button">Se connecter</string>
     <string name="cheat_button">Application</string>
     <string name="tesseract_button">Lancer tesseract</string>
+    <string name="mini_game_button">Mini jeu</string>
     <string name="title_activity_scan_monster">Scan Monster</string>
     <string name="title_activity_inscription">Inscription</string>
     <string name="title_activity_connection">Connexion</string>

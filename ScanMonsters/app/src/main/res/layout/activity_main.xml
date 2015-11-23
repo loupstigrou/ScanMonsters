@@ -8,7 +8,7 @@
 
     <RelativeLayout
         android:layout_width="250dp"
-        android:layout_height="390dp"
+        android:layout_height="480dp"
         android:layout_centerInParent="true"
         android:id="@+id/relativeLayout">
 
@@ -55,9 +55,19 @@
             android:id="@+id/location_button"
             android:layout_width="match_parent"
             android:layout_height="70dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/blue"
             android:layout_below="@id/tesseract_button"
             android:text="@string/location_button"
+            android:textColor="@color/white"/>
+
+        <Button
+            android:id="@+id/mini_game_button"
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:background="@color/blue"
+            android:layout_below="@id/location_button"
+            android:text="@string/mini_game_button"
             android:textColor="@color/white"/>
 
     </RelativeLayout>

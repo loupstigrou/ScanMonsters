@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button cheatButton;
     private Button tesseractButton;
     private Button locationButton;
+    private Button miniGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +48,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.cheatButton = (Button) findViewById(R.id.cheat_button);
         this.tesseractButton = (Button) findViewById(R.id.tesseract_button);
         this.locationButton = (Button) findViewById(R.id.location_button);
+        this.miniGameButton = (Button) findViewById(R.id.mini_game_button);
 
         this.inscriptionButton.setOnClickListener(this);
         this.connectionButton.setOnClickListener(this);
         this.cheatButton.setOnClickListener(this);
         this.tesseractButton.setOnClickListener(this);
         this.locationButton.setOnClickListener(this);
+        this.miniGameButton.setOnClickListener(this);
     }
 
     @Override
@@ -100,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this.goToLocationActivity();
                 break;
 
+            case R.id.mini_game_button:
+                this.goToMiniGameActivity();
+                break;
+
             default:
                 break;
         }
@@ -126,6 +133,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void goToLocationActivity() {
+        Intent intent = new Intent(MainActivity.this, LocationActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToMiniGameActivity() {
         Intent intent = new Intent(MainActivity.this, LocationActivity.class);
         startActivity(intent);
     }
