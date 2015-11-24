@@ -102,7 +102,7 @@ public class MiniGameActivity extends InGameActivity {
             try {
                 url = new URL(webserviceURL);
                 urlParameters =
-                        "requestType=addScore" +
+                        "requestType=capture" +
                                 "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
                                 "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8"); //
 
@@ -143,9 +143,10 @@ public class MiniGameActivity extends InGameActivity {
                 context.startActivity(intent);
                 finish();*/
                 Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                finish();
             } else {
                 //loginView.setError(getString(R.string.error_wrong_login_or_password));
-                Toast.makeText(context, "Erreur", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Erreur "+serverResponse, Toast.LENGTH_LONG).show();
             }
         }
 

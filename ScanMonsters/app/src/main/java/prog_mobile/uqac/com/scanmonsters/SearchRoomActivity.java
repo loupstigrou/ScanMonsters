@@ -63,6 +63,7 @@ public class SearchRoomActivity extends InGameActivity {
     {
         Intent intent = new Intent(SearchRoomActivity.this, MiniGameActivity.class);
         startActivity(intent);
+        finish();
     }
 
     /**

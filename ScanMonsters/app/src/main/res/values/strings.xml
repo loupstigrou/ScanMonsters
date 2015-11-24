@@ -8,7 +8,7 @@
     <string name="connection_button">Se connecter</string>
     <string name="cheat_button">Informations</string>
     <string name="tesseract_button">Lancer tesseract</string>
-    <string name="mini_game_button">Mini jeu</string>
+    <string name="mini_game_button">Jouer</string>
     <string name="title_activity_scan_monster">Scan Monster</string>
     <string name="title_activity_inscription">Inscription</string>
     <string name="title_activity_connection">Connexion</string>
