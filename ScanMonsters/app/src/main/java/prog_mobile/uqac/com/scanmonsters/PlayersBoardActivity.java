@@ -25,6 +25,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -169,6 +170,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
         private Context context;
         private String playersInUqac;
         private String leaderBoard;
+        private String scoreData;
 
         public GetPlayersTask(Context context) {
             this.context = context;
@@ -206,7 +208,8 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 connection.disconnect();
 
                 // Second request //
-                urlParameters = "getLeaderBord=";
+                urlParameters = "getLeaderBord=" +
+                        "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8");
 
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(true);
@@ -224,6 +227,28 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 while (inStream.hasNextLine())
                     this.leaderBoard += inStream.nextLine();
 
+                // Third request
+                /*urlParameters =
+                        "requestType=getScoreAndCreatures" +
+                                "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
+                                "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8"); //
+
+                connection = (HttpURLConnection) url.openConnection();
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+
+                connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
+                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+
+                out = new PrintWriter(connection.getOutputStream());
+                out.print(urlParameters);
+                out.close();
+
+                inStream = new Scanner(connection.getInputStream());
+
+                while (inStream.hasNextLine())
+                    this.scoreData += inStream.nextLine();*/
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (ProtocolException e) {
@@ -240,10 +265,17 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
             TableLayout usersInUqacView = (TableLayout) findViewById(R.id.container_section1);
             TableLayout leaderBoardView = (TableLayout) findViewById(R.id.table_leader_board);
 
+            String allPlayersData[];
+            int lg;
+            String playerData[];
+
             // User In UQAC Tab //
             ArrayList<String> users = new ArrayList<>();
-            for (int i=0; i<this.playersInUqac.split(",").length; i++) {
-                users.add(this.playersInUqac.split(",")[i].split("-")[0]);
+            allPlayersData = playersInUqac.split(",");
+            lg = allPlayersData.length;
+            for (int i=0; i<lg; i++) {
+                playerData = allPlayersData[i].split("-");
+                users.add(playerData[0]);
             }
 
             for (String user : users) {
@@ -261,11 +293,27 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
             // Leader Board Tab //
             Map<String, Integer> scores = new HashMap<>();
-            for (int i=0; i<this.leaderBoard.split(",").length; i++) {
-                scores.put(
-                        this.leaderBoard.split(",")[i].split("-")[0],
-                        Integer.valueOf(this.leaderBoard.split(",")[i].split("-")[3])
-                );
+            allPlayersData = this.leaderBoard.split(",");
+            lg = allPlayersData.length;
+
+
+
+            for (int i=0; i<lg; i++) {
+                playerData = allPlayersData[i].split("-");
+                if(i == 0) // Le premier score retourné par le webservice est le mien
+                {
+                    // Own Score //
+                    int ownScore = Integer.valueOf(playerData[3]);
+                    TextView os = (TextView) findViewById(R.id.own_score);
+                    //os.setText(String.valueOf(ownScore));
+                }
+                else
+                {
+                    scores.put(
+                            playerData[0],
+                            Integer.valueOf(playerData[3])
+                    );
+                }
             }
             HashMap<String, Integer> scoresSorted = (HashMap) sortByValue(scores);
 
@@ -299,11 +347,6 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
                 leaderBoardView.addView(separationLine);
             }
-
-            // Own Score //
-           // int ownScore = scoresSorted.get(user.getLogin());
-//            TextView os = (TextView) findViewById(R.id.own_score);
-//            os.setText(String.valueOf(ownScore));
         }
     }
 }
