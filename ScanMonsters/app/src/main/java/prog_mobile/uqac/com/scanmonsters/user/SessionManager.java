@@ -41,6 +41,13 @@ public class SessionManager {
     public static final String KEY_LOGIN = "login";
     // User password
     public static final String KEY_PASSWORD = "password";
+    // User token
+    public static final String KEY_TOKEN = "token";
+
+    // Room objective
+    public static final String KEY_ROOM = "room";
+    // Creature objective
+    public static final String KEY_CREATURE = "creature";
 
     /**
      * Constructor
@@ -60,6 +67,9 @@ public class SessionManager {
         this.editor.putBoolean(IS_LOGIN, true);
         this.editor.putString(KEY_LOGIN, user.getLogin());
         this.editor.putString(KEY_PASSWORD, user.getPassword());
+        this.editor.putString(KEY_TOKEN, user.getToken());
+        this.editor.putString(KEY_ROOM, user.getRoom());
+        this.editor.putString(KEY_CREATURE, user.getCreature());
         this.editor.commit();
     }
 
@@ -87,7 +97,7 @@ public class SessionManager {
      * Return stored session data
      */
     public User getUser() {
-        return new User(pref.getString(KEY_LOGIN, null), pref.getString(KEY_PASSWORD, null));
+        return new User(pref.getString(KEY_LOGIN, null), pref.getString(KEY_PASSWORD, null), pref.getString(KEY_TOKEN, null), pref.getString(KEY_ROOM, null), pref.getString(KEY_CREATURE, null));
     }
 
     /**
@@ -103,4 +113,10 @@ public class SessionManager {
         this.context.startActivity(intent);
     }
 
+    public void setObjective(String roomId, String creatureId) {
+        User user = getUser();
+        user.setRoom(roomId);
+        user.setCreature(creatureId);
+        createLoginSession(user);
+    }
 }

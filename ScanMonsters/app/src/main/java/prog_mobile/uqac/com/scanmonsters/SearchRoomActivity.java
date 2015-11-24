@@ -1,11 +1,13 @@
 package prog_mobile.uqac.com.scanmonsters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -20,74 +22,60 @@ import java.util.Scanner;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 /**
- * Activité de capture de la créature
+ * Activité de recherche du prochain objectif (salle et créature)
  */
-public class MiniGameActivity extends InGameActivity {
+public class SearchRoomActivity extends InGameActivity {
 
-    private ProgressBar lifeProgressBar;
-    private View canvasCreature;
-    private Button captureButton;
 
-    private CaptureCreatureTask captureCreatureTask;
+    private View progressView;
+    private View roomFoundedView;
 
-    private int creatureLifeMax = 100;
-    private int creatureLife = 100;
+    private TextView roomValueText;
+    private Button arriveAtRoomButton;
+
+    private SearchRoomTask searchRoomTask;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mini_game);
+        setContentView(R.layout.activity_search_room);
 
-        this.lifeProgressBar = (ProgressBar) findViewById(R.id.progressbar_life);
-        this.canvasCreature = (View) findViewById(R.id.canvasImageCreature);
+        this.progressView =    (View) findViewById(R.id.wait_room_info);
+        this.roomFoundedView = (View) findViewById(R.id.search_room_info);
 
-        this.captureButton = (Button) findViewById(R.id.capture_button);
+        this.roomValueText = (TextView) findViewById(R.id.room_value_description);
+        this.arriveAtRoomButton = (Button) findViewById(R.id.arrive_at_room_button);
 
-        this.captureButton.setOnClickListener(new View.OnClickListener() {
+        this.arriveAtRoomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attack();
+                arriveAtRoom();
             }
         });
+
+        searchRoomTask = new SearchRoomTask(this, session);
+        searchRoomTask.execute((Void) null);
     }
 
-    private void attack() {
-        creatureLife -= 20;
-        if(creatureLife < 1)
-        {
-            creatureLife = 0;
-            updateProgressBar();
-            proceedCapture();
-            return;
-        }
-        updateProgressBar();
-    }
 
-    private void updateProgressBar() {
-        int percent = creatureLife*100/creatureLifeMax;
-        lifeProgressBar.setMax(creatureLifeMax);
-        lifeProgressBar.setProgress(percent);
-    }
-
-    private void proceedCapture() {
-        if(captureCreatureTask != null) return;
-        //showProgress(true);
-        captureCreatureTask = new CaptureCreatureTask(this, session);
-        captureCreatureTask.execute((Void) null);
+    private void arriveAtRoom()
+    {
+        Intent intent = new Intent(SearchRoomActivity.this, MiniGameActivity.class);
+        startActivity(intent);
     }
 
     /**
      * Tâche asyncrone qui va se connecter au service pour
      * capturer la créature et l'ajouter à la liste
      */
-    public class CaptureCreatureTask extends AsyncTask<Void, Void, Boolean> {
+    public class SearchRoomTask extends AsyncTask<Void, Void, Boolean> {
 
         private Context context;
         private String serverResponse;
         private SessionManager session;
 
-        public CaptureCreatureTask(Context context, SessionManager session) {
+        public SearchRoomTask(Context context, SessionManager session) {
             this.context = context;
             this.serverResponse = "";
             this.session = session;
@@ -102,7 +90,7 @@ public class MiniGameActivity extends InGameActivity {
             try {
                 url = new URL(webserviceURL);
                 urlParameters =
-                        "requestType=addScore" +
+                        "requestType=getRoom" +
                                 "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
                                 "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8"); //
 
@@ -130,29 +118,33 @@ public class MiniGameActivity extends InGameActivity {
                 e.printStackTrace();
             }
 
-            return this.serverResponse.equals("OK");
+            return !this.serverResponse.equals("NOK");
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            captureCreatureTask = null;
-           // showProgress(false);
-
+            searchRoomTask = null;
             if (success) {
-                /*Intent intent = new Intent(this.context, ScanMonsterActivity.class);
-                context.startActivity(intent);
-                finish();*/
-                Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show();
+                String infos[] = serverResponse.split("=");
+                String roomId = infos[0];
+                String creatureId = infos[1];
+                session.setObjective(roomId, creatureId);
+
+                showProgress(false, progressView, roomFoundedView);
+                roomValueText.setText(roomId);
             } else {
                 //loginView.setError(getString(R.string.error_wrong_login_or_password));
-                Toast.makeText(context, "Erreur", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Erreur "+serverResponse, Toast.LENGTH_SHORT).show();
             }
         }
 
+
+
+
         @Override
         protected void onCancelled() {
-            captureCreatureTask = null;
-           // showProgress(false);
+            searchRoomTask = null;
+            showProgress(true, progressView, roomFoundedView);
         }
     }
 }

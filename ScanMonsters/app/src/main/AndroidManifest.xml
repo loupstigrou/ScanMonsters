@@ -63,6 +63,10 @@
             android:name=".PlayersBoardActivity"
             android:label="@string/title_activity_players_board" >
         </activity>
+        <activity
+            android:name=".SearchRoomActivity"
+            android:label="@string/title_activity_search_room" >
+        </activity>
 
         <service
             android:name=".CreatureEventService"

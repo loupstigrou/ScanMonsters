@@ -37,10 +37,18 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_informations">Informations</string>
 
-    <string name="scan_monster_description">Vous êtes connecté (%s)</string>
+    <string name="scan_monster_description">Tu es connecté (%s)</string>
 
     <string name="title_activity_mini_game">Capture la créature</string>
     <string name="title_capture_creature">Appuie sur le bouton pour frapper la créature</string>
     <string name="capture_button">Attaquer</string>
+
+
+
+    <string name="title_activity_search_room">Prochain Objectif</string>
+    <string name="search_room_description">Tu recherches la salle :</string>
+    <string name="room_value_description">\??-????</string>
+    <string name="arrive_at_room_button">Je suis devant la salle !</string>
+    <string name="wait_room_info_description">Recherche de la prochaine salle en cours...</string>
 
 </resources>

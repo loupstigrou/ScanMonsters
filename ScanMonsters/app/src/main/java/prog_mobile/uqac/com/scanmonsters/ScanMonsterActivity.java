@@ -160,7 +160,8 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     }
 
     private void goToMiniGameActivity() {
-        Intent intent = new Intent(ScanMonsterActivity.this, MiniGameActivity.class);
+        //Intent intent = new Intent(ScanMonsterActivity.this, MiniGameActivity.class);
+        Intent intent = new Intent(ScanMonsterActivity.this, SearchRoomActivity.class);
         startActivity(intent);
     }
 
