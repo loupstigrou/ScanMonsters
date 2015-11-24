@@ -12,8 +12,8 @@
         android:layout_height="wrap_content"
         android:text="@string/ac_tesseract_btn_gallery"
         android:singleLine="true"
-        android:background="@color/blue"
-        android:textColor="@color/white"
+        android:background="@color/accent"
+        android:textColor="@color/icons"
         android:layout_marginRight="10dp"/>
 
     <Button
@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/bt_gallery"
         android:text="@string/ac_tesseract_btn_camera"
-        android:background="@color/blue"
-        android:textColor="@color/white"
+        android:background="@color/accent"
+        android:textColor="@color/icons"
         />
     
     <TextView

@@ -34,8 +34,8 @@
         android:layout_below="@id/canvasImageCreature"
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="@color/blue"
+        android:background="@color/accent"
         android:text="@string/capture_button"
-        android:textColor="@color/white"/>
+        android:textColor="@color/icons"/>
 </RelativeLayout>
 

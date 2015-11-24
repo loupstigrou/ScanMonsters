@@ -51,13 +51,13 @@
 
             <Button
                 android:id="@+id/signup_button"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_below="@id/connection_password"
                 android:layout_marginTop="50dp"
-                android:background="@color/blue"
+                android:background="@drawable/roundedbutton"
                 android:text="@string/connection_button"
-                android:textColor="@color/white"
+                android:textColor="@color/icons"
                 android:layout_centerHorizontal="true"/>
 
         </RelativeLayout>

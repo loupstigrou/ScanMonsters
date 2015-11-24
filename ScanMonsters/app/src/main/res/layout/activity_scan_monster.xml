@@ -1,63 +1,74 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:layout_height="match_parent"
     tools:context="prog_mobile.uqac.com.scanmonsters.ScanMonsterActivity">
 
     <RelativeLayout
-        android:layout_width="250dp"
-        android:layout_height="480dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_centerInParent="true"
         android:id="@+id/relativeLayout">
 
         <TextView
             android:id="@+id/scan_monster_description"
             android:text="@string/scan_monster_description"
+            android:textSize="30sp"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp" />
+            android:layout_margin="20dp" />
 
-        <Button
-            android:id="@+id/cheat_button"
-            android:layout_below="@id/scan_monster_description"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/blue"
-            android:text="@string/cheat_button"
-            android:textColor="@color/white"
-            />
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_below="@id/scan_monster_description">
 
-        <Button
-            android:id="@+id/tesseract_button"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/blue"
-            android:layout_below="@id/cheat_button"
-            android:text="@string/tesseract_button"
-            android:textColor="@color/white"/>
+            <Button
+                android:id="@+id/cheat_button"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:background="@color/accent"
+                android:text="@string/cheat_button"
+                android:textSize="30sp"
+                android:textColor="@color/icons"
+                />
 
-        <Button
-            android:id="@+id/location_button"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/blue"
-            android:layout_below="@id/tesseract_button"
-            android:text="@string/location_button"
-            android:textColor="@color/white"/>
+            <Button
+                android:id="@+id/tesseract_button"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:background="@color/accent"
+                android:text="@string/tesseract_button"
+                android:textSize="30sp"
+                android:textColor="@color/icons"/>
 
-        <Button
-            android:id="@+id/mini_game_button"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:background="@color/blue"
-            android:layout_below="@id/location_button"
-            android:text="@string/mini_game_button"
-            android:textColor="@color/white"/>
+            <Button
+                android:id="@+id/location_button"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:background="@color/accent"
+                android:text="@string/location_button"
+                android:textSize="30sp"
+                android:textColor="@color/icons"/>
+
+            <Button
+                android:id="@+id/mini_game_button"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:layout_marginBottom="20dp"
+                android:background="@color/accent"
+                android:text="@string/mini_game_button"
+                android:textSize="30sp"
+                android:textColor="@color/icons"/>
+        </LinearLayout>
 
     </RelativeLayout>
 
