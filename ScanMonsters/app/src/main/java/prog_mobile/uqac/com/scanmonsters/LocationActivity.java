@@ -11,6 +11,7 @@ import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -257,7 +258,7 @@ public class LocationActivity extends InGameActivity implements LocationListener
 
                     NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                             .setSmallIcon(R.mipmap.ic_explore_white_24dp)
-                            .setColor(Color.argb(1, 41, 128, 185))
+                            .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
                             .setContentTitle("ScanMonster : Users in your area")
                             .setContentText(String.format("There are %d users in your area !", usersInUQAC.size() - 1))
                             .setAutoCancel(true);

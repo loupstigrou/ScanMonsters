@@ -26,14 +26,14 @@ public class TabsPagerAdapter extends FragmentPagerAdapter{
                 return new UsersInUqacFragment();
             case 1:
                 return new LeaderBoardFragment();
-            case 2:
-                return new OwnScoreFragment();
         }
+
         return null;
     }
 
+
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 }

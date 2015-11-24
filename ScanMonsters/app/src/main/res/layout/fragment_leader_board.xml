@@ -11,21 +11,23 @@
 
         <TableLayout android:id="@+id/table_leader_board"
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:stretchColumns="1">
 
             <TableRow>
                 <TextView android:text="Pseudo"
                     android:layout_column="1"
-                    android:textSize="25dp"/>
+                    android:textColor="@color/primary_text"
+                    android:textSize="25sp"/>
 
                 <TextView android:text="Score"
-                    android:textSize="25dp"/>
+                    android:textColor="@color/primary_text"
+                    android:textSize="25sp"/>
             </TableRow>
 
             <View
                 android:layout_height="2dip"
-                android:background="#FF909090"
+                android:background="@color/primary_text"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"/>
 

@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import java.util.Random;
 
@@ -26,7 +27,7 @@ public class CreatureEventService extends Service {
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.mipmap.ic_pets_white_24dp)
-                        .setColor(Color.argb(1, 41, 128, 185))
+                        .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
                         .setContentTitle("ScanMonster : A creature has appeared !")
                         .setContentText(String.format("You can find it at the room %s", "P4-2350"))
                         .setAutoCancel(true);

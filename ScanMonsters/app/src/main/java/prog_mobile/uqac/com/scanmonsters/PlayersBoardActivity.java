@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -53,7 +55,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
     private ViewPager viewPager;
     private TabsPagerAdapter adapter;
     private android.support.v7.app.ActionBar actionBar;
-    private String[] tabs = {"Users in UQAC", "Leader Board", "Score"};
+    private String[] tabs = {"Users in UQAC", "Leader Board"};
 
     private static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
 
@@ -278,17 +280,18 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 users.add(playerData[0]);
             }
 
-            for (String user : users) {
-                TextView tv = new TextView(this.context);
-                tv.setText(user);
-                tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 30);
-                tv.setTextColor(Color.DKGRAY);
-                tv.setGravity(Gravity.CENTER_HORIZONTAL);
-                TableLayout.LayoutParams lp = new TableLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-                lp.setMargins(0, 0, 0, 35);
-                tv.setLayoutParams(lp);
-
-                usersInUqacView.addView(tv);
+            for (String userInUqac : users) {
+                if (!user.getLogin().equals(userInUqac)) {
+                    TextView tv = new TextView(this.context);
+                    tv.setText(userInUqac);
+                    tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35);
+                    tv.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.secondary_text));
+                    tv.setGravity(Gravity.CENTER_HORIZONTAL);
+                    TableLayout.LayoutParams lp = new TableLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    lp.setMargins(0, 0, 0, 35);
+                    tv.setLayoutParams(lp);
+                    usersInUqacView.addView(tv);
+                }
             }
 
             // Leader Board Tab //
@@ -304,7 +307,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 {
                     // Own Score //
                     int ownScore = Integer.valueOf(playerData[3]);
-                    TextView os = (TextView) findViewById(R.id.own_score);
+//                    TextView os = (TextView) findViewById(R.id.own_score);
                     //os.setText(String.valueOf(ownScore));
                 }
                 else
@@ -326,20 +329,26 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
                 TextView pseudo = new TextView(this.context);
                 pseudo.setText(key);
-                pseudo.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                pseudo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
                 pseudo.setLayoutParams(new TableRow.LayoutParams(1));
-                pseudo.setTextColor(Color.BLACK);
+                if (key.equals(user.getLogin()))
+                    pseudo.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent));
+                else
+                    pseudo.setTextColor(R.color.secondary_text);
                 TextView score = new TextView(this.context);
                 score.setText(String.valueOf(value));
-                score.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-                score.setTextColor(Color.BLACK);
+                score.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
+                if (key.equals(user.getLogin()))
+                    score.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent));
+                else
+                    score.setTextColor(R.color.secondary_text);
 
                 row.addView(pseudo);
                 row.addView(score);
                 leaderBoardView.addView(row);
 
                 View separationLine = new View(this.context);
-                separationLine.setBackgroundColor(Color.BLACK);
+                separationLine.setBackgroundColor(R.color.divider);
                 LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                 lp.setMargins(0, 5, 0, 5);
                 lp.height = 1;
