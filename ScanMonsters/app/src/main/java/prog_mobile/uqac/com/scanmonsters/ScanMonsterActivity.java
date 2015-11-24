@@ -12,7 +12,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Set;
@@ -23,10 +27,15 @@ import prog_mobile.uqac.com.scanmonsters.user.User;
 /**
  * Activité principale après connexion
  */
-public class ScanMonsterActivity extends AppCompatActivity {
+public class ScanMonsterActivity extends InGameActivity implements View.OnClickListener  {
 
-    SessionManager session;
     Intent serviceIntent;
+
+    private Button cheatButton;
+    private Button tesseractButton;
+    private Button locationButton;
+    private Button miniGameButton;
+    private TextView connectedText;
 
 //    private static final int REQUEST_ENABLE_BT = 1;
 //
@@ -55,6 +64,21 @@ public class ScanMonsterActivity extends AppCompatActivity {
 
         this.serviceIntent = new Intent(this, CreatureEventService.class);
         this.startService(serviceIntent);
+
+
+        this.cheatButton = (Button) findViewById(R.id.cheat_button);
+        this.tesseractButton = (Button) findViewById(R.id.tesseract_button);
+        this.locationButton = (Button) findViewById(R.id.location_button);
+        this.miniGameButton = (Button) findViewById(R.id.mini_game_button);
+        this.connectedText = (TextView) findViewById(R.id.scan_monster_description);
+
+        this.cheatButton.setOnClickListener(this);
+        this.tesseractButton.setOnClickListener(this);
+        this.locationButton.setOnClickListener(this);
+        this.miniGameButton.setOnClickListener(this);
+
+        String msgConnected = String.format(getResources().getString(R.string.scan_monster_description), session.getUser().getLogin());
+        connectedText.setText(msgConnected);
 
 //        Intent discoverableIntent = new
 //                Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -96,50 +120,49 @@ public class ScanMonsterActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if (this.session.isLoggedIn())
-            getMenuInflater().inflate(R.menu.menu_logged_in, menu);
-        else
-            getMenuInflater().inflate(R.menu.menu, menu);
+    public void onClick(View v) {
+        switch (v.getId()) {
 
-        return true;
-    }
+            case R.id.cheat_button:
+                this.goToWhateverActivity();
+                break;
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+            case R.id.tesseract_button:
+                this.goToTesseractActivity();
+                break;
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_logout) {
+            case R.id.location_button:
+                this.goToLocationActivity();
+                break;
 
-            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Warning !");
-            alertDialog.setMessage("Are you sure you want to Log Out ?");
-            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    return;
-                }
-            });
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Log Out", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    session.logoutUser();
-                }
-            });
-            alertDialog.show();
+            case R.id.mini_game_button:
+                this.goToMiniGameActivity();
+                break;
 
-        } else if (id == R.id.menu_infos) {
-            Intent intent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
-            startActivity(intent);
+            default:
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
     }
+
+    private void goToWhateverActivity() {
+        Intent intent = new Intent(ScanMonsterActivity.this, PlayersBoardActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToTesseractActivity(){
+        Intent intent = new Intent(ScanMonsterActivity.this, OCRActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToLocationActivity() {
+        Intent intent = new Intent(ScanMonsterActivity.this, LocationActivity.class);
+        startActivity(intent);
+    }
+
+    private void goToMiniGameActivity() {
+        Intent intent = new Intent(ScanMonsterActivity.this, MiniGameActivity.class);
+        startActivity(intent);
+    }
+
+
 }

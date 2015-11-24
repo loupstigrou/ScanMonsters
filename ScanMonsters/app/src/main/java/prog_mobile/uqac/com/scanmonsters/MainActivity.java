@@ -24,10 +24,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Button inscriptionButton;
     private Button connectionButton;
-    private Button cheatButton;
-    private Button tesseractButton;
-    private Button locationButton;
-    private Button miniGameButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,26 +32,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         this.session = new SessionManager(getApplicationContext());
         // Directly redirect if user is already logged in
-//        if (this.session.isLoggedIn()) {
-//            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
-//            startActivity(intent);
-//            finish();
-//        }
+        if (this.session.isLoggedIn()) {
+            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
 
         this.inscriptionButton = (Button) findViewById(R.id.inscription_button);
         this.connectionButton = (Button) findViewById(R.id.connection_button);
-        this.cheatButton = (Button) findViewById(R.id.cheat_button);
-        this.tesseractButton = (Button) findViewById(R.id.tesseract_button);
-        this.locationButton = (Button) findViewById(R.id.location_button);
-        this.miniGameButton = (Button) findViewById(R.id.mini_game_button);
 
         this.inscriptionButton.setOnClickListener(this);
         this.connectionButton.setOnClickListener(this);
-        this.cheatButton.setOnClickListener(this);
-        this.tesseractButton.setOnClickListener(this);
-        this.locationButton.setOnClickListener(this);
-        this.miniGameButton.setOnClickListener(this);
     }
 
     @Override
@@ -91,22 +79,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this.goToConnectionActivity();
                 break;
 
-            case R.id.cheat_button:
-                this.goToWhateverActivity();
-                break;
-
-            case R.id.tesseract_button:
-                this.goToTesseractActivity();
-                break;
-
-            case R.id.location_button:
-                this.goToLocationActivity();
-                break;
-
-            case R.id.mini_game_button:
-                this.goToMiniGameActivity();
-                break;
-
             default:
                 break;
         }
@@ -119,26 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void goToConnectionActivity() {
         Intent intent = new Intent(MainActivity.this, ConnectionActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToWhateverActivity() {
-        Intent intent = new Intent(MainActivity.this, ScanMonsterActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToTesseractActivity(){
-        Intent intent = new Intent(MainActivity.this, OCRActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToLocationActivity() {
-        Intent intent = new Intent(MainActivity.this, LocationActivity.class);
-        startActivity(intent);
-    }
-
-    private void goToMiniGameActivity() {
-        Intent intent = new Intent(MainActivity.this, MiniGameActivity.class);
         startActivity(intent);
     }
 }

@@ -1,6 +1,8 @@
 package prog_mobile.uqac.com.scanmonsters;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -107,7 +109,24 @@ public class InGameActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             return true;
         } else if (id == R.id.menu_logout) {
-            this.session.logoutUser();
+
+            AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Warning !");
+            alertDialog.setMessage("Are you sure you want to Log Out ?");
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    return;
+                }
+            });
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Log Out", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    session.logoutUser();
+                }
+            });
+            alertDialog.show();
+
         } else if (id == R.id.menu_infos) {
             Intent intent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
             startActivity(intent);

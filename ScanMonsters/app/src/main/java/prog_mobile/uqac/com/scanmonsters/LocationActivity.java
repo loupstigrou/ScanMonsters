@@ -33,9 +33,7 @@ import prog_mobile.uqac.com.scanmonsters.user.User;
 /**
  * Activité temporaire pour gérer la localisation de l'utilisateur
  */
-public class LocationActivity extends AppCompatActivity implements LocationListener {
-
-    SessionManager session;
+public class LocationActivity extends InGameActivity implements LocationListener {
 
     private LocationManager lm;
     private double latitude;
@@ -83,42 +81,6 @@ public class LocationActivity extends AppCompatActivity implements LocationListe
         lm.removeUpdates(this);
     }
 
-    /**
-     * Menu with a logout option if the user is logged in
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        if (this.session.isLoggedIn())
-            getMenuInflater().inflate(R.menu.menu_logged_in, menu);
-        else
-            getMenuInflater().inflate(R.menu.menu, menu);
-
-        return true;
-    }
-
-    /**
-     * Logout functionnality
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_logout) {
-            this.session.logoutUser();
-        } else if (id == R.id.menu_infos) {
-            Intent intent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public void onLocationChanged(Location location) {
