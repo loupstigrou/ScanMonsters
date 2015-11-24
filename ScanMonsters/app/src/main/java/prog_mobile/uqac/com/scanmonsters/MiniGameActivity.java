@@ -67,6 +67,12 @@ public class MiniGameActivity extends InGameActivity {
             }
         });
 
+        creatureLifeMax = (int) (Math.random()*400+100);
+        creatureLife = creatureLifeMax;
+        lifeProgressBar.setMax(creatureLifeMax);
+        lifeProgressBar.setProgress(creatureLife);
+
+
         String uri = "@drawable/crea_"+session.getUser().getCreature(); // where myresource.png is the file, extension removed from the String
         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
         bitmapCreatureBase = BitmapFactory.decodeResource(getResources(), imageResource);
@@ -112,10 +118,9 @@ public class MiniGameActivity extends InGameActivity {
 
             if(currentEffect.lifeTime > 0 && currentEffect.alpha > 0)
             {
-                if(currentEffect.alpha > 0)
-                {
-                    currentEffect.alpha -=30;
-                }
+                currentEffect.alpha -= 30;
+                if(currentEffect.alpha < 0) currentEffect.alpha = 0; // évite la réapparition du bitmap à la fin de son animation
+
                 p.setAlpha(currentEffect.alpha);
                 canvas.drawBitmap(currentEffect.bitmap, currentEffect.posX, currentEffect.posY, p);
             }
@@ -132,20 +137,18 @@ public class MiniGameActivity extends InGameActivity {
         EffectImage effet = new EffectImage();
         effet.id = (int) (Math.random()*9 + 1);
         effet.alpha = 255;
-        effet.posX = (int) (Math.random()*bitmapCreatureBase.getWidth() - 20);
-        effet.posY = (int) (Math.random()*bitmapCreatureBase.getHeight() - 20);
         effet.lifeTime = 10;
         String uri = "@drawable/anim_"+effet.id;
         int imageResource = getResources().getIdentifier(uri, null, getPackageName());
         effet.bitmap = BitmapFactory.decodeResource(getResources(), imageResource);
+        effet.posX = (int) (Math.random()*(bitmapCreatureBase.getWidth() - effet.bitmap.getWidth()));
+        effet.posY = (int) (Math.random()*(bitmapCreatureBase.getHeight() - effet.bitmap.getHeight()));
         effectImages.add(effet);
     }
 
 
     private void updateProgressBar() {
-        int percent = creatureLife*100/creatureLifeMax;
-        lifeProgressBar.setMax(creatureLifeMax);
-        lifeProgressBar.setProgress(percent);
+        lifeProgressBar.setProgress(creatureLife);
     }
 
     private void proceedCapture() {
