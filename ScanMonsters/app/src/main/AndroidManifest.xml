@@ -28,6 +28,8 @@
         android:theme="@style/MyAppTheme" >
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,39 +39,57 @@
         </activity>
         <activity
             android:name=".ScanMonsterActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_scan_monster" >
         </activity>
         <activity
             android:name=".authentication.InscriptionActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_inscription" >
         </activity>
         <activity
             android:name=".authentication.ConnectionActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_connection" >
         </activity>
         <activity
             android:name=".OCRActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_tesseract" >
         </activity>
         <activity
             android:name=".LocationActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_location" >
         </activity>
         <activity
             android:name=".MiniGameActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_mini_game" >
         </activity>
         <activity
             android:name=".PlayersBoardActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_players_board" >
         </activity>
         <activity
             android:name=".SearchRoomActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_search_room" >
         </activity>
 
         <service
             android:name=".CreatureEventService"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden"
             android:enabled="true"
             android:exported="true" >
         </service>

@@ -9,6 +9,10 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Iterator;
+
 /**
  * Created by Jerome & Nicolas on 15/11/2015.
  */
@@ -34,6 +38,8 @@ public class OpencvTreatment {
         //Log.i("Bri Height", text2);
         //Log.i("Bri Width", text3);
         //Utils.matToBitmap(imageROI,briffod);
+
+        //imageROI = eraseLine(imageROI);
         return imageROI;
     }
 
@@ -52,5 +58,50 @@ public class OpencvTreatment {
         return 0;
     }
 
+/*
+    // Erase the first black line on the frame
+    Mat eraseLine(Mat _frame)
+    {
+        int row = 0;
+        int col =10;
+        boolean lineFound = false;
+        boolean onBlackLine = false;
 
+        // for each column of the frame
+        for(col = 10 ; col <_frame.cols() - 10 ; col++)
+        {
+            row = _frame.rows() - 10;
+            lineFound = false;
+            onBlackLine = false;
+
+            while(lineFound != true && row > _frame.rows() / 4)
+            {
+                // if there's a black point
+                double[] value = _frame.get(row, col);
+                if (value[0] == 0) //Changer la condition => trouver le bon accesseur
+                {
+                    String val = String.valueOf(value[0]);
+                    Log.i("Value", val);
+                    // add them to the map
+                    // Erase lines that are already stored in the map from the reference Frame
+                    value[0]=255;
+                    value[1]=255;
+                    value[2]=255;
+                    _frame.put(row,col,value);
+                    // set the boolean to true (we're on a line)
+                    onBlackLine = true;
+                }
+                // if there's a white point
+                else if (value[0] > 20 && onBlackLine == true)
+                {
+                    // set the boolean to true (we found the entire line)
+                    lineFound = true;
+
+                }
+
+                row--;
+            }
+        }
+        return _frame;
+    }*/
 }

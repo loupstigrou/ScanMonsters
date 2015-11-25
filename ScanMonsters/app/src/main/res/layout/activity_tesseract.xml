@@ -29,15 +29,15 @@
     <TextView
         android:id = "@+id/tv_result"
         android:layout_width="fill_parent"
-        android:layout_height="300dp"
+        android:layout_height="100dp"
         android:layout_below="@id/bt_gallery"
         android:textIsSelectable="true" 
         android:scrollbars="vertical"/>
     
     <ImageView
         android:id="@+id/image"
-        android:layout_width="640dp"
-        android:layout_height="480dp"
+        android:layout_width="1280dp"
+        android:layout_height="720dp"
         android:layout_below="@id/tv_result"
          />
     
