@@ -28,8 +28,6 @@
         android:theme="@style/MyAppTheme" >
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_main" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,20 +37,14 @@
         </activity>
         <activity
             android:name=".ScanMonsterActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_scan_monster" >
         </activity>
         <activity
             android:name=".authentication.InscriptionActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_inscription" >
         </activity>
         <activity
             android:name=".authentication.ConnectionActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_connection" >
         </activity>
         <activity
