@@ -44,11 +44,14 @@
     <string name="capture_button">Attaquer</string>
 
 
-
     <string name="title_activity_search_room">Prochain Objectif</string>
     <string name="search_room_description">Tu recherches la salle :</string>
     <string name="room_value_description">\??-????</string>
     <string name="arrive_at_room_button">Je suis devant la salle !</string>
     <string name="wait_room_info_description">Recherche de la prochaine salle en cours...</string>
+
+    <string name="title_activity_splash__screen">Splash_Screen</string>
+    <string name="splash_screen_text">Scan Monster</string>
+
 
 </resources>
