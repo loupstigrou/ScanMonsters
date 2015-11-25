@@ -116,7 +116,7 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		mButtonGallery.setOnClickListener(this);
 		mButtonCamera = (Button) findViewById(R.id.bt_camera);
 		mButtonCamera.setOnClickListener(this);
-		mTessOCR = new TessOCR();
+		mTessOCR = new TessOCR(this);
 
 		mImage.setOnTouchListener(new View.OnTouchListener() {
 
