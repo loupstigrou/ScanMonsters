@@ -28,6 +28,7 @@ import java.util.Scanner;
 import prog_mobile.uqac.com.scanmonsters.adapters.FriendListAdapter;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
+import prog_mobile.uqac.com.scanmonsters.database.Notification;
 import prog_mobile.uqac.com.scanmonsters.services.BasicService;
 import prog_mobile.uqac.com.scanmonsters.services.SetNotificationWebService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
@@ -140,7 +141,7 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
                 name = "";
             }
 
-            setNotificationWebService = new SetNotificationWebService(this, session, name);
+            setNotificationWebService = new SetNotificationWebService(this, session, name, Notification.FRIEND_REQUEST, "");
             setNotificationWebService.execute();
         }
         else

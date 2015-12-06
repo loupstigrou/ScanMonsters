@@ -101,6 +101,12 @@
             android:label="@string/title_activity_search_friend"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".NotificationsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_notifications"
+            android:screenOrientation="portrait">
+        </activity>
 
         <service
             android:name=".CreatureEventService"

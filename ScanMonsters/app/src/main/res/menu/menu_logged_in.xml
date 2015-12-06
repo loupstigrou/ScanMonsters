@@ -23,4 +23,9 @@ tools:context="prog_mobile.uqac.com.scanmonsters.ScanMonsterActivity">
         android:orderInCategory="115"
         android:showAsAction="never"/>
 
+    <item android:id="@+id/menu_notifications"
+        android:title="@string/menu_notifications"
+        android:orderInCategory="120"
+        android:showAsAction="never"/>
+
 </menu>

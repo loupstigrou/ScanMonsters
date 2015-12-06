@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+import prog_mobile.uqac.com.scanmonsters.user.User;
 
 /**
  * Activité avec menu de base
@@ -21,6 +22,7 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 public class InGameActivity extends AppCompatActivity {
 
     public SessionManager session;
+    public User user;
     public static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
 
     protected View _currentView;
@@ -34,6 +36,7 @@ public class InGameActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         }
+        user = session.getUser();
     }
 
     @Override
@@ -139,6 +142,9 @@ public class InGameActivity extends AppCompatActivity {
             startActivity(intent);
         } else if (id == R.id.menu_friends) {
             Intent intent = new Intent(getApplicationContext(), FriendsListActivity.class);
+            startActivity(intent);
+        }else if (id == R.id.menu_notifications) {
+            Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
             startActivity(intent);
         }
         if(!(this instanceof ScanMonsterActivity))

@@ -37,6 +37,7 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_informations">Informations</string>
     <string name="menu_friends">Mes amis</string>
+    <string name="menu_notifications">Notifications</string>
 
     <string name="scan_monster_description">Tu es connecté (%s)</string>
 
@@ -64,6 +65,10 @@
     <string name="error_no_user_to_show">Personne ne porte ce pseudo</string>
     <string name="error_invalid_search_login">Recherche impossible</string>
     <string name="action_search">Rechercher</string>
+
+
+    <string name="title_activity_notifications">Notifications</string>
+    <string name="wait_notifications_loading">Chargement des notifications...</string>
 
 
 </resources>
