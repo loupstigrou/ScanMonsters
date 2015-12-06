@@ -2,6 +2,7 @@ package prog_mobile.uqac.com.scanmonsters;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -27,16 +28,22 @@ import java.util.Scanner;
 import prog_mobile.uqac.com.scanmonsters.adapters.FriendListAdapter;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
+import prog_mobile.uqac.com.scanmonsters.services.BasicService;
+import prog_mobile.uqac.com.scanmonsters.services.SetNotificationWebService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 public class SearchFriendsActivity extends InGameActivity implements FriendListAdapter.FriendAdapterListener {
 
     private SearchFriendTask searchFriendTask;
+    private SetNotificationWebService setNotificationWebService;
 
     private View indexView;
     private View progressView;
     private View friendListView;
     private TextView searchPseudoText;
+
+    private FriendListAdapter adapter;
+    private Friend currentFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,11 +79,11 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
             }
         });
 
-        /*adapter = new FriendListAdapter(this, allFriends);
+        adapter = new FriendListAdapter(this, new ArrayList<Friend>());
         adapter.addListener(this);
         ListView list = (ListView)findViewById(R.id.friendsList);
 
-        list.setAdapter(adapter);*/
+        list.setAdapter(adapter);
     }
 
     public void onClick(View view) {
@@ -91,10 +98,15 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
     }
     protected void proceedSearch() {
         String searchPseudo = searchPseudoText.getText().toString();
+        try {
+            searchPseudo = URLEncoder.encode(searchPseudo, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            searchPseudo = "";
+        }
         if(searchFriendTask == null && searchPseudo != "" && searchPseudo.length() > 2 && !searchPseudo.contains("%"))
         {
-            searchFriendTask = new SearchFriendTask(this, session);
-            searchFriendTask.setPseudo(searchPseudo);
+
+            searchFriendTask = new SearchFriendTask(this, session, searchPseudo);
             searchFriendTask.execute((Void) null);
         }
         else
@@ -104,13 +116,37 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
     }
 
     public void onClickNom(Friend item, int position) {
+        currentFriend = item;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(item.name);
 
-        builder.setMessage("Vous avez cliqué sur : " + item.name);
-        builder.setPositiveButton("Oui", null);
+        builder.setMessage("Envoyer une demande d'amis à " + item.name + " ?");
+        builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog,int id) {
+                sendFriendRequest(currentFriend.name);
+            }
+        });
         builder.setNegativeButton("Non", null);
         builder.show();
+    }
+
+    private void sendFriendRequest(String name) {
+        if(setNotificationWebService == null || setNotificationWebService.finished())
+        {
+
+            try {
+                name = URLEncoder.encode(name, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                name = "";
+            }
+
+            setNotificationWebService = new SetNotificationWebService(this, session, name);
+            setNotificationWebService.execute();
+        }
+        else
+        {
+            Toast.makeText(this, "Erreur : Patiente un peu", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -122,7 +158,7 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
     protected void onPause() {
         super.onPause();
     }@Override
-    protected void onDestroy() {
+     protected void onDestroy() {
         if(searchFriendTask != null) searchFriendTask.onCancelled();
         super.onDestroy();
     }
@@ -132,59 +168,16 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
      * Tâche asyncrone qui va se connecter au service pour
      * récupérer les logins des joueurs demandés
      */
-    public class SearchFriendTask extends AsyncTask<Void, Void, Boolean> {
+    public class SearchFriendTask extends BasicService {
 
-        private Context context;
-        private String serverResponse;
-        private SessionManager session;
-        private String pseudo;
+        protected String pseudo;
 
-        public SearchFriendTask(Context context, SessionManager session) {
-            this.context = context;
-            this.serverResponse = "";
-            this.session = session;
+        public SearchFriendTask(Context context, SessionManager session, String pseudo) {
+            super(context, session,
+                    "searchByName", "&name=" + pseudo );
+            this.pseudo = pseudo;
             showProgress(true, progressView, (indexView.getVisibility() == View.VISIBLE) ? indexView : friendListView);
-        }
 
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            URL url;
-            HttpURLConnection connection;
-            String urlParameters;
-
-            try {
-                url = new URL(webserviceURL);
-                urlParameters =
-                        "requestType=searchByName" +
-                                "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
-                                "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8")+
-                                "&name=" + URLEncoder.encode(pseudo, "UTF-8"); //
-
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setDoOutput(true);
-                connection.setRequestMethod("POST");
-
-                connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-                PrintWriter out = new PrintWriter(connection.getOutputStream());
-                out.print(urlParameters);
-                out.close();
-
-                Scanner inStream = new Scanner(connection.getInputStream());
-
-                while (inStream.hasNextLine())
-                    this.serverResponse += (inStream.nextLine());
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return !this.serverResponse.equals("NOK");
         }
 
         @Override
@@ -203,19 +196,17 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
 
                     String allPlayersData[];
                     int lg;
-                    String playerData[];
-
+                    adapter.clear();
                     ArrayList<String> users = new ArrayList<>();
                     allPlayersData = serverResponse.split(",");
                     lg = allPlayersData.length;
+                    Friend tmpFriend;
                     for (int i = 0; i < lg; i++) {
-                        playerData = allPlayersData[i].split("-");
-                        users.add(playerData[0]);
+                        tmpFriend = new Friend();
+                        tmpFriend.fromRawData(allPlayersData[i]);
+                        adapter.add(tmpFriend);
                     }
-
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, users);
-
-                    ((ListView) friendListView).setAdapter(adapter);
+                    adapter.notifyDataSetInvalidated();
                     showProgress(false, progressView, friendListView);
                 }
 
@@ -235,10 +226,6 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
             super.onCancelled();
             searchFriendTask = null;
             showProgress(true, progressView, indexView);
-        }
-
-        public void setPseudo(String pseudo) {
-            this.pseudo = pseudo;
         }
     }
 }

@@ -35,6 +35,13 @@ public class FriendListAdapter extends BaseAdapter {
         mInflater = LayoutInflater.from(mContext);
     }
 
+    public void setmListP(List<Friend> mListP) {
+        this.mListP = mListP;
+    }
+
+    public void clear() {
+        this.mListP.clear();
+    }
     public int getCount() {
         return mListP.size();
     }
@@ -48,7 +55,7 @@ public class FriendListAdapter extends BaseAdapter {
     }
     public void add(Friend friend) {
         mListP.add(friend);
-        this.notifyDataSetInvalidated();
+        //this.notifyDataSetInvalidated();
     }
     public void remove(Friend friend) {
         mListP.remove(friend);
@@ -69,11 +76,11 @@ public class FriendListAdapter extends BaseAdapter {
         tv_Nom.setText(mListP.get(position).name);
         tv_Prenom.setText(mListP.get(position).score+"");
 
-        if (mListP.get(position).score > 5) {
+       /* if (mListP.get(position).score > 5) {
             layoutItem.setBackgroundColor(Color.BLUE);
         } else {
             layoutItem.setBackgroundColor(Color.MAGENTA);
-        }
+        }*/
 
 //On mémorise la position du "friend" dans le composant textview
         tv_Nom.setTag(position);
