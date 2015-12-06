@@ -30,6 +30,7 @@ public class CreatureEventService extends Service {
                         .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
                         .setContentTitle("ScanMonster : A creature has appeared !")
                         .setContentText(String.format("You can find it at the room %s", "P4-2350"))
+                        .setLights(0xFFFFFFFF, 500,500)
                         .setAutoCancel(true);
                 Intent resultIntent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
 

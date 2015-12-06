@@ -79,14 +79,27 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_players_board"
             android:screenOrientation="portrait">
-
         </activity>
         <activity
             android:name=".SearchRoomActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_search_room"
             android:screenOrientation="portrait">
+        </activity>
 
+
+        <activity
+            android:name=".FriendsListActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_friends_list"
+            android:screenOrientation="portrait">
+        </activity>
+
+        <activity
+            android:name=".SearchFriendsActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_search_friend"
+            android:screenOrientation="portrait">
         </activity>
 
         <service

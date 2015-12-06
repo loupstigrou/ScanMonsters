@@ -23,6 +23,8 @@ public class InGameActivity extends AppCompatActivity {
     public SessionManager session;
     public static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
 
+    protected View _currentView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +83,7 @@ public class InGameActivity extends AppCompatActivity {
             // and hide the relevant UI components.
             progressView.setVisibility(show ? View.VISIBLE : View.GONE);
             currentView.setVisibility(show ? View.GONE : View.VISIBLE);
+            _currentView = currentView;
         }
     }
 
@@ -129,11 +132,17 @@ public class InGameActivity extends AppCompatActivity {
                 }
             });
             alertDialog.show();
+            return super.onOptionsItemSelected(item);
 
         } else if (id == R.id.menu_infos) {
             Intent intent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
             startActivity(intent);
+        } else if (id == R.id.menu_friends) {
+            Intent intent = new Intent(getApplicationContext(), FriendsListActivity.class);
+            startActivity(intent);
         }
+        if(!(this instanceof ScanMonsterActivity))
+            finish();
 
         return super.onOptionsItemSelected(item);
     }

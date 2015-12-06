@@ -60,6 +60,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
     private static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
 
     private User user;
+    private GetPlayersTask gpt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +98,8 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
             }
         });
 
-        GetPlayersTask gpt = new GetPlayersTask(this);
+
+        gpt = new GetPlayersTask(this);
         gpt.execute((Void) null);
     }
 
@@ -161,6 +163,18 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
         }
         return result;
     }
+
+
+    protected void onDestroy() {
+        if(gpt != null) gpt.cancel(true);
+        super.onDestroy();
+    }
+
+
+
+
+
+
 
     /**
      * Tâche asyncrone qui va envoyer 2 requêtes au webservice
@@ -331,14 +345,14 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 pseudo.setText(key);
                 pseudo.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
                 pseudo.setLayoutParams(new TableRow.LayoutParams(1));
-                if (key.equals(user.getLogin()))
+                if (key.equalsIgnoreCase(user.getLogin()))
                     pseudo.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent));
                 else
                     pseudo.setTextColor(R.color.secondary_text);
                 TextView score = new TextView(this.context);
                 score.setText(String.valueOf(value));
                 score.setTextSize(TypedValue.COMPLEX_UNIT_SP, 25);
-                if (key.equals(user.getLogin()))
+                if (key.equalsIgnoreCase(user.getLogin()))
                     score.setTextColor(ContextCompat.getColor(getApplicationContext(), R.color.accent));
                 else
                     score.setTextColor(R.color.secondary_text);
@@ -356,6 +370,12 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
                 leaderBoardView.addView(separationLine);
             }
+        }
+
+        @Override
+        protected void onCancelled() {
+            super.onCancelled();
+            gpt = null;
         }
     }
 }

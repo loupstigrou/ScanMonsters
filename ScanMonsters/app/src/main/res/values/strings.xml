@@ -36,6 +36,7 @@
     <string name="title_activity_players_board">Information</string>
     <string name="menu_logout">Logout</string>
     <string name="menu_informations">Informations</string>
+    <string name="menu_friends">Mes amis</string>
 
     <string name="scan_monster_description">Tu es connecté (%s)</string>
 
@@ -52,6 +53,17 @@
 
     <string name="title_activity_splash__screen">Splash_Screen</string>
     <string name="splash_screen_text">Scan Monster</string>
+
+
+    <string name="title_activity_friends_list">Mes amis</string>
+
+    <string name="title_activity_search_friend">Rechercher des amis</string>
+    <string name="hint_search">Pseudo...</string>
+    <string name="wait_search_index_description">est ton nom d\'utilisateur</string>
+    <string name="wait_search_info_description">Recherche en cours...</string>
+    <string name="error_no_user_to_show">Personne ne porte ce pseudo</string>
+    <string name="error_invalid_search_login">Recherche impossible</string>
+    <string name="action_search">Rechercher</string>
 
 
 </resources>

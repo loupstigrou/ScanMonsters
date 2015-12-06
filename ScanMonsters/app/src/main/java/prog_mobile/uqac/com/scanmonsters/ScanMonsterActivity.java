@@ -19,8 +19,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
 import java.util.Set;
 
+import prog_mobile.uqac.com.scanmonsters.database.Book;
+import prog_mobile.uqac.com.scanmonsters.database.Friend;
+import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
@@ -36,6 +40,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     private Button locationButton;
     private Button miniGameButton;
     private TextView connectedText;
+    private MySQLiteHelper mySQLiteHelper;
 
 //    private static final int REQUEST_ENABLE_BT = 1;
 //
@@ -65,6 +70,16 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         this.serviceIntent = new Intent(this, CreatureEventService.class);
         this.startService(serviceIntent);
 
+        /*this.mySQLiteHelper = new MySQLiteHelper(this);
+        mySQLiteHelper.open();
+        mySQLiteHelper.addFriend(new Friend("Benji", 5));
+        mySQLiteHelper.addFriend(new Friend("Nicolas", 52));
+        mySQLiteHelper.addFriend(new Friend("Jérome", 3));
+        List<Friend> allFriends = mySQLiteHelper.getAllFriends();
+        for(Friend tmpFriend : allFriends)
+        {
+            Toast.makeText(this,tmpFriend.toString(), Toast.LENGTH_SHORT).show();
+        }*/
 
         this.cheatButton = (Button) findViewById(R.id.cheat_button);
         this.tesseractButton = (Button) findViewById(R.id.tesseract_button);
@@ -162,6 +177,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     private void goToMiniGameActivity() {
         //Intent intent = new Intent(ScanMonsterActivity.this, MiniGameActivity.class);
         Intent intent = new Intent(ScanMonsterActivity.this, SearchRoomActivity.class);
+        //Intent intent = new Intent(ScanMonsterActivity.this, FriendsListActivity.class);
         startActivity(intent);
     }
 
