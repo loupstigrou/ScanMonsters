@@ -102,7 +102,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
 //            }
 //        }
     }
-    
+
     @Override
     protected void onDestroy() {
         this.stopService(serviceIntent);

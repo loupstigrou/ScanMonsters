@@ -243,28 +243,6 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
                 while (inStream.hasNextLine())
                     this.leaderBoard += inStream.nextLine();
 
-                // Third request
-                /*urlParameters =
-                        "requestType=getScoreAndCreatures" +
-                                "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
-                                "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8"); //
-
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setDoOutput(true);
-                connection.setRequestMethod("POST");
-
-                connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-                out = new PrintWriter(connection.getOutputStream());
-                out.print(urlParameters);
-                out.close();
-
-                inStream = new Scanner(connection.getInputStream());
-
-                while (inStream.hasNextLine())
-                    this.scoreData += inStream.nextLine();*/
-
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (ProtocolException e) {

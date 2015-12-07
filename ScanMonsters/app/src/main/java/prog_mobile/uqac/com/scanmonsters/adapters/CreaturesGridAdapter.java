@@ -7,6 +7,7 @@ import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -14,8 +15,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import prog_mobile.uqac.com.scanmonsters.CreaturesListActivity;
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.services.ScoreAndCreatureService;
+import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 /**
  * Created by Major on 07/12/2015.
@@ -23,9 +28,40 @@ import prog_mobile.uqac.com.scanmonsters.R;
 public class CreaturesGridAdapter extends BaseAdapter {
 
     private Context context;
+    private ScoreAndCreatureService getCreatures;
+    private ArrayList<Integer> creaturesNb;
 
-    public CreaturesGridAdapter(Context context) {
+    public CreaturesGridAdapter(Context context, SessionManager sessionManager) {
         this.context = context;
+
+        this.getCreatures = new ScoreAndCreatureService(context, sessionManager, null, null);
+        getCreatures.execute((Void) null);
+
+        // Attend que l'async task soit finit
+        try {
+            getCreatures.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        // List des créatures possédées par l'utilisateur
+        this.creaturesNb = new ArrayList<>();
+        if (!getCreatures.getServerResponse().equals("NOK")) {
+            String[] dataCreatures = getCreatures.getServerResponse()
+                    .split("=");
+
+            if (!dataCreatures[2].equals("OK")) {
+                dataCreatures = dataCreatures[2].split(",");
+
+                for (int i = 0; i < dataCreatures.length; i++) {
+                    String creature = dataCreatures[i].split("-")[0];
+                    int creatureNb = Integer.parseInt(creature) - 1;
+                    this.creaturesNb.add(creatureNb);
+                }
+            }
+        }
     }
 
     @Override
@@ -45,6 +81,7 @@ public class CreaturesGridAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        // Création d'une vue pour chaque utilisateur
         LinearLayout creatureView;
 
         int viewWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, this.context.getResources().getDisplayMetrics());
@@ -57,7 +94,10 @@ public class CreaturesGridAdapter extends BaseAdapter {
 
         ImageView imageView = new ImageView(this.context);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        imageView.setImageResource(creatureImages[position]);
+        if (this.creaturesNb.contains(position))
+            imageView.setImageResource(creatureImages[position]);
+        else
+            imageView.setImageResource(shadowImages[position]);
         creatureView.addView(imageView);
 
         // Separator
@@ -70,13 +110,46 @@ public class CreaturesGridAdapter extends BaseAdapter {
         button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, btnDim));
         button.setText(R.string.offer_creature);
         button.setBackground(ContextCompat.getDrawable(this.context, R.drawable.roundedbottombutton));
-        button.setTextColor(ContextCompat.getColor(this.context, R.color.accent));
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        if (this.creaturesNb.contains(position)) {
+            button.setTextColor(ContextCompat.getColor(this.context, R.color.accent));
+            // On click => Ouvre un dialog pour choisir à qui l'envoyer
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("A qui ? ");
 
-            }
-        });
+                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                            context,
+                            android.R.layout.select_dialog_singlechoice
+                    );
+                    arrayAdapter.add("Ami 1");
+                    arrayAdapter.add("Ami 2");
+                    arrayAdapter.add("Ami 3");
+
+                    builder.setNegativeButton(
+                            "Annuler",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .setAdapter(
+                                    arrayAdapter,
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            String strName = arrayAdapter.getItem(which);
+                                            Toast.makeText(context, "Friend : " + strName, Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                            .show();
+                }
+            });
+        } else {
+            button.setTextColor(ContextCompat.getColor(this.context, R.color.primary_text));
+        }
         creatureView.addView(button);
 
         return creatureView;

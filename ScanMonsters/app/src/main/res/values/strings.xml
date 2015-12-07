@@ -26,7 +26,7 @@
     <string name="ac_tesseract_btn_gallery">Gallerie</string>
     <string name="ac_tesseract_btn_camera">Camera</string>
 
-    <string name="location_button">Localisation Joueur</string>
+    <string name="location_button">Liste des créatures</string>
     <string name="title_activity_creatures_list">Créatures</string>
     <string name="new_location">Nouvelle position : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s, Précision = %4$s mètres</string>
     <string name="provider_disabled">Le provider %s est désactivé.</string>

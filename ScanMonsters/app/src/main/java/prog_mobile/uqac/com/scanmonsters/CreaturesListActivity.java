@@ -64,7 +64,7 @@ public class CreaturesListActivity extends InGameActivity implements LocationLis
         getIsInUQAC.execute((Void) null);
 
         final GridView creaturesGrid = (GridView) findViewById(R.id.creatures_list);
-        creaturesGrid.setAdapter(new CreaturesGridAdapter(this));
+        creaturesGrid.setAdapter(new CreaturesGridAdapter(this, session));
 
         creaturesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
