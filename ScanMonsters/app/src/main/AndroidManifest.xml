@@ -61,10 +61,8 @@
 
         </activity>
         <activity
-            android:name=".LocationActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_location"
-            android:screenOrientation="portrait">
+            android:name=".CreaturesListActivity"
+            android:label="@string/title_activity_creatures_list">
 
         </activity>
         <activity

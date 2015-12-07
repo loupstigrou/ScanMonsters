@@ -2,8 +2,7 @@
     <string name="app_name">ScanMonsters</string>
     <string name="title_activity_main">Scan Monster</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Paramètres</string>
     <string name="inscription_button">S\'inscrire</string>
     <string name="connection_button">Se connecter</string>
     <string name="cheat_button">Informations</string>
@@ -14,27 +13,27 @@
     <string name="title_activity_connection">Connexion</string>
     <string name="hint_password">Mot de passe</string>
     <string name="action_signin">S\'inscrire</string>
-    <string name="hint_login">Login</string>
+    <string name="hint_login">Identifiant</string>
     <string name="error_invalid_password">Mot de passe incorrect !</string>
-    <string name="error_invalid_login">Login incorrect</string>
+    <string name="error_invalid_login">Identifiant incorrect</string>
     <string name="error_field_required">Champ requis</string>
-    <string name="error_login_taken">Ce login est déjà utilisé !</string>
+    <string name="error_login_taken">Cet identifiant est déjà utilisé !</string>
     <string name="action_signup">Se connecter</string>
-    <string name="error_wrong_login_or_password">Erreur de Login ou Mot de Passe</string>
+    <string name="error_wrong_login_or_password">Erreur d\'Identifiant ou Mot de Passe</string>
     <string name="image_dialog_description">Ttot</string>
-    <string name="title_activity_tesseract">TesseractActivity</string>
+    <string name="title_activity_tesseract">Tesseract</string>
 
-    <string name="ac_tesseract_btn_gallery">Gallery</string>
+    <string name="ac_tesseract_btn_gallery">Gallerie</string>
     <string name="ac_tesseract_btn_camera">Camera</string>
 
     <string name="location_button">Localisation Joueur</string>
-    <string name="title_activity_location">Localisation</string>
-    <string name="new_location">New location : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s, Précision = %4$s metres</string>
-    <string name="provider_disabled">The provider %s is now disabled.</string>
-    <string name="provider_new_status">The provider %1$s has now a new status %2$s</string>
-    <string name="provider_enabled">The provider %s is now enabled</string>
-    <string name="title_activity_players_board">Information</string>
-    <string name="menu_logout">Logout</string>
+    <string name="title_activity_creatures_list">Créatures</string>
+    <string name="new_location">Nouvelle position : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s, Précision = %4$s mètres</string>
+    <string name="provider_disabled">Le provider %s est désactivé.</string>
+    <string name="provider_new_status">Le provider %1$s a un nouveau status %2$s</string>
+    <string name="provider_enabled">Le provider %s est activé</string>
+    <string name="title_activity_players_board">Informations</string>
+    <string name="menu_logout">Se déconnecter</string>
     <string name="menu_informations">Informations</string>
     <string name="menu_friends">Mes amis</string>
     <string name="menu_notifications">Notifications</string>
@@ -69,6 +68,8 @@
 
     <string name="title_activity_notifications">Notifications</string>
     <string name="wait_notifications_loading">Chargement des notifications...</string>
+    <string name="creatures_list">Créatures</string>
+    <string name="offer_creature">Offrir</string>
 
 
 </resources>

@@ -4,7 +4,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TaskStackBuilder;
 import android.content.Intent;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -12,10 +11,10 @@ import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -28,13 +27,14 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import prog_mobile.uqac.com.scanmonsters.adapters.CreaturesGridAdapter;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
 /**
  * Activité temporaire pour gérer la localisation de l'utilisateur
  */
-public class LocationActivity extends InGameActivity implements LocationListener {
+public class CreaturesListActivity extends InGameActivity implements LocationListener {
 
     private LocationManager lm;
     private double latitude;
@@ -53,7 +53,7 @@ public class LocationActivity extends InGameActivity implements LocationListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_location);
+        setContentView(R.layout.activity_creatures_list);
 
         this.session = new SessionManager(getApplicationContext());
         this.session.checkLogin();
@@ -62,6 +62,16 @@ public class LocationActivity extends InGameActivity implements LocationListener
 
         UserLocationTask getIsInUQAC = new UserLocationTask(this.user, "getIsInUQAC", false); // False or true does not matter when request is getIsInUQAC
         getIsInUQAC.execute((Void) null);
+
+        final GridView creaturesGrid = (GridView) findViewById(R.id.creatures_list);
+        creaturesGrid.setAdapter(new CreaturesGridAdapter(this));
+
+        creaturesGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), "" + position, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

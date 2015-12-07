@@ -1,32 +1,13 @@
 package prog_mobile.uqac.com.scanmonsters;
 
-import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
-import android.bluetooth.BluetoothDevice;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.util.List;
-import java.util.Set;
-
-import prog_mobile.uqac.com.scanmonsters.database.Book;
-import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
-import prog_mobile.uqac.com.scanmonsters.user.User;
 
 /**
  * Activité principale après connexion
@@ -121,7 +102,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
 //            }
 //        }
     }
-
+    
     @Override
     protected void onDestroy() {
         this.stopService(serviceIntent);
@@ -170,7 +151,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     }
 
     private void goToLocationActivity() {
-        Intent intent = new Intent(ScanMonsterActivity.this, LocationActivity.class);
+        Intent intent = new Intent(ScanMonsterActivity.this, CreaturesListActivity.class);
         startActivity(intent);
     }
 
