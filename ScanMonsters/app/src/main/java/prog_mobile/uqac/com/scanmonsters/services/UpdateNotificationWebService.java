@@ -10,19 +10,22 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
  */
 public class UpdateNotificationWebService extends BasicService {
 
+    private String _phraseSucces;
 
-    public UpdateNotificationWebService(Context context, SessionManager session, int idNotif, int state){
+    public UpdateNotificationWebService(Context context, SessionManager session, int idNotif, int state, String phraseSucces){
         super(context, session,
                 "updateNotification",
                 "&id=" + idNotif+
                         "&state="+state
         );
+
+        _phraseSucces = phraseSucces;
     }
 
     @Override
     protected void onPostExecute(final Boolean success) {
         if (success) {
-            Toast.makeText(context, "Success " + serverResponse, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, _phraseSucces, Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Erreur " + serverResponse, Toast.LENGTH_SHORT).show();
         }

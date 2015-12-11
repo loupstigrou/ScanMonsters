@@ -20,7 +20,12 @@ public class SetNotificationWebService extends BasicService {
     @Override
     protected void onPostExecute(final Boolean success) {
         if (success) {
-            Toast.makeText(context, "Requête envoyée !", Toast.LENGTH_SHORT).show();
+            if(serverResponse.equals("ALREADY_FRIENDS"))
+                Toast.makeText(context, "Vous êtes déjà amis !", Toast.LENGTH_SHORT).show();
+            else if(serverResponse.equals("ALREADY_NOTIF"))
+                Toast.makeText(context, "Demande d'amitié déjà en cours.", Toast.LENGTH_SHORT).show();
+            else
+                Toast.makeText(context, "Requête envoyée !", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, "Erreur " + serverResponse, Toast.LENGTH_SHORT).show();
         }

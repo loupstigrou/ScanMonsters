@@ -128,8 +128,7 @@ public class NotificationsActivity extends InGameActivity implements Notificatio
     private void answerRequest(int stateWanted) {
         if(updateNotificationWebService == null || updateNotificationWebService.finished())
         {
-
-            updateNotificationWebService = new UpdateNotificationWebService(this, session, currentNotification.id, stateWanted);
+            updateNotificationWebService = new UpdateNotificationWebService(this, session, currentNotification.id, stateWanted, "Action effectuée");
             updateNotificationWebService.execute();
 
             adapter.remove(currentNotification);
