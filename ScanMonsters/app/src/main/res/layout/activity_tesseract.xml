@@ -24,6 +24,7 @@
         android:text="@string/ac_tesseract_btn_camera"
         android:background="@color/accent"
         android:textColor="@color/icons"
+        android:onClick="takePhoto"
         />
     
     <TextView

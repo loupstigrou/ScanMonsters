@@ -24,7 +24,6 @@ public class TessOCR {
 	public TessOCR(Context context)
 	{
 		mTess = new TessBaseAPI();
-		//TODO Recupere la bibliotheque venant du res et non sur la memoire du device
 		String datapath = Environment.getExternalStorageDirectory() + "/tesseract/"; //Definition du lieu ou se trouve la bibliotheque
 		String language = "eng"; //Definition de la langue de la bibliotheque
 		File dir = new File(datapath + "tessdata/");

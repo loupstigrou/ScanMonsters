@@ -1,48 +1,35 @@
 package prog_mobile.uqac.com.scanmonsters;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.hardware.camera2.CameraDevice;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.ScaleGestureDetector;
-import android.view.SurfaceView;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
 import org.opencv.android.Utils;
-import org.opencv.core.Core;
 import org.opencv.core.Mat;
-import org.opencv.android.JavaCameraView;
 import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
@@ -51,7 +38,7 @@ import prog_mobile.uqac.com.scanmonsters.user.User;
  * @author Jerome
  * @author Nico
  */
-public class OCRActivity extends AppCompatActivity implements OnClickListener {
+public class OCRActivity extends AppCompatActivity{
 	private TessOCR mTessOCR;
 	private TextView mResult;
 	private ProgressDialog mProgressDialog;
@@ -59,22 +46,13 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	private Button mButtonGallery, mButtonCamera;
 	private String mCurrentPhotoPath;
 	private static final int REQUEST_TAKE_PHOTO = 1;
-	private static final int REQUEST_PICK_PHOTO = 2;
 
-	SessionManager session;
+	private SessionManager session;
 
 	private Point p1,p2;
-	private Scalar rectColor;
 	private boolean picTake = false;
 	private org.opencv.core.Rect roi;
 	private Bitmap bitmap;
-	//private JavaCameraView mOpenCVCameraView;
-
-	private static final int MAX_POINTERS = 2;
-	private Pointer[] mPointers = new Pointer[MAX_POINTERS];
-	private GestureDetector mGestureDetector;
-	private ScaleGestureDetector mScaleGestureDetector;
-
 
 	private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
 		@Override
@@ -82,7 +60,6 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			switch (status) {
 				case LoaderCallbackInterface.SUCCESS: {
 					Log.i("Load", "OpenCV loaded successfully");
-					//mOpenCVCameraView.enableView();
 				}
 				break;
 				default: {
@@ -92,13 +69,6 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 			}
 		}
 	};
-
-	class Pointer {
-		float x = 0;
-		float y = 0;
-		int index = -1;
-		int id = -1;
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -113,105 +83,77 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		mResult = (TextView) findViewById(R.id.tv_result);
 		mImage = (ImageView) findViewById(R.id.image);
 		mButtonGallery = (Button) findViewById(R.id.bt_gallery);
-		mButtonGallery.setOnClickListener(this);
 		mButtonCamera = (Button) findViewById(R.id.bt_camera);
-		mButtonCamera.setOnClickListener(this);
-		mTessOCR = new TessOCR(this);
+		//mTessOCR = new TessOCR(this);
+
+        new Thread(new Runnable() { //Creation d'un thread annexe  pour realiser la detection
+            public void run() {
+                mTessOCR = new TessOCR(getApplicationContext());
+            }
+        }).start();
 
 		mImage.setOnTouchListener(new View.OnTouchListener() {
 
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
-				if(picTake){
-				if(event.getPointerCount() == 1) {
-					double x1 = (double) event.getX(0);
-					double y1 = (double) event.getY(0);
-					p1 = new Point(x1, y1);
+            if(picTake)
+            {
+                if(event.getPointerCount() == 1) {
+                    double x1 = (double) event.getX(0);
+                    double y1 = (double) event.getY(0);
+                    p1 = new Point(x1, y1);
 
-				}
-				if(event.getPointerCount() == 2) {
-					double x2 = (double) event.getX(1);
-					double y2 = (double) event.getY(1);
-					p2 = new Point(x2, y2);
-					roi = new org.opencv.core.Rect(p1, p2);
+                }
+                if(event.getPointerCount() == 2) {
+                    double x2 = (double) event.getX(1);
+                    double y2 = (double) event.getY(1);
+                    p2 = new Point(x2, y2);
+                    roi = new org.opencv.core.Rect(p1, p2);
 
-					String text2 = String.valueOf(roi.height);
-					String text3 = String.valueOf(roi.width);
-					Log.i("Rect Height", text2);
-					Log.i("Rect Width", text3);
-					String text4 = String.valueOf(bitmap.getHeight());
-					String text5 = String.valueOf(bitmap.getWidth());
-					Log.i("Bitmap Height", text4);
-					Log.i("Bitmap Width", text5);
-					OpencvTreatment myTreat = new OpencvTreatment();
+                    String text2 = String.valueOf(roi.height);
+                    String text3 = String.valueOf(roi.width);
+                    Log.i("Rect Height", text2);
+                    Log.i("Rect Width", text3);
+                    String text4 = String.valueOf(bitmap.getHeight());
+                    String text5 = String.valueOf(bitmap.getWidth());
+                    Log.i("Bitmap Height", text4);
+                    Log.i("Bitmap Width", text5);
+                    OpencvTreatment myTreat = new OpencvTreatment();
 
-					Mat briffod = myTreat.opencvTreatment(bitmap, roi);
-					Bitmap tmp =  Bitmap.createBitmap(briffod.cols(), briffod.rows(), Bitmap.Config.ARGB_8888);
-					Utils.matToBitmap(briffod,tmp);
+                    Mat briffod = myTreat.opencvTreatment(bitmap, roi);
+                    Bitmap tmp =  Bitmap.createBitmap(briffod.cols(), briffod.rows(), Bitmap.Config.ARGB_8888);
+                    Utils.matToBitmap(briffod,tmp);
 
-					mImage.setImageBitmap(tmp);
-					
-					String text6 = String.valueOf(mImage.getHeight());
-					String text7 = String.valueOf(mImage.getWidth());
-					Log.i("IMG Height", text6);
-					Log.i("IMG Width", text7);
+                    mImage.setImageBitmap(tmp);
 
-					picTake =false;
-					doOCR(tmp);
+                    String text6 = String.valueOf(mImage.getHeight());
+                    String text7 = String.valueOf(mImage.getWidth());
+                    Log.i("IMG Height", text6);
+                    Log.i("IMG Width", text7);
 
-					//Release des images
-					//tmp.recycle();
-					//bitmap.recycle();
-				}}
-				return true;
+                    picTake =false;
+                    doOCR(tmp);
 
+                    //Release des images
+                    //tmp.recycle();
+                    //bitmap.recycle();
+                }
+            }
+            return true;
 			}
 
 		});
 	}
 
-	/**
-	 * Recupere l image a partir de l URI
-	 * @param uri URI de l image a traiter
-	 */
-	private void uriOCR(Uri uri) {
-		if (uri != null) {
-			InputStream is = null;
-			try {
-				is = getContentResolver().openInputStream(uri);
-				Bitmap bitmap = BitmapFactory.decodeStream(is);
-				mImage.setImageBitmap(bitmap);
-				doOCR(bitmap);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} finally {
-				if (is != null) {
-					try {
-						is.close();
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-	}
 	
 	@Override
 	protected void onResume() {
 		// TODO Auto-generated method stub
 		super.onResume();
-		//mLoaderCallback.onManagerConnected(LoaderCallbackInterface.SUCCESS);
     	OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
 
 		//If not logged in => return to first activity
 //		this.session.checkLogin();
-
-		Intent intent = getIntent();
-		if (Intent.ACTION_SEND.equals(intent.getAction())) {
-			Uri uri = (Uri) intent
-					.getParcelableExtra(Intent.EXTRA_STREAM);
-			uriOCR(uri);
-		}
 	}
 
 	@Override
@@ -261,32 +203,9 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-
-		mTessOCR.onDestroy();
-	}
-
-	/**
-	 *Recupere une image venant de l appareil photo
-	 */
-	private void dispatchTakePictureIntent() {
-		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-		// Ensure that there's a camera activity to handle the intent
-		if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-			// Create the File where the photo should go
-			File photoFile = null;
-			try {
-				photoFile = createImageFile();
-			} catch (IOException ex) {
-				// Error occurred while creating the File
-
-			}
-			// Continue only if the File was successfully created
-			if (photoFile != null) {
-				takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-						Uri.fromFile(photoFile));
-				startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
-			}
-		}
+        if(mTessOCR!=null) {
+            mTessOCR.onDestroy();
+        }
 	}
 
 	/**
@@ -319,13 +238,6 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 				&& resultCode == Activity.RESULT_OK) {
 			setPic();
 		}
-		else if (requestCode == REQUEST_PICK_PHOTO
-				&& resultCode == Activity.RESULT_OK) {
-			Uri uri = data.getData();
-			if (uri != null) {
-				uriOCR(uri);
-			}
-		}
 	}
 
 	/**
@@ -354,36 +266,29 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		bitmap = BitmapFactory.decodeFile(mCurrentPhotoPath, bmOptions);
 		mImage.setImageBitmap(bitmap);
 		picTake = true;
-
-	}
-
-	@Override
-	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		int id = v.getId();
-		switch (id) {
-		case R.id.bt_gallery:
-			pickPhoto();
-			break;
-		case R.id.bt_camera:
-			takePhoto();
-			break;
-		}
-	}
-
-	/**
-	 * Recupere une photo dans la memoire du device
-	 */
-	private void pickPhoto() {
-		Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		startActivityForResult(intent, REQUEST_PICK_PHOTO);
 	}
 
 	/**
 	 * Lance le processus pour recuperer l image a partir de l appareil photo
 	 */
-	private void takePhoto() {
-		dispatchTakePictureIntent();
+	public void takePhoto(View v) {
+		Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+		// Ensure that there's a camera activity to handle the intent
+		if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+			// Create the File where the photo should go
+			File photoFile = null;
+			try {
+				photoFile = createImageFile();
+			} catch (IOException ex) {
+				// Error occurred while creating the File
+			}
+			// Continue only if the File was successfully created
+			if (photoFile != null) {
+				takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+						Uri.fromFile(photoFile));
+				startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
+			}
+		}
 	}
 
 	/**
@@ -401,21 +306,21 @@ public class OCRActivity extends AppCompatActivity implements OnClickListener {
 		
 		new Thread(new Runnable() { //Creation d'un thread annexe  pour realiser la detection
 			public void run() {
+                if(mTessOCR!=null){
+                final String result = mTessOCR.getOCRResult(bitmap);
+                    runOnUiThread(new Runnable() {
 
-				final String result = mTessOCR.getOCRResult(bitmap);
+                        @Override
+                        public void run() {
+                            // TODO Auto-generated method stub
+                            if (result != null && !result.equals("")) {
+                                mResult.setText(result);
+                            }
 
-				runOnUiThread(new Runnable() {
-
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						if (result != null && !result.equals("")) {
-							mResult.setText(result);
-						}
-
-						mProgressDialog.dismiss();
-					}
-				});
+                            mProgressDialog.dismiss();
+                        }
+                    });
+                }
 			}
 		}).start();
 	}
