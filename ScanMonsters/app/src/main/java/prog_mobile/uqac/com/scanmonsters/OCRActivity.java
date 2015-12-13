@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.LoaderCallbackInterface;
@@ -43,8 +44,8 @@ public class OCRActivity extends AppCompatActivity{
 	private TextView mResult;
 	private ProgressDialog mProgressDialog;
 	private ImageView mImage;
-	private Button mButtonGallery, mButtonCamera;
 	private String mCurrentPhotoPath;
+	private User myUser;
 	private static final int REQUEST_TAKE_PHOTO = 1;
 
 	private SessionManager session;
@@ -77,16 +78,13 @@ public class OCRActivity extends AppCompatActivity{
 
 		// Current user session
 		this.session = new SessionManager(getApplicationContext());
-//		this.session.checkLogin();
-		User user = this.session.getUser();
+		this.session.checkLogin();
+		myUser = this.session.getUser();
 
 		mResult = (TextView) findViewById(R.id.tv_result);
 		mImage = (ImageView) findViewById(R.id.image);
-		mButtonGallery = (Button) findViewById(R.id.bt_gallery);
-		mButtonCamera = (Button) findViewById(R.id.bt_camera);
-		//mTessOCR = new TessOCR(this);
 
-        new Thread(new Runnable() { //Creation d'un thread annexe  pour realiser la detection
+		new Thread(new Runnable() { //Creation d'un thread annexe  pour realiser la detection
             public void run() {
                 mTessOCR = new TessOCR(getApplicationContext());
             }
@@ -153,7 +151,7 @@ public class OCRActivity extends AppCompatActivity{
     	OpenCVLoader.initAsync(OpenCVLoader.OPENCV_VERSION_3_0_0, this, mLoaderCallback);
 
 		//If not logged in => return to first activity
-//		this.session.checkLogin();
+		this.session.checkLogin();
 	}
 
 	@Override
@@ -291,6 +289,23 @@ public class OCRActivity extends AppCompatActivity{
 		}
 	}
 
+	private void checkRoom(String detectedRoom){
+		if(detectedRoom.equals(this.myUser.getRoom())){
+			Intent intent = new Intent(this,MiniGameActivity.class);
+			startActivity(intent);
+			finish();
+		}
+		else{
+			Toast.makeText(this,"Vous n'êtes pas devant la bonne salle !!",Toast.LENGTH_LONG).show();
+		}
+	}
+
+	public void byPass(View v){
+		Intent intent = new Intent(this,MiniGameActivity.class);
+		startActivity(intent);
+		finish();
+	}
+
 	/**
 	 * Lance le processus de detection de texte
 	 * @param bitmap
@@ -306,21 +321,21 @@ public class OCRActivity extends AppCompatActivity{
 		
 		new Thread(new Runnable() { //Creation d'un thread annexe  pour realiser la detection
 			public void run() {
-                if(mTessOCR!=null){
-                final String result = mTessOCR.getOCRResult(bitmap);
-                    runOnUiThread(new Runnable() {
+			if(mTessOCR!=null){
+				final String result = mTessOCR.getOCRResult(bitmap);
+				runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void run() {
-                            // TODO Auto-generated method stub
-                            if (result != null && !result.equals("")) {
-                                mResult.setText(result);
-                            }
-
-                            mProgressDialog.dismiss();
-                        }
-                    });
-                }
+					@Override
+					public void run() {
+					// TODO Auto-generated method stub
+					if (result != null && !result.equals("")) {
+						mResult.setText(result);
+						checkRoom(result);
+					}
+					mProgressDialog.dismiss();
+					}
+				});
+			}
 			}
 		}).start();
 	}

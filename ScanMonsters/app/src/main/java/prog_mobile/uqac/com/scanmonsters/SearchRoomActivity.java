@@ -61,7 +61,8 @@ public class SearchRoomActivity extends InGameActivity {
 
     private void arriveAtRoom()
     {
-        Intent intent = new Intent(SearchRoomActivity.this, MiniGameActivity.class);
+       // Intent intent = new Intent(SearchRoomActivity.this, MiniGameActivity.class);
+        Intent intent = new Intent(SearchRoomActivity.this, OCRActivity.class);
         startActivity(intent);
         finish();
     }

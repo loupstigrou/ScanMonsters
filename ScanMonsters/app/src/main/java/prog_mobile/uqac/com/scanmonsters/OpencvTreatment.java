@@ -9,10 +9,6 @@ import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 import org.opencv.imgproc.Imgproc;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Iterator;
-
 /**
  * Created by Jerome & Nicolas on 15/11/2015.
  */
@@ -20,7 +16,6 @@ public class OpencvTreatment {
 
     public Mat opencvTreatment(Bitmap basePicture,Rect roi){
         Mat imageSource,imageROI;
-        Bitmap briffod;
         imageSource = new Mat(basePicture.getWidth(), basePicture.getHeight(), CvType.CV_8UC1);
         Utils.bitmapToMat(basePicture, imageSource);
         Imgproc.cvtColor(imageSource, imageSource, Imgproc.COLOR_RGB2GRAY);
@@ -28,18 +23,12 @@ public class OpencvTreatment {
         if(imageSource.empty()){
             Log.d("Chargement OpenCV", "Image Vide");
         }
+        Log.d("mat col",String.valueOf(imageSource.cols()));
+        Log.d("mat height", String.valueOf(imageSource.height()));
+        Log.d("mat row", String.valueOf(imageSource.rows()));
+        Log.d("mat width",String.valueOf(imageSource.width()));
         imageROI = imageSource.submat(roi);
         Imgproc.threshold(imageROI, imageROI, 60, 255, Imgproc.THRESH_BINARY);
-        //basePicture.setHeight(imageROI.height());
-        //basePicture.setWidth(imageSource.width());
-        //briffod = Bitmap.createBitmap(imageROI.cols(), imageROI.rows(), Bitmap.Config.ARGB_8888);
-        //String text2 = String.valueOf(briffod.getHeight());
-        //String text3 = String.valueOf(briffod.getWidth());
-        //Log.i("Bri Height", text2);
-        //Log.i("Bri Width", text3);
-        //Utils.matToBitmap(imageROI,briffod);
-
-        //imageROI = eraseLine(imageROI);
         return imageROI;
     }
 

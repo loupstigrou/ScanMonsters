@@ -23,8 +23,8 @@
     <string name="image_dialog_description">Ttot</string>
     <string name="title_activity_tesseract">Tesseract</string>
 
-    <string name="ac_tesseract_btn_gallery">Gallerie</string>
-    <string name="ac_tesseract_btn_camera">Camera</string>
+    <string name="ac_tesseract_btn_gallery">ByPass</string>
+    <string name="ac_tesseract_btn_camera">Take a Photo</string>
 
     <string name="location_button">Liste des créatures</string>
     <string name="title_activity_creatures_list">Créatures</string>
