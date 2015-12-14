@@ -1,4 +1,4 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,11 +11,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.adapters.NotificationsListAdapter;
 import prog_mobile.uqac.com.scanmonsters.database.Notification;
-import prog_mobile.uqac.com.scanmonsters.services.BasicService;
-import prog_mobile.uqac.com.scanmonsters.services.SetNotificationWebService;
-import prog_mobile.uqac.com.scanmonsters.services.UpdateNotificationWebService;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.BasicService;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.UpdateNotificationWebService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 public class NotificationsActivity extends InGameActivity implements NotificationsListAdapter.NotificationsAdapterListener {

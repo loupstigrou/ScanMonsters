@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import prog_mobile.uqac.com.scanmonsters.MainActivity;
+import prog_mobile.uqac.com.scanmonsters.activities.MainActivity;
 
 /**
  * Created by Major on 16/11/2015.

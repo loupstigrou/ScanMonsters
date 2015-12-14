@@ -22,7 +22,7 @@ import java.util.concurrent.ExecutionException;
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
-import prog_mobile.uqac.com.scanmonsters.services.ScoreAndCreatureService;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.ScoreAndCreatureService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 /**

@@ -1,21 +1,18 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.services;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TaskStackBuilder;
-import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,7 +24,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import prog_mobile.uqac.com.scanmonsters.services.BasicService;
+import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.activities.PlayersBoardActivity;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
@@ -216,7 +214,7 @@ public class LocationService extends Service implements LocationListener {
                     usersInUQAC.add(tabUsers[i].split("-")[0]);
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                        .setSmallIcon(R.mipmap.ic_explore_white_24dp)
+                        .setSmallIcon(R.mipmap.ic_pets_white_24dp)
                         .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
                         .setContentTitle(getString(R.string.location_notif_title))
                         .setContentText(String.format(getString(R.string.location_notif_content), usersInUQAC.size() - 1))

@@ -1,14 +1,12 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 
 import android.content.Context;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -19,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -39,27 +36,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.playerboard.TabsPagerAdapter;
-import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
-import prog_mobile.uqac.com.scanmonsters.user.User;
 
 /**
  * Activité qui contient le Leader Board +
  * La liste des joueurs présents dans l'UQAC
  * Séparés en 2 tab
  */
-public class PlayersBoardActivity extends AppCompatActivity implements ActionBar.TabListener{
-
-    SessionManager session;
+public class PlayersBoardActivity extends InGameActivity implements ActionBar.TabListener{
 
     private ViewPager viewPager;
     private TabsPagerAdapter adapter;
     private android.support.v7.app.ActionBar actionBar;
     private String[] tabs = {"Users in UQAC", "Leader Board"};
 
-    private static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
-
-    private User user;
     private GetPlayersTask gpt;
 
     @Override
@@ -67,9 +58,7 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_board);
 
-        this.session = new SessionManager(getApplicationContext());
         this.session.checkLogin();
-        this.user = this.session.getUser();
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();
@@ -101,28 +90,6 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
         gpt = new GetPlayersTask(this);
         gpt.execute((Void) null);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -186,7 +153,6 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
         private Context context;
         private String playersInUqac;
         private String leaderBoard;
-        private String scoreData;
 
         public GetPlayersTask(Context context) {
             this.context = context;

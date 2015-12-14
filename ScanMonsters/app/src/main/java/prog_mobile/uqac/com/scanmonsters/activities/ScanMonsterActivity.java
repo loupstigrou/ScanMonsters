@@ -1,4 +1,4 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import prog_mobile.uqac.com.scanmonsters.services.LocationService;
+import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
@@ -14,7 +16,6 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
  */
 public class ScanMonsterActivity extends InGameActivity implements View.OnClickListener  {
 
-    Intent creatureServiceIntent;
     Intent locationServiceIntent;
 
     private Button cheatButton;
@@ -49,8 +50,6 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         this.session = new SessionManager(getApplicationContext());
         this.session.checkLogin();
 
-        this.creatureServiceIntent = new Intent(this, CreatureEventService.class);
-        this.startService(creatureServiceIntent);
         this.locationServiceIntent = new Intent(this, LocationService.class);
         this.startService(locationServiceIntent);
 
@@ -108,7 +107,6 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        this.stopService(creatureServiceIntent);
         this.stopService(locationServiceIntent);
         super.onDestroy();
     }

@@ -1,4 +1,4 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
@@ -98,8 +99,6 @@ public class InGameActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         if (this.session.isLoggedIn())
             getMenuInflater().inflate(R.menu.menu_logged_in, menu);
-        else
-            getMenuInflater().inflate(R.menu.menu, menu);
 
         return true;
     }
@@ -115,9 +114,7 @@ public class InGameActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.menu_logout) {
+        if (id == R.id.menu_logout) {
 
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
             alertDialog.setTitle("Warning !");
@@ -145,6 +142,9 @@ public class InGameActivity extends AppCompatActivity {
             startActivity(intent);
         }else if (id == R.id.menu_notifications) {
             Intent intent = new Intent(getApplicationContext(), NotificationsActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.menu_creatures) {
+            Intent intent = new Intent(getApplicationContext(), CreaturesListActivity.class);
             startActivity(intent);
         }
         if(!(this instanceof ScanMonsterActivity))

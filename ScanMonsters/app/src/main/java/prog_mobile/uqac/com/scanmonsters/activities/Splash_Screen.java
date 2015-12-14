@@ -1,11 +1,12 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Window;
 import android.view.WindowManager;
+
+import prog_mobile.uqac.com.scanmonsters.R;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

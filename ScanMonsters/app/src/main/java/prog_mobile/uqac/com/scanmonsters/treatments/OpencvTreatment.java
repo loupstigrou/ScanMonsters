@@ -1,4 +1,4 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.treatments;
 
 import android.graphics.Bitmap;
 import android.util.Log;

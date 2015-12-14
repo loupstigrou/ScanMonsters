@@ -1,4 +1,4 @@
-package prog_mobile.uqac.com.scanmonsters.services;
+package prog_mobile.uqac.com.scanmonsters.asynctasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -13,7 +13,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Scanner;
 
-import prog_mobile.uqac.com.scanmonsters.InGameActivity;
+import prog_mobile.uqac.com.scanmonsters.activities.InGameActivity;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.IServiceCallback;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 

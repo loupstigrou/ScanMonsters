@@ -1,4 +1,4 @@
-package prog_mobile.uqac.com.scanmonsters.services;
+package prog_mobile.uqac.com.scanmonsters.asynctasks;
 
 /**
  * Created by Benjamin on 14/12/2015.

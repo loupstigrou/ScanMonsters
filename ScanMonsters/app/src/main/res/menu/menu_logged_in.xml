@@ -1,31 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
-tools:context="prog_mobile.uqac.com.scanmonsters.ScanMonsterActivity">
-
-    <item android:id="@+id/action_settings"
-    android:title="@string/action_settings"
-    android:orderInCategory="100"
-    app:showAsAction="never" />
-
-    <item android:id="@+id/menu_logout"
-    android:title="@string/menu_logout"
-    android:orderInCategory="105"
-    app:showAsAction="never"/>
+tools:context=".activities.ScanMonsterActivity">
 
     <item android:id="@+id/menu_infos"
         android:title="@string/menu_informations"
-        android:orderInCategory="110"
         android:showAsAction="never"/>
 
     <item android:id="@+id/menu_friends"
         android:title="@string/menu_friends"
-        android:orderInCategory="115"
+        android:showAsAction="never"/>
+
+    <item android:id="@+id/menu_creatures"
+        android:title="@string/menu_creatures"
         android:showAsAction="never"/>
 
     <item android:id="@+id/menu_notifications"
         android:title="@string/menu_notifications"
-        android:orderInCategory="120"
         android:showAsAction="never"/>
+
+    <item android:id="@+id/menu_logout"
+        android:title="@string/menu_logout"
+        app:showAsAction="never"/>
 
 </menu>

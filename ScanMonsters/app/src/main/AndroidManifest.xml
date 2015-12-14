@@ -32,7 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
         <activity
-            android:name=".Splash_Screen"
+            android:name=".activities.Splash_Screen"
             android:label="@string/title_activity_splash__screen"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
@@ -42,10 +42,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/title_activity_main"></activity>
         <activity
-            android:name=".ScanMonsterActivity"
+            android:name=".activities.ScanMonsterActivity"
             android:label="@string/title_activity_scan_monster"></activity>
         <activity
             android:name=".authentication.InscriptionActivity"
@@ -54,40 +54,40 @@
             android:name=".authentication.ConnectionActivity"
             android:label="@string/title_activity_connection"></activity>
         <activity
-            android:name=".OCRActivity"
+            android:name=".activities.OCRActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_tesseract"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".CreaturesListActivity"
+            android:name=".activities.CreaturesListActivity"
             android:label="@string/title_activity_creatures_list"></activity>
         <activity
-            android:name=".MiniGameActivity"
+            android:name=".activities.MiniGameActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_mini_game"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".PlayersBoardActivity"
+            android:name=".activities.PlayersBoardActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_players_board"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".SearchRoomActivity"
+            android:name=".activities.SearchRoomActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_search_room"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".FriendsListActivity"
+            android:name=".activities.FriendsListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_friends_list"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".SearchFriendsActivity"
+            android:name=".activities.SearchFriendsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_search_friend"
             android:screenOrientation="portrait"></activity>
         <activity
-            android:name=".NotificationsActivity"
+            android:name=".activities.NotificationsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_notifications"
             android:screenOrientation="portrait"></activity>
@@ -99,7 +99,7 @@
             android:exported="true"
             android:screenOrientation="portrait"></service>
         <service
-            android:name=".LocationService"
+            android:name=".services.LocationService"
             android:enabled="true"
             android:exported="true"></service>
     </application>

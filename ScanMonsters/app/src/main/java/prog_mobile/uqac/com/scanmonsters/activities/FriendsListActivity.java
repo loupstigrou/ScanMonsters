@@ -1,22 +1,21 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.app.AlertDialog;
-import android.app.ListActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.List;
 import java.util.Random;
 
+import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.adapters.FriendListAdapter;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
-import prog_mobile.uqac.com.scanmonsters.services.GetFriendsService;
-import prog_mobile.uqac.com.scanmonsters.services.IServiceCallback;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.GetFriendsService;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.IServiceCallback;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 public class FriendsListActivity extends InGameActivity implements FriendListAdapter.FriendAdapterListener, IServiceCallback {

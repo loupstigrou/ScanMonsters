@@ -1,4 +1,4 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -15,7 +15,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +31,9 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import prog_mobile.uqac.com.scanmonsters.treatments.OpencvTreatment;
+import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.treatments.TessOCR;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
@@ -39,16 +41,13 @@ import prog_mobile.uqac.com.scanmonsters.user.User;
  * @author Jerome
  * @author Nico
  */
-public class OCRActivity extends AppCompatActivity{
+public class OCRActivity extends InGameActivity {
 	private TessOCR mTessOCR;
 	private TextView mResult;
 	private ProgressDialog mProgressDialog;
 	private ImageView mImage;
 	private String mCurrentPhotoPath;
-	private User myUser;
 	private static final int REQUEST_TAKE_PHOTO = 1;
-
-	private SessionManager session;
 
 	private Point p1,p2;
 	private boolean picTake = false;
@@ -76,10 +75,7 @@ public class OCRActivity extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_tesseract);
 
-		// Current user session
-		this.session = new SessionManager(getApplicationContext());
 		this.session.checkLogin();
-		myUser = this.session.getUser();
 
 		mResult = (TextView) findViewById(R.id.tv_result);
 		mImage = (ImageView) findViewById(R.id.image);
@@ -158,43 +154,6 @@ public class OCRActivity extends AppCompatActivity{
 	protected void onPause() {
 		// TODO Auto-generated method stub
 		super.onPause();
-	}
-
-	/**
-	 * Menu with a logout option if the user is logged in
-	 */
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		if (this.session.isLoggedIn())
-			getMenuInflater().inflate(R.menu.menu_logged_in, menu);
-		else
-			getMenuInflater().inflate(R.menu.menu, menu);
-
-		return true;
-	}
-
-	/**
-	 * Logout functionnality
-	 */
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
-		int id = item.getItemId();
-
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
-			return true;
-		} else if (id == R.id.menu_logout) {
-			this.session.logoutUser();
-		} else if (id == R.id.menu_infos) {
-			Intent intent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
-			startActivity(intent);
-		}
-
-		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
@@ -290,7 +249,7 @@ public class OCRActivity extends AppCompatActivity{
 	}
 
 	private void checkRoom(String detectedRoom){
-		if(detectedRoom.equals(this.myUser.getRoom())){
+		if(detectedRoom.equals(this.user.getRoom())){
 			Intent intent = new Intent(this,MiniGameActivity.class);
 			startActivity(intent);
 			finish();

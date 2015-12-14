@@ -1,36 +1,26 @@
-package prog_mobile.uqac.com.scanmonsters;
+package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
+import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.adapters.FriendListAdapter;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
-import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.database.Notification;
-import prog_mobile.uqac.com.scanmonsters.services.BasicService;
-import prog_mobile.uqac.com.scanmonsters.services.SetNotificationWebService;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.BasicService;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.SetNotificationWebService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 public class SearchFriendsActivity extends InGameActivity implements FriendListAdapter.FriendAdapterListener {

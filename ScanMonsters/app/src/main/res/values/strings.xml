@@ -2,7 +2,6 @@
     <string name="app_name">ScanMonsters</string>
     <string name="title_activity_main">Scan Monster</string>
 
-    <string name="action_settings">Paramètres</string>
     <string name="inscription_button">S\'inscrire</string>
     <string name="connection_button">Se connecter</string>
     <string name="cheat_button">Informations</string>
@@ -20,18 +19,13 @@
     <string name="error_login_taken">Cet identifiant est déjà utilisé !</string>
     <string name="action_signup">Se connecter</string>
     <string name="error_wrong_login_or_password">Erreur d\'Identifiant ou Mot de Passe</string>
-    <string name="image_dialog_description">Ttot</string>
     <string name="title_activity_tesseract">Tesseract</string>
 
-    <string name="ac_tesseract_btn_gallery">ByPass</string>
-    <string name="ac_tesseract_btn_camera">Take a Photo</string>
+    <string name="ac_tesseract_btn_gallery">Passer</string>
+    <string name="ac_tesseract_btn_camera">Prendre une photo</string>
 
-    <string name="location_button">Liste des créatures</string>
+    <string name="location_button">Mes créatures</string>
     <string name="title_activity_creatures_list">Créatures</string>
-    <string name="new_location">Nouvelle position : Latitude = %1$s, Longitude = %2$s, Altitude = %3$s, Précision = %4$s mètres</string>
-    <string name="provider_disabled">Le provider %s est désactivé.</string>
-    <string name="provider_new_status">Le provider %1$s a un nouveau status %2$s</string>
-    <string name="provider_enabled">Le provider %s est activé</string>
     <string name="title_activity_players_board">Informations</string>
     <string name="menu_logout">Se déconnecter</string>
     <string name="menu_informations">Informations</string>
@@ -49,7 +43,7 @@
     <string name="search_room_description">Tu recherches la salle :</string>
     <string name="room_value_description">\??-????</string>
     <string name="arrive_at_room_button">Je suis devant la salle !</string>
-    <string name="wait_room_info_description">Recherche de la prochaine salle en cours...</string>
+    <string name="wait_room_info_description">Recherche de la prochaine salle en cours&#8230;</string>
 
     <string name="title_activity_splash__screen">Splash_Screen</string>
     <string name="splash_screen_text">Scan Monster</string>
@@ -58,22 +52,20 @@
     <string name="title_activity_friends_list">Mes amis</string>
 
     <string name="title_activity_search_friend">Rechercher des amis</string>
-    <string name="hint_search">Pseudo...</string>
+    <string name="hint_search">Pseudo&#8230;</string>
     <string name="wait_search_index_description">est ton nom d\'utilisateur</string>
-    <string name="wait_search_info_description">Recherche en cours...</string>
+    <string name="wait_search_info_description">Recherche en cours&#8230;</string>
     <string name="error_no_user_to_show">Personne ne porte ce pseudo</string>
     <string name="error_invalid_search_login">Recherche impossible</string>
     <string name="action_search">Rechercher</string>
 
 
     <string name="title_activity_notifications">Notifications</string>
-    <string name="wait_notifications_loading">Chargement des notifications...</string>
+    <string name="wait_notifications_loading">Chargement des notifications&#8230;</string>
     <string name="creatures_list">Créatures</string>
     <string name="offer_creature">Offrir</string>
-    <string name="creature_event_notif_title">ScanMonster : A creature has appeared !</string>
-    <string name="creature_event_notif_content">Go find it !</string>
-    <string name="location_notif_title">ScanMonster : Users in your area</string>
-    <string name="location_notif_content">There are %d users in your area !</string>
-
+    <string name="location_notif_title">ScanMonster : Joueurs dans ta zone</string>
+    <string name="location_notif_content">Il y a %d joueurs dans ta zone !</string>
+    <string name="menu_creatures">Mes créatures</string>
 
 </resources>

@@ -30,7 +30,7 @@ import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import prog_mobile.uqac.com.scanmonsters.R;
-import prog_mobile.uqac.com.scanmonsters.ScanMonsterActivity;
+import prog_mobile.uqac.com.scanmonsters.activities.ScanMonsterActivity;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
@@ -200,8 +200,6 @@ public class ConnectionActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
 
@@ -210,13 +208,6 @@ public class ConnectionActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -264,6 +255,8 @@ public class ConnectionActivity extends AppCompatActivity {
 
                 while (inStream.hasNextLine())
                     this.serverResponse += (inStream.nextLine());
+
+                connection.disconnect();
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

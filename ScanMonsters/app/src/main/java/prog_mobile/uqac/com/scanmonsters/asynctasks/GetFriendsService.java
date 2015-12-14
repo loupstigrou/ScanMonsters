@@ -1,7 +1,6 @@
-package prog_mobile.uqac.com.scanmonsters.services;
+package prog_mobile.uqac.com.scanmonsters.asynctasks;
 
 import android.content.Context;
-import android.widget.Toast;
 
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
