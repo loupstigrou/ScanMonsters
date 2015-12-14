@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -125,7 +126,7 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
     }
 
     public List<Friend> getAllFriends() {
-        List<Friend> friends = new LinkedList<Friend>();
+        List<Friend> friends = new ArrayList<>();
 
         String query = "SELECT * FROM " + TABLE_FRIENDS;
 
@@ -173,4 +174,8 @@ public class MySQLiteHelper extends SQLiteOpenHelper {
         Log.d("deleteFriend", friend.toString());
     }
 
+    public void deleteAllFriends() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM " + TABLE_FRIENDS + ";");
+    }
 }

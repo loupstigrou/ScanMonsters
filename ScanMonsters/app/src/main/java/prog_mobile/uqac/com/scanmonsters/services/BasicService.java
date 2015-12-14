@@ -24,6 +24,7 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
     protected SessionManager session;
     protected String requestType;
     protected String urlParameters;
+    protected IServiceCallback _callback;
 //"&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8")
     public BasicService(Context context, SessionManager session, String requestType, String urlParameters) {
         this.context = context;
@@ -80,6 +81,11 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        if(_callback != null)
+        {
+            _callback.onReceiveData(success, serverResponse);
+        }
+
         if (success) {
 
 

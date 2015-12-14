@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Random;
@@ -14,13 +15,18 @@ import java.util.Random;
 import prog_mobile.uqac.com.scanmonsters.adapters.FriendListAdapter;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
+import prog_mobile.uqac.com.scanmonsters.services.GetFriendsService;
+import prog_mobile.uqac.com.scanmonsters.services.IServiceCallback;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
-public class FriendsListActivity extends InGameActivity implements FriendListAdapter.FriendAdapterListener {
+public class FriendsListActivity extends InGameActivity implements FriendListAdapter.FriendAdapterListener, IServiceCallback {
 
 
     private MySQLiteHelper datasource;
     private FriendListAdapter adapter;
+
+    private GetFriendsService getFriendsService;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +39,8 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         datasource.open();
 
         List<Friend> allFriends = datasource.getAllFriends();
+        int nbFriends = allFriends.size();
+        if(nbFriends == 0) reloadFriends(); // ou si cookie needToReloadFriends
 
         adapter = new FriendListAdapter(this, allFriends);
         adapter.addListener(this);
@@ -45,20 +53,17 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         @SuppressWarnings("unchecked")
         Friend friend = null;
         switch (view.getId()) {
+
+
             case R.id.add:
                 String[] names = new String[] { "Jerome", "Wolfy", "Yolo" };
                 int nextInt = new Random().nextInt(3);
                 // enregistrer le nouveau commentaire dans la base de données
                 friend = datasource.addFriend(new Friend(names[nextInt], 5));
                 adapter.add(friend);
+                reloadFriends();
                 break;
-            case R.id.delete:
-                if (adapter.getCount() > 0) {
-                    friend = (Friend) adapter.getItem(0);
-                    datasource.deleteFriend(friend);
-                    adapter.remove(friend);
-                }
-                break;
+
             case R.id.search:
                 Intent intent = new Intent(this, SearchFriendsActivity.class);
                 startActivity(intent);
@@ -67,13 +72,50 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         adapter.notifyDataSetChanged();
     }
 
+    private void reloadFriends() {
+        if(getFriendsService == null || getFriendsService.finished())
+        {
+            getFriendsService = new GetFriendsService(this, session, this);
+            getFriendsService.execute();
+        }
+        else
+        {
+            Toast.makeText(this, "Erreur : Patiente un peu", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onReceiveData(boolean success, String data) {
+        if(success && !data.equals(""))
+        {
+
+            datasource.deleteAllFriends();
+            String allPlayersData[];
+            int lg;
+
+            allPlayersData = data.split(",");
+            lg = allPlayersData.length;
+            Friend tmpFriend;
+            for (int i=0; i<lg; i++) {
+                tmpFriend = new Friend();
+                tmpFriend.fromRawData(allPlayersData[i]);
+                datasource.addFriend(tmpFriend);
+            }
+
+            adapter.setmListP(datasource.getAllFriends());
+            adapter.notifyDataSetInvalidated();
+        }
+        else if(success && data.equals("NO_FRIENDS"))
+        {
+            Toast.makeText(this, "Pas encore d'amis", Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void onClickNom(Friend item, int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(item.name);
 
         builder.setMessage("Vous avez cliqué sur : " + item.name);
-        builder.setPositiveButton("Oui", null);
-        builder.setNegativeButton("Non", null);
         builder.show();
     }
 
@@ -88,6 +130,6 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         datasource.close();
         super.onPause();
     }
+
+
 }
-
-

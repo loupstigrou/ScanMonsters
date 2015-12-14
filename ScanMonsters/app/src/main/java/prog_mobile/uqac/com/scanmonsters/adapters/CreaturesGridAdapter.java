@@ -16,9 +16,12 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.database.Friend;
+import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.services.ScoreAndCreatureService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
@@ -123,9 +126,21 @@ public class CreaturesGridAdapter extends BaseAdapter {
                             context,
                             android.R.layout.select_dialog_singlechoice
                     );
-                    arrayAdapter.add("Ami 1");
-                    arrayAdapter.add("Ami 2");
-                    arrayAdapter.add("Ami 3");
+
+                    MySQLiteHelper datasource = new MySQLiteHelper(context);
+                    datasource.open();
+
+                    List<Friend> allFriends = datasource.getAllFriends();
+                    int nbFriends = allFriends.size();
+                    if(nbFriends == 0)
+                    {
+                        builder.setMessage("Vous n'avez pas encore d'amis :/");
+                    }
+                    else {
+                        for (Friend tmpFriend : allFriends) {
+                            arrayAdapter.add(tmpFriend.name);
+                        }
+                    }
 
                     builder.setNegativeButton(
                             "Annuler",
