@@ -55,11 +55,6 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
 
             case R.id.add:
-                String[] names = new String[] { "Jerome", "Wolfy", "Yolo" };
-                int nextInt = new Random().nextInt(3);
-                // enregistrer le nouveau commentaire dans la base de données
-                friend = datasource.addFriend(new Friend(names[nextInt], 5));
-                adapter.add(friend);
                 reloadFriends();
                 break;
 
@@ -85,7 +80,11 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
     @Override
     public void onReceiveData(boolean success, String data) {
-        if(success && !data.equals(""))
+        if(!success || data.equals("NO_FRIENDS"))
+        {
+            Toast.makeText(this, "Pas encore d'amis", Toast.LENGTH_LONG).show();
+        }
+        else if(success && !data.equals(""))
         {
 
             datasource.deleteAllFriends();
@@ -103,10 +102,6 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
             adapter.setmListP(datasource.getAllFriends());
             adapter.notifyDataSetInvalidated();
-        }
-        else if(success && data.equals("NO_FRIENDS"))
-        {
-            Toast.makeText(this, "Pas encore d'amis", Toast.LENGTH_LONG).show();
         }
     }
 
