@@ -28,8 +28,8 @@ public class CreatureEventService extends Service {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.mipmap.ic_pets_white_24dp)
                         .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
-                        .setContentTitle("ScanMonster : A creature has appeared !")
-                        .setContentText(String.format("You can find it at the room %s", "P4-2350"))
+                        .setContentTitle(getString(R.string.creature_event_notif_title))
+                        .setContentText(getString(R.string.creature_event_notif_content))
                         .setLights(0xFFFFFFFF, 500,500)
                         .setAutoCancel(true);
                 Intent resultIntent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
@@ -49,14 +49,13 @@ public class CreatureEventService extends Service {
         };
 
         Handler creatureEvent = new Handler();
-        creatureEvent.postDelayed(creatureAppearance, 2000 + new Random().nextInt(8000));
+        creatureEvent.postDelayed(creatureAppearance, new Random().nextInt(28_800_000)); // 8 heures
 
         return START_STICKY;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
         throw new UnsupportedOperationException("Not yet implemented");
     }
 }

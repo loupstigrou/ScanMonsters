@@ -14,7 +14,8 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
  */
 public class ScanMonsterActivity extends InGameActivity implements View.OnClickListener  {
 
-    Intent serviceIntent;
+    Intent creatureServiceIntent;
+    Intent locationServiceIntent;
 
     private Button cheatButton;
     private Button tesseractButton;
@@ -48,8 +49,10 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         this.session = new SessionManager(getApplicationContext());
         this.session.checkLogin();
 
-        this.serviceIntent = new Intent(this, CreatureEventService.class);
-        this.startService(serviceIntent);
+        this.creatureServiceIntent = new Intent(this, CreatureEventService.class);
+        this.startService(creatureServiceIntent);
+        this.locationServiceIntent = new Intent(this, LocationService.class);
+        this.startService(locationServiceIntent);
 
         /*this.mySQLiteHelper = new MySQLiteHelper(this);
         mySQLiteHelper.open();
@@ -105,7 +108,8 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        this.stopService(serviceIntent);
+        this.stopService(creatureServiceIntent);
+        this.stopService(locationServiceIntent);
         super.onDestroy();
     }
 
