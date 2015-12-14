@@ -293,22 +293,12 @@ public class PlayersBoardActivity extends AppCompatActivity implements ActionBar
 
 
 
-            for (int i=0; i<lg; i++) {
+            for (int i=1; i<lg; i++) {
                 playerData = allPlayersData[i].split("-");
-                if(i == 0) // Le premier score retourné par le webservice est le mien
-                {
-                    // Own Score //
-                    int ownScore = Integer.valueOf(playerData[3]);
-//                    TextView os = (TextView) findViewById(R.id.own_score);
-                    //os.setText(String.valueOf(ownScore));
-                }
-                else
-                {
-                    scores.put(
-                            playerData[0],
-                            Integer.valueOf(playerData[3])
-                    );
-                }
+                scores.put(
+                        playerData[0],
+                        Integer.valueOf(playerData[3])
+                );
             }
             HashMap<String, Integer> scoresSorted = (HashMap) sortByValue(scores);
 

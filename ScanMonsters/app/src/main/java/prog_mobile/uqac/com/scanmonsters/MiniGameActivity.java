@@ -211,6 +211,8 @@ public class MiniGameActivity extends InGameActivity {
                 while (inStream.hasNextLine())
                     this.serverResponse += (inStream.nextLine());
 
+                connection.disconnect();
+
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {

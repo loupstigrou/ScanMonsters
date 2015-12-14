@@ -70,6 +70,10 @@
     <string name="wait_notifications_loading">Chargement des notifications...</string>
     <string name="creatures_list">Créatures</string>
     <string name="offer_creature">Offrir</string>
+    <string name="creature_event_notif_title">ScanMonster : A creature has appeared !</string>
+    <string name="creature_event_notif_content">Go find it !</string>
+    <string name="location_notif_title">ScanMonster : Users in your area</string>
+    <string name="location_notif_content">There are %d users in your area !</string>
 
 
 </resources>
