@@ -73,10 +73,16 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+            return false;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
+            Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+            return false;
         }
 
         return !this.serverResponse.equals("NOK");

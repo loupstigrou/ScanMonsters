@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -258,12 +259,20 @@ public class InscriptionActivity extends AppCompatActivity {
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                Toast.makeText(context, "ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+                return false;
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
+                Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+                return false;
             } catch (ProtocolException e) {
                 e.printStackTrace();
+                Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+                return false;
             } catch (IOException e) {
                 e.printStackTrace();
+                Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+                return false;
             }
 
 
