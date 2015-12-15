@@ -10,7 +10,7 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
  */
 public class ScoreAndCreatureService extends BasicService {
 
-    public ScoreAndCreatureService(Context context, SessionManager session, String requestType, String urlParameters) {
+    public ScoreAndCreatureService(Context context, SessionManager session) {
         super(context, session,
                 "getScoreAndCreatures",
                 ""

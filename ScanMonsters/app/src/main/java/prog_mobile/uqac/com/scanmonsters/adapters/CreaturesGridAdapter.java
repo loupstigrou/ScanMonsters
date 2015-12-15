@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.IServiceCallback;
 import prog_mobile.uqac.com.scanmonsters.asynctasks.OfferCreatureService;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
@@ -32,7 +33,7 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 /**
  * Created by Major on 07/12/2015.
  */
-public class CreaturesGridAdapter extends BaseAdapter {
+public class CreaturesGridAdapter extends BaseAdapter{
 
     private Context context;
     private SessionManager session;
@@ -44,7 +45,7 @@ public class CreaturesGridAdapter extends BaseAdapter {
         this.context = context;
         this.session = session;
 
-        this.getCreatures = new ScoreAndCreatureService(context, session, null, null);
+        this.getCreatures = new ScoreAndCreatureService(context, session);
         getCreatures.execute((Void) null);
 
         this.creaturesNb = new ArrayList<>();
@@ -54,12 +55,10 @@ public class CreaturesGridAdapter extends BaseAdapter {
             getCreatures.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
-            return;
         } catch (ExecutionException e) {
             e.printStackTrace();
-            return;
         }
-        if(getCreatures.hasNoNetwork()) return;
+        if(getCreatures == null) return;
 
         // List des créatures possédées par l'utilisateur
 
@@ -237,4 +236,6 @@ public class CreaturesGridAdapter extends BaseAdapter {
                 R.drawable.crea_45_shadow, R.drawable.crea_46_shadow, R.drawable.crea_47_shadow, R.drawable.crea_48_shadow,
                 R.drawable.crea_49_shadow, R.drawable.crea_50_shadow
     };
+
+
 }
