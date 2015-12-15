@@ -15,14 +15,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.OfferCreatureService;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.asynctasks.ScoreAndCreatureService;
+import prog_mobile.uqac.com.scanmonsters.database.Notification;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 /**
@@ -31,13 +35,16 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 public class CreaturesGridAdapter extends BaseAdapter {
 
     private Context context;
+    private SessionManager session;
     private ScoreAndCreatureService getCreatures;
+    private OfferCreatureService offerCreatureService;
     private ArrayList<Integer> creaturesNb;
 
-    public CreaturesGridAdapter(Context context, SessionManager sessionManager) {
+    public CreaturesGridAdapter(Context context, SessionManager session) {
         this.context = context;
+        this.session = session;
 
-        this.getCreatures = new ScoreAndCreatureService(context, sessionManager, null, null);
+        this.getCreatures = new ScoreAndCreatureService(context, session, null, null);
         getCreatures.execute((Void) null);
 
         // Attend que l'async task soit finit
@@ -55,7 +62,7 @@ public class CreaturesGridAdapter extends BaseAdapter {
             String[] dataCreatures = getCreatures.getServerResponse()
                     .split("=");
 
-            if (!dataCreatures[2].equals("OK")) {
+            if (!dataCreatures[2].equals("EMPTY")) {
                 dataCreatures = dataCreatures[2].split(",");
 
                 for (int i = 0; i < dataCreatures.length; i++) {
@@ -83,7 +90,7 @@ public class CreaturesGridAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int idCreature, View convertView, ViewGroup parent) {
         // Création d'une vue pour chaque utilisateur
         LinearLayout creatureView;
 
@@ -97,10 +104,10 @@ public class CreaturesGridAdapter extends BaseAdapter {
 
         ImageView imageView = new ImageView(this.context);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        if (this.creaturesNb.contains(position))
-            imageView.setImageResource(creatureImages[position]);
+        if (this.creaturesNb.contains(idCreature))
+            imageView.setImageResource(creatureImages[idCreature]);
         else
-            imageView.setImageResource(shadowImages[position]);
+            imageView.setImageResource(shadowImages[idCreature]);
         creatureView.addView(imageView);
 
         // Separator
@@ -113,14 +120,14 @@ public class CreaturesGridAdapter extends BaseAdapter {
         button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, btnDim));
         button.setText(R.string.offer_creature);
         button.setBackground(ContextCompat.getDrawable(this.context, R.drawable.roundedbottombutton));
-        if (this.creaturesNb.contains(position)) {
+        if (this.creaturesNb.contains(idCreature)) {
             button.setTextColor(ContextCompat.getColor(this.context, R.color.accent));
             // On click => Ouvre un dialog pour choisir à qui l'envoyer
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("A qui ? ");
+                    builder.setTitle("A qui ? ");//("++" exemplaires)
 
                     final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
                             context,
@@ -156,7 +163,8 @@ public class CreaturesGridAdapter extends BaseAdapter {
                                         @Override
                                         public void onClick(DialogInterface dialog, int which) {
                                             String strName = arrayAdapter.getItem(which);
-                                            Toast.makeText(context, "Friend : " + strName, Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(context, "Offre de la créature n°" +(idCreature+1)+" à "+strName, Toast.LENGTH_SHORT).show();
+                                            sendOfferCreatureRequest(strName, (idCreature+1)+"");
                                         }
                                     })
                             .show();
@@ -169,6 +177,29 @@ public class CreaturesGridAdapter extends BaseAdapter {
 
         return creatureView;
     }
+
+    private void sendOfferCreatureRequest(String name, String dataCreature) {
+        if(offerCreatureService == null || offerCreatureService.finished())
+        {
+
+            try {
+                name = URLEncoder.encode(name, "UTF-8");
+                dataCreature = URLEncoder.encode(dataCreature, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                name = "";
+                dataCreature = "";
+            }
+
+            offerCreatureService = new OfferCreatureService(context, session, name, Notification.CREATURE_EXCHANGE_REQUEST, dataCreature);
+            offerCreatureService.execute();
+        }
+        else
+        {
+            Toast.makeText(context, "Erreur : Patiente un peu", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 
     private Integer[] creatureImages = {
             R.drawable.crea_1, R.drawable.crea_2, R.drawable.crea_3, R.drawable.crea_4,
