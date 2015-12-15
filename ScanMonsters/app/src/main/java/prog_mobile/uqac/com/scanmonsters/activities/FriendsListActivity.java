@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -80,11 +81,18 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
     @Override
     public void onReceiveData(boolean success, String data) {
-        if(!success || data.equals("NO_FRIENDS"))
+        if(!success)
         {
-            Toast.makeText(this, "Pas encore d'amis", Toast.LENGTH_LONG).show();
+            // Erreur
         }
-        else if(success && !data.equals(""))
+        else if(data.equals("NO_FRIENDS"))
+        {
+            Toast.makeText(this, "Pas encore d'amis", Toast.LENGTH_SHORT).show();
+            datasource.deleteAllFriends();
+            adapter.setmListP(new ArrayList<Friend>());
+            adapter.notifyDataSetInvalidated();
+        }
+        else if(!data.equals(""))
         {
 
             datasource.deleteAllFriends();
