@@ -32,6 +32,7 @@ import java.util.regex.Pattern;
 
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.activities.ScanMonsterActivity;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.BasicService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
@@ -149,6 +150,15 @@ public class ConnectionActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             showProgress(true);
+
+            try {
+                login = URLEncoder.encode(login, "UTF-8");
+                password = URLEncoder.encode(password, "UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                login = "";
+                password = "";
+            }
             userLoginTask = new UserLoginTask(this, login, password);
             userLoginTask.execute((Void) null);
         }
@@ -216,73 +226,33 @@ public class ConnectionActivity extends AppCompatActivity {
      * Tâche asyncrone qui va se connecter au service pour
      * vérifier que le login et le password correspondent
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends BasicService {
 
-        private Context context;
-        private User user;
-        private String serverResponse;
-
+        private User _user;
         public UserLoginTask(Context context, String login, String password) {
-            this.context = context;
-            this.serverResponse = "";
-            this.user = new User(login, password);
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            URL url;
-            HttpURLConnection connection;
-            String urlParameters;
+            super(context, null,"","");
 
             try {
-                url = new URL(webserviceURL);
-                urlParameters =
-                        "requestType=connexion" +
-                                "&login=" + URLEncoder.encode(this.user.getLogin(), "UTF-8") +
-                                "&password=" + URLEncoder.encode(this.user.getPassword(), "UTF-8");
-
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setDoOutput(true);
-                connection.setRequestMethod("POST");
-
-                connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-                PrintWriter out = new PrintWriter(connection.getOutputStream());
-                out.print(urlParameters);
-                out.close();
-
-                Scanner inStream = new Scanner(connection.getInputStream());
-
-                while (inStream.hasNextLine())
-                    this.serverResponse += (inStream.nextLine());
-
-                connection.disconnect();
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
-                return false;
+                this.urlParameters =
+                        "requestType=connexion"+
+                                "&login=" + URLEncoder.encode(login, "UTF-8") +
+                                "&password=" + URLEncoder.encode(password, "UTF-8")+
+                                urlParameters;
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
-                Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
-                return false;
-            } catch (IOException e) {
-                e.printStackTrace();
-                Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
-                return false;
             }
-
-            return this.serverResponse.equals("OK");
+            _user = new User(login, password);
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            super.onPostExecute(success);
             userLoginTask = null;
             showProgress(false);
 
             if (success) {
-                session.createLoginSession(user);
+                session = new SessionManager(context);
+                session.createLoginSession(_user);
                 Intent intent = new Intent(this.context, ScanMonsterActivity.class);
                 context.startActivity(intent);
                 finish();

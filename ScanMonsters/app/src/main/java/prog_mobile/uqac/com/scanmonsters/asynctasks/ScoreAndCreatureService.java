@@ -19,6 +19,7 @@ public class ScoreAndCreatureService extends BasicService {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        super.onPostExecute(success);
         if (!success) {
             Toast.makeText(context, "Erreur " + serverResponse, Toast.LENGTH_SHORT).show();
         }

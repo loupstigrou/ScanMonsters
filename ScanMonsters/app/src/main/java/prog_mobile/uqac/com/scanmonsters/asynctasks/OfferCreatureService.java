@@ -20,6 +20,7 @@ public class OfferCreatureService extends BasicService {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        super.onPostExecute(success);
         if (success) {
             if(serverResponse.equals("CREATURE_NOT_AVAILABLE"))
                 Toast.makeText(context, "Tu n'as pas cette créature :/", Toast.LENGTH_SHORT).show();

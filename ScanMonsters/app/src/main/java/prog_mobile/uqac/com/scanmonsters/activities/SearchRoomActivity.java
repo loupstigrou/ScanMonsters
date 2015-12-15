@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 import java.util.Scanner;
 
 import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.asynctasks.BasicService;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 /**
@@ -71,60 +72,17 @@ public class SearchRoomActivity extends InGameActivity {
      * Tâche asyncrone qui va se connecter au service pour
      * capturer la créature et l'ajouter à la liste
      */
-    public class SearchRoomTask extends AsyncTask<Void, Void, Boolean> {
-
-        private Context context;
-        private String serverResponse;
-        private SessionManager session;
+    public class SearchRoomTask extends BasicService {
 
         public SearchRoomTask(Context context, SessionManager session) {
-            this.context = context;
-            this.serverResponse = "";
-            this.session = session;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            URL url;
-            HttpURLConnection connection;
-            String urlParameters;
-
-            try {
-                url = new URL(webserviceURL);
-                urlParameters =
-                        "requestType=getRoom" +
-                                "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
-                                "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8"); //
-
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setDoOutput(true);
-                connection.setRequestMethod("POST");
-
-                connection.setFixedLengthStreamingMode(urlParameters.getBytes().length);
-                connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-                PrintWriter out = new PrintWriter(connection.getOutputStream());
-                out.print(urlParameters);
-                out.close();
-
-                Scanner inStream = new Scanner(connection.getInputStream());
-
-                while (inStream.hasNextLine())
-                    this.serverResponse += (inStream.nextLine());
-
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return !this.serverResponse.equals("NOK");
+            super(context, session,
+                    "getRoom",""
+            );
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            super.onPostExecute(success);
             searchRoomTask = null;
             if (success) {
                 String infos[] = serverResponse.split("=");

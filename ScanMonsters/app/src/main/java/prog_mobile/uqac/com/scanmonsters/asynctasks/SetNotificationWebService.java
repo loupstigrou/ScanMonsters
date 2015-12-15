@@ -19,6 +19,7 @@ public class SetNotificationWebService extends BasicService {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        super.onPostExecute(success);
         if (success) {
             if(serverResponse.equals("ALREADY_FRIENDS"))
                 Toast.makeText(context, "Vous êtes déjà amis !", Toast.LENGTH_SHORT).show();

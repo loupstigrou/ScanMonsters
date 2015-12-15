@@ -24,6 +24,7 @@ public class UpdateNotificationWebService extends BasicService {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        super.onPostExecute(success);
         if (success) {
             Toast.makeText(context, _phraseSucces, Toast.LENGTH_SHORT).show();
         } else {

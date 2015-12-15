@@ -26,6 +26,7 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
     protected String requestType;
     protected String urlParameters;
     protected IServiceCallback _callback;
+    protected Boolean _noNetwork;
 //"&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8")
     public BasicService(Context context, SessionManager session, String requestType, String urlParameters) {
         this.context = context;
@@ -35,13 +36,17 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
         this.urlParameters = urlParameters;
 
         try {
-            this.urlParameters =
-                    "requestType="+requestType+
-                            "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
-                            "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8")+
-                            urlParameters;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+            if(this.session != null)
+            {
+                this.urlParameters =
+                        "requestType="+requestType+
+                                "&login=" + URLEncoder.encode(session.getUser().getLogin(), "UTF-8") +
+                                "&password=" + URLEncoder.encode(session.getUser().getPassword(), "UTF-8")+
+                                urlParameters;
+            }
+        } catch (Exception e) {
+           // e.printStackTrace();
+            this.urlParameters = "";
         }
     }
 
@@ -73,15 +78,15 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
-            Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+            _noNetwork = true;
             return false;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+            _noNetwork = true;
             return false;
         } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(context,"ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+            _noNetwork = true;
             return false;
         }
 
@@ -99,7 +104,10 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
 
 
         } else {
-            Toast.makeText(context, "Erreur: " + serverResponse, Toast.LENGTH_SHORT).show();
+            if (_noNetwork)
+                Toast.makeText(context, "ERREUR : Pas de réseau !", Toast.LENGTH_LONG).show();
+            else
+                Toast.makeText(context, "Erreur: " + serverResponse, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -115,4 +123,7 @@ public class BasicService extends AsyncTask<Void, Void, Boolean> {
         return getStatus() == Status.FINISHED;
     }
 
+    public Boolean hasNoNetwork() {
+        return _noNetwork;
+    }
 }

@@ -47,17 +47,22 @@ public class CreaturesGridAdapter extends BaseAdapter {
         this.getCreatures = new ScoreAndCreatureService(context, session, null, null);
         getCreatures.execute((Void) null);
 
+        this.creaturesNb = new ArrayList<>();
+
         // Attend que l'async task soit finit
         try {
             getCreatures.get();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            return;
         } catch (ExecutionException e) {
             e.printStackTrace();
+            return;
         }
+        if(getCreatures.hasNoNetwork()) return;
 
         // List des créatures possédées par l'utilisateur
-        this.creaturesNb = new ArrayList<>();
+
         if (!getCreatures.getServerResponse().equals("NOK")) {
             String[] dataCreatures = getCreatures.getServerResponse()
                     .split("=");

@@ -19,6 +19,7 @@ public class SetGCMTokenService extends BasicService {
 
     @Override
     protected void onPostExecute(final Boolean success) {
+        super.onPostExecute(success);
         if (success) {
             Toast.makeText(context, "GCM TOKEN : ok", Toast.LENGTH_SHORT).show();
         } else {

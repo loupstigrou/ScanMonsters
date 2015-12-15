@@ -173,6 +173,7 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            super.onPostExecute(success);
             searchFriendTask = null;
             if (success) {
 

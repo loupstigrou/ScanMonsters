@@ -114,7 +114,7 @@ public class MyGcmListenerService extends GcmListenerService {
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
                 .setContentTitle(titleToDisplay)
                 .setContentText(messageToDisplay)
-                .setLights(0x0009688, 1500, 500) 
+                .setLights(0x0009688, 1500, 500)
                 .setSound(defaultSoundUri)
                 .setAutoCancel(true);
         Intent resultIntent = new Intent(getApplicationContext(), activityToOpen);
