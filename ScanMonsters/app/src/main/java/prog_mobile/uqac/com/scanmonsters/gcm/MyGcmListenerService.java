@@ -17,7 +17,9 @@ import android.widget.Toast;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.activities.NotificationsActivity;
 import prog_mobile.uqac.com.scanmonsters.activities.PlayersBoardActivity;
+import prog_mobile.uqac.com.scanmonsters.activities.ScanMonsterActivity;
 
 public class MyGcmListenerService extends GcmListenerService {
 
@@ -36,6 +38,7 @@ public class MyGcmListenerService extends GcmListenerService {
         String message = data.getString("message");
         Log.d(TAG, "From: " + from);
         Log.d(TAG, "Message: " + message);
+        Log.d(TAG, "Test: " + data.getString("test"));
 
         if (from.startsWith("/topics/")) {
             // message received from some topic.
@@ -67,19 +70,57 @@ public class MyGcmListenerService extends GcmListenerService {
      * @param message GCM message received.
      */
     private void sendNotification(String message) {
+
+        String[] receiveNotifData = message.split("\\|");
+
+        int iconId;
+
+        switch (receiveNotifData[0])
+        {
+            case "1": // ami
+                iconId = R.mipmap.ic_new_friend;
+                break;
+            case "2": // cadeau
+                iconId = R.mipmap.cadeau_blanc;
+                break;
+            case "0": // patte
+            default:
+                iconId = R.mipmap.ic_pets_white_24dp;
+        }
+
+
+        Class activityToOpen;
+
+        switch (receiveNotifData[1])
+        {
+            case "1":
+                activityToOpen = NotificationsActivity.class;
+                break;
+            case "2":
+                activityToOpen = PlayersBoardActivity.class;
+                break;
+            case "0":
+            default:
+                activityToOpen = ScanMonsterActivity.class;
+        }
+
+        String titleToDisplay = receiveNotifData[2];
+        String messageToDisplay = receiveNotifData[3];
+
+
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.cadeau_blanc)
+                .setSmallIcon(iconId)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
-                .setContentTitle(getString(R.string.gcm_notif_title))
-                .setContentText(message)
-                .setLights(0x0009688, 1500, 500)
+                .setContentTitle(titleToDisplay)
+                .setContentText(messageToDisplay)
+                .setLights(0x0009688, 1500, 500) 
                 .setSound(defaultSoundUri)
                 .setAutoCancel(true);
-        Intent resultIntent = new Intent(getApplicationContext(), PlayersBoardActivity.class);
+        Intent resultIntent = new Intent(getApplicationContext(), activityToOpen);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(getApplicationContext());
-        stackBuilder.addParentStack(PlayersBoardActivity.class);
+        stackBuilder.addParentStack(activityToOpen);
         stackBuilder.addNextIntent(resultIntent);
         PendingIntent resultPendingIntent =
                 stackBuilder.getPendingIntent(
