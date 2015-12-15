@@ -201,7 +201,7 @@ public class CreaturesGridAdapter extends BaseAdapter {
 
 
 
-    private Integer[] creatureImages = {
+    public static Integer[] creatureImages = {
             R.drawable.crea_1, R.drawable.crea_2, R.drawable.crea_3, R.drawable.crea_4,
             R.drawable.crea_5, R.drawable.crea_6, R.drawable.crea_7, R.drawable.crea_8,
             R.drawable.crea_9, R.drawable.crea_10, R.drawable.crea_11, R.drawable.crea_12,
@@ -217,7 +217,7 @@ public class CreaturesGridAdapter extends BaseAdapter {
             R.drawable.crea_49, R.drawable.crea_50
     };
 
-    private Integer[] shadowImages = {
+    public static Integer[] shadowImages = {
         R.drawable.crea_1_shadow, R.drawable.crea_2_shadow, R.drawable.crea_3_shadow, R.drawable.crea_4_shadow,
                 R.drawable.crea_5_shadow, R.drawable.crea_6_shadow, R.drawable.crea_7_shadow, R.drawable.crea_8_shadow,
                 R.drawable.crea_9_shadow, R.drawable.crea_10_shadow, R.drawable.crea_11_shadow, R.drawable.crea_12_shadow,

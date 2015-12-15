@@ -21,10 +21,10 @@ public class Notification {
 
     public Notification(){}
 
-    public void fromRawData(String data) {
+    public void fromRawData(String rawData) {
 
         //$data["id"]."-".$data["idAccount"]."-".$data["login1"]."-".$data["idRecepteur"]."-".$data["login2"]."-".$data["state"]."-".$data["idType"]."-".$data["data"]."-".$data["dateCreation"]."-".$data["dateLastUpdate"];
-        String[] notificationData = data.split("-");
+        String[] notificationData = rawData.split("-");
         id = Integer.parseInt(notificationData[0]);
         idAccount = Integer.parseInt(notificationData[1]);
         login1 = notificationData[2];
@@ -86,10 +86,33 @@ public class Notification {
                 result = "Message entre "+login1+" et "+login2;
                 break;
             case 2:
-                result = "Echange de créature entre "+login1+" et "+login2;
+                if(imHost)
+                {
+                    if(state == 0 || state == 1)
+                        result = "Cadeau envoyé à "+login2+" (Créature n°"+data+")";
+                    else if(state == 2 || state == 3)
+                        result = login2+" a bien reçu votre cadeau.";
+                }
+                else
+                {
+                    if(state == 0 || state == 1)
+                        result = "Cadeau de "+login1+" (Créature n°"+data+")";
+                    else if(state == 2 || state == 3)
+                        result = "Acceptation du cadeau de "+login1+" (Créature n°"+data+")";
+                }
+
                 break;
         }
         return result;
+    }
+
+    public int getIntData() {
+        try{
+            return Integer.parseInt(data);
+        }catch(Exception e)
+        {
+            return 0;
+        }
     }
 
     public String getDisplayableType() {

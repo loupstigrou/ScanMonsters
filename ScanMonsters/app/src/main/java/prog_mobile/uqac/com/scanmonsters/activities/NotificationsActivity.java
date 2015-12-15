@@ -5,13 +5,16 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import prog_mobile.uqac.com.scanmonsters.R;
+import prog_mobile.uqac.com.scanmonsters.adapters.CreaturesGridAdapter;
 import prog_mobile.uqac.com.scanmonsters.adapters.NotificationsListAdapter;
 import prog_mobile.uqac.com.scanmonsters.database.Notification;
 import prog_mobile.uqac.com.scanmonsters.asynctasks.BasicService;
@@ -94,7 +97,16 @@ public class NotificationsActivity extends InGameActivity implements Notificatio
 
         if(notification.imHost && (notification.state == 2 || notification.state == 3))
         {
-            builder.setMessage("Souhaites tu archiver la requête de " + notification.getLoginOther(session.getUser().getLogin()) + " ?");
+            if(notification.idType == Notification.FRIEND_REQUEST)
+            {
+                builder.setMessage("Souhaites tu archiver la requête de " + notification.getLoginOther(user.getLogin()) + " ?");
+            }
+            else
+            {
+                builder.setMessage("Souhaites tu archiver le cadeau fait à " + notification.getLoginOther(user.getLogin()) + " ?");
+                builder.setView(getCreatureView(notification.getIntData()));
+            }
+
             builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     answerRequest(4);
@@ -104,26 +116,59 @@ public class NotificationsActivity extends InGameActivity implements Notificatio
         }
         else if(!notification.imHost && (notification.state == 0 || notification.state == 1))
         {
-            builder.setMessage("Souhaites tu accepter la requête de " + notification.getLoginOther(session.getUser().getLogin()) + " ?");
-            builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    answerRequest(2);
-                }
-            });
-            builder.setNegativeButton("Non",  new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    answerRequest(3);
-                }
-            });
+            if(notification.idType == Notification.FRIEND_REQUEST)
+            {
+                builder.setMessage("Souhaites tu accepter la requête de " + notification.getLoginOther(user.getLogin()) + " ?");
+                builder.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        answerRequest(2);
+                    }
+                });
+                builder.setNegativeButton("Non",  new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        answerRequest(3);
+                    }
+                });
+            }
+            else
+            {
+                builder.setMessage("Tu as reçu cette créature de " + notification.getLoginOther(user.getLogin()) + " :");
+                builder.setView(getCreatureView(notification.getIntData()));
+                builder.setNeutralButton("Remercier " + notification.getLoginOther(user.getLogin()), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        answerRequest(2);
+                    }
+                });
+            }
         }
         else
         {
-            builder.setMessage("Requête en attente....");
-            builder.setNeutralButton("OK", null);
+            if(notification.idType == Notification.CREATURE_EXCHANGE_REQUEST)
+            {
+                if(notification.imHost) builder.setMessage("Tu as envoyé cette créature à " + notification.getLoginOther(user.getLogin()) + " :");
+                else builder.setMessage("Tu as accepté cette créature offerte par " + notification.getLoginOther(user.getLogin()) + " :");
+                builder.setView(getCreatureView(notification.getIntData()));
+                builder.setNeutralButton("OK", null);
+            }
+            else
+            {
+                builder.setMessage("Requête en attente....");
+                builder.setNeutralButton("OK", null);
+            }
+
         }
 
-        builder.show();
+    builder.show();
+}
+
+
+    private ImageView getCreatureView(int idCreature) {
+        ImageView imageView = new ImageView(this);
+        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        imageView.setImageResource(CreaturesGridAdapter.creatureImages[idCreature - 1]);
+        return imageView;
     }
+
 
     private void answerRequest(int stateWanted) {
         if(updateNotificationWebService == null || updateNotificationWebService.finished())
