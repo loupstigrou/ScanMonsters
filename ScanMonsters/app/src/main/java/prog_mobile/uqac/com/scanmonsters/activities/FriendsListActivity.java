@@ -25,6 +25,9 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
     private MySQLiteHelper datasource;
     private FriendListAdapter adapter;
 
+    private View progressView;
+    private View friendListView;
+
     private GetFriendsService getFriendsService;
 
     @Override
@@ -34,6 +37,9 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
         this.session = new SessionManager(getApplicationContext());
         this.session.checkLogin();
+
+        this.progressView   = (View) findViewById(R.id.wait_search_info);
+        this.friendListView = (View) findViewById(R.id.friendsList);
 
         datasource = new MySQLiteHelper(this);
         datasource.open();
@@ -72,6 +78,7 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         {
             getFriendsService = new GetFriendsService(this, session, this);
             getFriendsService.execute();
+            showProgress(true, progressView, friendListView);
         }
         else
         {
@@ -81,6 +88,8 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
     @Override
     public void onReceiveData(boolean success, String data) {
+
+        showProgress(false, progressView, friendListView);
         if(!success)
         {
             // Erreur
@@ -94,7 +103,6 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         }
         else if(!data.equals(""))
         {
-
             datasource.deleteAllFriends();
             String allPlayersData[];
             int lg;
