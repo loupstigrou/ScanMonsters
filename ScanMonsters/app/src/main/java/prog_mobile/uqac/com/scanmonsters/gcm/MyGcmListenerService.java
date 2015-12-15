@@ -69,7 +69,7 @@ public class MyGcmListenerService extends GcmListenerService {
     private void sendNotification(String message) {
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext())
-                .setSmallIcon(R.mipmap.ic_pets_white_24dp)
+                .setSmallIcon(R.mipmap.cadeau_blanc)
                 .setColor(ContextCompat.getColor(getApplicationContext(), R.color.primary))
                 .setContentTitle(getString(R.string.gcm_notif_title))
                 .setContentText(message)
