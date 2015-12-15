@@ -2,14 +2,17 @@ package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import prog_mobile.uqac.com.scanmonsters.gcm.GcmActivity;
 import prog_mobile.uqac.com.scanmonsters.services.LocationService;
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
+
 
 /**
  * Activité principale après connexion
@@ -148,7 +151,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     }
 
     private void goToTesseractActivity(){
-        Intent intent = new Intent(ScanMonsterActivity.this, OCRActivity.class);
+        Intent intent = new Intent(ScanMonsterActivity.this, GcmActivity.class);
         startActivity(intent);
     }
 
@@ -164,5 +167,21 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         startActivity(intent);
     }
 
+/*
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i(TAG, "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
+    }*/
 
 }

@@ -9,6 +9,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- [START gcm_permission] -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <!-- [END gcm_permission] -->
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -102,6 +107,61 @@
             android:name=".services.LocationService"
             android:enabled="true"
             android:exported="true"></service>
+
+
+
+        <activity
+            android:name=".gcm.GcmActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_notifications"
+            android:screenOrientation="portrait"></activity>
+
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+
+                <!-- Receives the actual messages. -->
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <!-- Receives the registration id. -->
+                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
+                <category android:name="YOUR_PACKAGE" />
+
+            </intent-filter>
+        </receiver>
+
+        <!-- Enables message handling (e.g.detecting different downstream message types,
+     determining upstream send status, and automatically displaying simple
+     notifications on the app’s behalf) -->
+
+        <service
+            android:name=".gcm.MyGcmListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+
+        <!-- Handles the creation and updating of registration tokens -->
+
+        <service
+            android:name=".gcm.MyInstanceIDListenerService"
+            android:exported="false" >
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
+        <!-- To get the registration token -->
+
+        <service
+            android:name=".gcm.RegistrationIntentService"
+            android:exported="false" >
+        </service>
+
+
     </application>
 
 </manifest>

@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_id": "scan-monsters",
+    "project_number": "1033091115173",
+    "name": "ScanMonsters"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1033091115173:android:27ae524d0f7d0cd6",
+        "client_id": "android:prog_mobile.uqac.com.scanmonsters",
+        "client_type": 1,
+        "android_client_info": {
+          "package_name": "prog_mobile.uqac.com.scanmonsters"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "cloud_messaging_service": {
+          "status": 2,
+          "apns_config": []
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "google_signin_service": {
+          "status": 1
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "client_info": [],
+  "ARTIFACT_VERSION": "1"
+}
