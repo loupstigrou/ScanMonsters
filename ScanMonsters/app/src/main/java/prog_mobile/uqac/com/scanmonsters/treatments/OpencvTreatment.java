@@ -29,6 +29,7 @@ public class OpencvTreatment {
         Log.d("mat width",String.valueOf(imageSource.width()));
         imageROI = imageSource.submat(roi);
         Imgproc.threshold(imageROI, imageROI, 60, 255, Imgproc.THRESH_BINARY);
+        imageROI = eraseLine(imageROI);
         return imageROI;
     }
 
@@ -47,26 +48,29 @@ public class OpencvTreatment {
         return 0;
     }
 
-/*
+
     // Erase the first black line on the frame
-    Mat eraseLine(Mat _frame)
+    private Mat eraseLine(Mat _frame)
     {
-        int row = 0;
-        int col =10;
-        boolean lineFound = false;
-        boolean onBlackLine = false;
+        int row;
+        int col;
+        boolean lineFound;
+        boolean onBlackLine;
+        Mat tmp = _frame.clone();
+
+        _frame.convertTo(tmp,CvType.CV_8UC1);
 
         // for each column of the frame
-        for(col = 10 ; col <_frame.cols() - 10 ; col++)
+        for(col = 10 ; col <tmp.cols() - 10 ; col++)
         {
-            row = _frame.rows() - 10;
+            row = tmp.rows() - 10;
             lineFound = false;
             onBlackLine = false;
 
-            while(lineFound != true && row > _frame.rows() / 4)
+            while(!lineFound && row > 9*tmp.rows() / 10)
             {
                 // if there's a black point
-                double[] value = _frame.get(row, col);
+                double[] value = tmp.get(row, col);
                 if (value[0] == 0) //Changer la condition => trouver le bon accesseur
                 {
                     String val = String.valueOf(value[0]);
@@ -74,23 +78,22 @@ public class OpencvTreatment {
                     // add them to the map
                     // Erase lines that are already stored in the map from the reference Frame
                     value[0]=255;
-                    value[1]=255;
-                    value[2]=255;
-                    _frame.put(row,col,value);
+                    //value[1]=255;
+                    //value[2]=255;
+                    tmp.put(row,col,value);
                     // set the boolean to true (we're on a line)
                     onBlackLine = true;
                 }
                 // if there's a white point
-                else if (value[0] > 20 && onBlackLine == true)
+                else if (value[0] > 20 && onBlackLine)
                 {
                     // set the boolean to true (we found the entire line)
                     lineFound = true;
 
                 }
-
                 row--;
             }
         }
-        return _frame;
-    }*/
+        return tmp;
+    }
 }
