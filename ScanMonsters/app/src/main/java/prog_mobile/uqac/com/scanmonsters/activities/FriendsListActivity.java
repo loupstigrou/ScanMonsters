@@ -9,7 +9,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.adapters.FriendListAdapter;
@@ -58,15 +57,21 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
     public void onClick(View view) {
         @SuppressWarnings("unchecked")
         Friend friend = null;
+        Intent intent;
         switch (view.getId()) {
 
 
-            case R.id.add:
+            case R.id.refresh:
                 reloadFriends();
                 break;
 
             case R.id.search:
-                Intent intent = new Intent(this, SearchFriendsActivity.class);
+                intent = new Intent(this, SearchFriendsActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.localise:
+                intent = new Intent(this, LocateGoogleMapActivity.class);
                 startActivity(intent);
                 break;
         }

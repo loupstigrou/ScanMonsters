@@ -77,4 +77,6 @@
         sending the fetched token to the server or subscribing to the PubSub topic. Please try
         running the sample again.</string>
 
+    <string name="title_activity_locate_google_map">Localiser les joueurs</string>
+
 </resources>

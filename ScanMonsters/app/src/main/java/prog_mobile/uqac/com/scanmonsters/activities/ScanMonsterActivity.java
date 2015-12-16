@@ -2,12 +2,10 @@ package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import prog_mobile.uqac.com.scanmonsters.gcm.GcmActivity;
 import prog_mobile.uqac.com.scanmonsters.services.LocationService;
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;

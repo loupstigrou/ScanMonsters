@@ -115,6 +115,11 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_notifications"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.LocateGoogleMapActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_locate_google_map"
+            android:screenOrientation="portrait"></activity>
 
 
         <service
