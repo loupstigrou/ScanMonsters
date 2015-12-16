@@ -176,6 +176,8 @@ public class LocateGoogleMapActivity extends InGameActivity implements OnMapRead
                         .snippet("Score : " + playerData[1])
                         .position(new LatLng(Double.parseDouble(playerData[2]), Double.parseDouble(playerData[3]))));
             }
+            if(lg > 1) Toast.makeText(this,lg+" joueurs autour de toi", Toast.LENGTH_LONG).show();
+            else Toast.makeText(this,"1 joueur autour de toi", Toast.LENGTH_LONG).show();
         }
     }
 }
