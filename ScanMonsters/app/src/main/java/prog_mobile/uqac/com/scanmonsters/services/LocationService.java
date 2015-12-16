@@ -13,6 +13,11 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +34,7 @@ import prog_mobile.uqac.com.scanmonsters.activities.PlayersBoardActivity;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
 
-public class LocationService extends Service implements LocationListener {
+public class LocationService extends Service implements LocationListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private LocationManager lm;
     private double latitude;
@@ -39,6 +44,8 @@ public class LocationService extends Service implements LocationListener {
     private static double LATITUDE_CENTER = 48.420048;
     private static double LONGITUDE_CENTER = -71.052508;
     private static int DISTANCE_ACCURACY = 300; // distance in meters acceptable between the center and the user to assume the user is in the zone
+    private static long LOCATION_INTERVAL_TIME = 120_000; // Every 2 minutes
+    private static float LOCATION_INTERVAL_DISTANCE = 400f;
 
     private static final String webserviceURL = "http://miralud.com/progMobile/webservice.php";
     private int notificationID = 1;
@@ -48,6 +55,8 @@ public class LocationService extends Service implements LocationListener {
     private User user;
 
     private boolean uiz;
+    private int nbUsersInZone;
+
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -55,12 +64,13 @@ public class LocationService extends Service implements LocationListener {
         this.notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         this.session = new SessionManager(getApplicationContext());
         this.user = this.session.getUser();
+        this.nbUsersInZone = 0;
 
         lm = (LocationManager) this.getSystemService(LOCATION_SERVICE);
 
         if (lm.isProviderEnabled(LocationManager.GPS_PROVIDER))
-            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 0, this);
-        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 10000, 0, this);
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, LOCATION_INTERVAL_TIME, LOCATION_INTERVAL_DISTANCE, this);
+        lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL_TIME, LOCATION_INTERVAL_DISTANCE, this);
 
         return START_STICKY;
     }
@@ -81,14 +91,9 @@ public class LocationService extends Service implements LocationListener {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
 
-        if (this.uiz != userInZone(latitude, longitude)) {
-            this.uiz = userInZone(latitude, longitude);
-            UserLocationTask ult = new UserLocationTask(this.user, uiz);
-            ult.execute((Void) null);
-        }
-
         this.uiz = userInZone(latitude, longitude);
-
+        UserLocationTask ult = new UserLocationTask(this.user, uiz);
+        ult.execute((Void) null);
     }
 
     private boolean userInZone(double latitude, double longitude) {
@@ -117,6 +122,21 @@ public class LocationService extends Service implements LocationListener {
 
     @Override
     public void onProviderDisabled(String provider) {
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
     }
 
     private class UserLocationTask extends AsyncTask<Void, Void, Boolean> {
@@ -191,6 +211,13 @@ public class LocationService extends Service implements LocationListener {
                     this.serverResponse2 += inStream.nextLine();
 
                 connection.disconnect();
+
+                int newNbUsersInZone = serverResponse2.split(",").length;
+
+                if (newNbUsersInZone != nbUsersInZone && newNbUsersInZone > 0)
+                    nbUsersInZone = newNbUsersInZone;
+                else
+                    return false;
 
             } catch (MalformedURLException e) {
                 e.printStackTrace();

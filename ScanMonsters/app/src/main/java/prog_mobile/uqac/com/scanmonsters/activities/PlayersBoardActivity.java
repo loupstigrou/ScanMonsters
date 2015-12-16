@@ -2,6 +2,7 @@ package prog_mobile.uqac.com.scanmonsters.activities;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -90,6 +91,12 @@ public class PlayersBoardActivity extends InGameActivity implements ActionBar.Ta
 
         gpt = new GetPlayersTask(this);
         gpt.execute((Void) null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(PlayersBoardActivity.this, ScanMonsterActivity.class);
+        startActivity(intent);
     }
 
     @Override
