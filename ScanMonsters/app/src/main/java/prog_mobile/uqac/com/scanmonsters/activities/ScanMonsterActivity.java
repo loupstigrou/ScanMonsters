@@ -151,7 +151,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     }
 
     private void goToTesseractActivity(){
-        Intent intent = new Intent(ScanMonsterActivity.this, GcmActivity.class);
+        Intent intent = new Intent(ScanMonsterActivity.this, NearbyActivity.class);
         startActivity(intent);
     }
 

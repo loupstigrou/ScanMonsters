@@ -30,12 +30,26 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon_scan_monster"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
+
+
+        <meta-data
+            android:name="com.google.android.nearby.messages.API_KEY"
+            android:value="AIzaSyCwOaw4l9dQy9cLfU4DQbcHWwhwpzQ6sKA" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCwOaw4l9dQy9cLfU4DQbcHWwhwpzQ6sKA"/>
+
+
+
+
         <activity
             android:name=".activities.Splash_Screen"
             android:label="@string/title_activity_splash__screen"
@@ -96,6 +110,12 @@
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_notifications"
             android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".activities.NearbyActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/title_activity_notifications"
+            android:screenOrientation="portrait"></activity>
+
 
         <service
             android:name=".CreatureEventService"
