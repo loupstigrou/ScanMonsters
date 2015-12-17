@@ -70,10 +70,10 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
                 startActivity(intent);
                 break;
 
-            case R.id.localise:
+            /*case R.id.localise:
                 intent = new Intent(this, LocateGoogleMapActivity.class);
                 startActivity(intent);
-                break;
+                break;*/
         }
         adapter.notifyDataSetChanged();
     }

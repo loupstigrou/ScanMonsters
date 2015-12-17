@@ -113,7 +113,7 @@
         <activity
             android:name=".activities.NearbyActivity"
             android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_notifications"
+            android:label="@string/title_activity_neary_devices"
             android:screenOrientation="portrait"></activity>
         <activity
             android:name=".activities.LocateGoogleMapActivity"

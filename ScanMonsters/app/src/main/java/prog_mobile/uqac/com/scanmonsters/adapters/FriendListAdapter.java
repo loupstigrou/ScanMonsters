@@ -29,6 +29,10 @@ public class FriendListAdapter extends BaseAdapter {
     //mécanisme pour gérer l'affichage graphique depuis un layout XML
     private LayoutInflater mInflater;
 
+    public FriendListAdapter(Context context) {
+        this(context, new ArrayList<Friend>());
+    }
+
     public FriendListAdapter(Context context, List<Friend> aListP) {
         mContext = context;
         mListP = aListP;
@@ -59,6 +63,18 @@ public class FriendListAdapter extends BaseAdapter {
     }
     public void remove(Friend friend) {
         mListP.remove(friend);
+    }
+    public void invalidate() {
+        notifyDataSetInvalidated();
+    }
+
+    public boolean containsFriendName(String login) {
+        for(Friend tmpFriend : mListP)
+        {
+            if(tmpFriend.name.equalsIgnoreCase(login))
+                return true;
+        }
+        return false;
     }
 
 

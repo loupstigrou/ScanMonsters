@@ -3,6 +3,7 @@ package prog_mobile.uqac.com.scanmonsters.activities;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -58,7 +59,7 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
 
         searchFriendTask = null;
 
-        // Appui sur le bouton Se connecter sur le clavier
+        // Appui sur le bouton Rechercher sur le clavier
         this.searchPseudoText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -78,14 +79,20 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
     }
 
     public void onClick(View view) {
-        @SuppressWarnings("unchecked")
-        Friend friend = null;
+        Intent intent;
         switch (view.getId()) {
             case R.id.btn_search_ok:
                 proceedSearch();
                 break;
+            case R.id.btn_search_by_location:
+                intent = new Intent(this, LocateGoogleMapActivity.class);
+                startActivity(intent);
+                break;
+            case R.id.btn_search_by_proximity:
+                intent = new Intent(this, NearbyActivity.class);
+                startActivity(intent);
+                break;
         }
-        //adapter.notifyDataSetChanged();
     }
     protected void proceedSearch() {
         String searchPseudo = searchPseudoText.getText().toString();
@@ -148,7 +155,9 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
     @Override
     protected void onPause() {
         super.onPause();
-    }@Override
+    }
+
+    @Override
      protected void onDestroy() {
         if(searchFriendTask != null) searchFriendTask.onCancelled();
         super.onDestroy();

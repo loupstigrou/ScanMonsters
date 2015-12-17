@@ -1,15 +1,12 @@
 package prog_mobile.uqac.com.scanmonsters.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ListView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -19,29 +16,28 @@ import com.google.android.gms.iid.InstanceID;
 import com.google.android.gms.nearby.Nearby;
 import com.google.android.gms.nearby.messages.Message;
 import com.google.android.gms.nearby.messages.MessageListener;
-import com.google.android.gms.nearby.messages.NearbyMessagesStatusCodes;
-import com.google.android.gms.nearby.messages.PublishCallback;
-import com.google.android.gms.nearby.messages.PublishOptions;
-import com.google.android.gms.nearby.messages.SubscribeCallback;
-import com.google.android.gms.nearby.messages.SubscribeOptions;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 import prog_mobile.uqac.com.scanmonsters.R;
-import prog_mobile.uqac.com.scanmonsters.asynctasks.BasicService;
+import prog_mobile.uqac.com.scanmonsters.adapters.FriendListAdapter;
+import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.nearby.DeviceMessage;
-import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 
 /**
- * Activité de recherche d'amis proche
+ * Activité de recherche d'amis à proximité
  */
-public class NearbyActivity extends InGameActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener{
+public class NearbyActivity extends InGameActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, FriendListAdapter.FriendAdapterListener {
 
 
     private static final String TAG = "NearbyActivity";
     private View progressView;
-    private View roomFoundedView;
+    private View nearbyDevicesFounded;
+
+
+    private FriendListAdapter adapter;
 
     /**
      * Request code to use when launching the resolution activity.
@@ -66,8 +62,6 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
     private GoogleApiClient mGoogleApiClient;
     private Message mDeviceInfoMessage;
 
-    private ArrayAdapter<String> mNearbyDevicesArrayAdapter;
-
     /**
      * A {@link MessageListener} for processing messages from nearby devices.
      */
@@ -86,17 +80,28 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
     /**
      * Backing data structure for {@code mNearbyDevicesArrayAdapter}.
      */
-    private final ArrayList<String> mNearbyDevicesArrayList = new ArrayList<>();
     private boolean mResolvingError;
+
+
+
+    private Thread threadSendMessage;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_room);
+        setContentView(R.layout.activity_nearby_devices);
 
-        this.progressView =    (View) findViewById(R.id.wait_room_info);
-        this.roomFoundedView = (View) findViewById(R.id.search_room_info);
+        this.progressView =    (View) findViewById(R.id.wait_search_info);
+        this.nearbyDevicesFounded = (View) findViewById(R.id.friendsList);
+
+        showProgress(true, progressView, nearbyDevicesFounded);
+
+        adapter = new FriendListAdapter(this);
+        adapter.addListener(this);
+        ListView list = (ListView)findViewById(R.id.friendsList);
+
+        list.setAdapter(adapter);
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -108,44 +113,88 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
 
 
         // Publish bytes to send
-        mMessage = new Message("Coucou".getBytes(Charset.forName("UTF-8")));
-        /*Nearby.Messages.publish(mGoogleApiClient, mMessage)
-                .setResultCallback(new ErrorCheckingCallback("publish()"));*/
+        String tmpMessageTxtToSend = user.getLogin();
+        mMessage = new Message(tmpMessageTxtToSend.getBytes(Charset.forName("UTF-8")));
+
 
         mMessageListener = new MessageListener() {
             @Override
             public void onFound(final Message message) {
                 Log.i(TAG, "MessageListener onFound "+message.getContent());
-                        //mNearbyDevicesArrayAdapter.add(DeviceMessage.fromNearbyMessage(message).getMessageBody());
+                String messageTxt;
+                try {
+                    messageTxt = new String(message.getContent(),"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    messageTxt = "Message inconnu";
+                }
+                Log.i(TAG, "MessageListener onFound " + messageTxt);
+                addFriendFounded(messageTxt);
+
             }
             @Override
             public void onLost(final Message message) {
                 Log.i(TAG, "MessageListener connected "+message.getContent());
+
+                String messageTxt;
+                try {
+                    messageTxt = new String(message.getContent(),"UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                    messageTxt = "Message inconnu";
+                }
+                Log.i(TAG, "MessageListener onLost " + messageTxt);
 
                 // Called when a message is no onLost detectable nearby.
                       //  mNearbyDevicesArrayAdapter.remove(DeviceMessage.fromNearbyMessage(message).getMessageBody());
             }
         };
 
-        // Subscribe to receive messages
-       /* Nearby.Messages.subscribe(mGoogleApiClient, mMessageListener)
-                .setResultCallback(new ErrorCheckingCallback("subscribe()"));*/
-
-
         mDeviceInfoMessage = DeviceMessage.newNearbyMessage(InstanceID.getInstance(this.getApplicationContext()).getId());
-
-
-
-
     }
 
+    public void addFriendFounded(final String name) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
 
-    private void arriveAtRoom()
-    {
-        Intent intent = new Intent(NearbyActivity.this, OCRActivity.class);
-        startActivity(intent);
-        finish();
+            //stuff that updates ui
+                if(!adapter.containsFriendName(name))
+                {
+                    adapter.add(new Friend(name, 0));
+                    adapter.invalidate();
+
+                    showProgress(false, progressView, nearbyDevicesFounded);
+                }
+
+            }
+        });
     }
+
+    public void onClick(View view) {
+        Intent intent;
+        /*switch (view.getId()) {
+
+
+            case R.id.refresh:
+                try{
+                    Nearby.Messages.publish(mGoogleApiClient, mMessage)
+                            .setResultCallback(new ErrorCheckingCallback("publish()"));
+                }catch(Exception e)
+                {
+
+                }
+
+                break;
+
+            case R.id.localise:
+                intent = new Intent(this, LocateGoogleMapActivity.class);
+                startActivity(intent);
+                break;
+        }*/
+        //adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     protected void onStart() {
@@ -164,6 +213,7 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
             Nearby.Messages.unsubscribe(mGoogleApiClient, mMessageListener)
                     .setResultCallback(new ErrorCheckingCallback("unsubscribe()"));
         }
+        if(threadSendMessage != null) threadSendMessage.interrupt();
         mGoogleApiClient.disconnect();
         super.onStop();
     }
@@ -171,11 +221,35 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
     // GoogleApiClient connection callback.
     @Override
     public void onConnected(Bundle connectionHint) {
+
         Nearby.Messages.getPermissionStatus(mGoogleApiClient).setResultCallback(
                 new ErrorCheckingCallback("getPermissionStatus", new Runnable() {
                     @Override
                     public void run() {
+
                         publishAndSubscribe();
+
+                        // thread envoyant un message toutes les 5 secondes
+                        threadSendMessage = new Thread() {
+
+                            @Override
+                            public void run() {
+                                try {
+                                    while (!isInterrupted()) {
+                                        Thread.sleep(5000);
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                publishImHere(); // Send message to all
+                                            }
+                                        });
+                                    }
+                                } catch (InterruptedException e) {
+                                }
+                            }
+                        };
+
+                        threadSendMessage.start();
                     }
                 })
         );
@@ -215,8 +289,18 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
                 .setResultCallback(new ErrorCheckingCallback("subscribe()"));
     }
 
+    private void publishImHere() {
+        Nearby.Messages.publish(mGoogleApiClient, mMessage)
+                .setResultCallback(new ErrorCheckingCallback("publish()"));
+    }
+
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    @Override
+    public void onClickNom(Friend item, int position) {
 
     }
 

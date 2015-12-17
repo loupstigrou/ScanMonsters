@@ -20,7 +20,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     Intent locationServiceIntent;
 
     private Button cheatButton;
-    private Button tesseractButton;
+    private Button friendsButton;
     private Button locationButton;
     private Button miniGameButton;
     private TextView connectedText;
@@ -54,25 +54,14 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         this.locationServiceIntent = new Intent(this, LocationService.class);
         this.startService(locationServiceIntent);
 
-        /*this.mySQLiteHelper = new MySQLiteHelper(this);
-        mySQLiteHelper.open();
-        mySQLiteHelper.addFriend(new Friend("Benji", 5));
-        mySQLiteHelper.addFriend(new Friend("Nicolas", 52));
-        mySQLiteHelper.addFriend(new Friend("Jérome", 3));
-        List<Friend> allFriends = mySQLiteHelper.getAllFriends();
-        for(Friend tmpFriend : allFriends)
-        {
-            Toast.makeText(this,tmpFriend.toString(), Toast.LENGTH_SHORT).show();
-        }*/
-
         this.cheatButton = (Button) findViewById(R.id.cheat_button);
-        this.tesseractButton = (Button) findViewById(R.id.tesseract_button);
+        this.friendsButton = (Button) findViewById(R.id.friends_button);
         this.locationButton = (Button) findViewById(R.id.location_button);
         this.miniGameButton = (Button) findViewById(R.id.mini_game_button);
         this.connectedText = (TextView) findViewById(R.id.scan_monster_description);
 
         this.cheatButton.setOnClickListener(this);
-        this.tesseractButton.setOnClickListener(this);
+        this.friendsButton.setOnClickListener(this);
         this.locationButton.setOnClickListener(this);
         this.miniGameButton.setOnClickListener(this);
 
@@ -126,8 +115,8 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
                 this.goToWhateverActivity();
                 break;
 
-            case R.id.tesseract_button:
-                this.goToTesseractActivity();
+            case R.id.friends_button:
+                this.goToFriendsActivity();
                 break;
 
             case R.id.location_button:
@@ -148,8 +137,8 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         startActivity(intent);
     }
 
-    private void goToTesseractActivity(){
-        Intent intent = new Intent(ScanMonsterActivity.this, NearbyActivity.class);
+    private void goToFriendsActivity(){
+        Intent intent = new Intent(ScanMonsterActivity.this, FriendsListActivity.class);
         startActivity(intent);
     }
 
@@ -159,27 +148,8 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     }
 
     private void goToMiniGameActivity() {
-        //Intent intent = new Intent(ScanMonsterActivity.this, MiniGameActivity.class);
         Intent intent = new Intent(ScanMonsterActivity.this, SearchRoomActivity.class);
-        //Intent intent = new Intent(ScanMonsterActivity.this, FriendsListActivity.class);
         startActivity(intent);
     }
-
-/*
-    private boolean checkPlayServices() {
-        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (apiAvailability.isUserResolvableError(resultCode)) {
-                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
-                        .show();
-            } else {
-                Log.i(TAG, "This device is not supported.");
-                finish();
-            }
-            return false;
-        }
-        return true;
-    }*/
 
 }

@@ -37,13 +37,13 @@
                 />
 
             <Button
-                android:id="@+id/tesseract_button"
+                android:id="@+id/friends_button"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:layout_marginBottom="20dp"
                 android:background="@color/accent"
-                android:text="@string/tesseract_button"
+                android:text="@string/friends_button"
                 android:textSize="30sp"
                 android:textColor="@color/icons"/>
 
