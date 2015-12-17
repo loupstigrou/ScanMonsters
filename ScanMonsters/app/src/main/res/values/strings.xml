@@ -1,6 +1,6 @@
 ﻿<resources>
     <string name="app_name">ScanMonsters</string>
-    <string name="title_activity_main">Scan Monster</string>
+    <string name="title_activity_main">Scan Monsters</string>
 
     <string name="inscription_button">S\'inscrire</string>
     <string name="connection_button">Se connecter</string>

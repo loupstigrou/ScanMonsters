@@ -34,7 +34,8 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
 
     private static final String TAG = "NearbyActivity";
     private View progressView;
-    private View nearbyDevicesFounded;
+    private ListView nearbyDevicesFounded;
+    private View groupListView;
 
 
     private FriendListAdapter adapter;
@@ -93,15 +94,15 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
         setContentView(R.layout.activity_nearby_devices);
 
         this.progressView =    (View) findViewById(R.id.wait_search_info);
-        this.nearbyDevicesFounded = (View) findViewById(R.id.friendsList);
+        this.nearbyDevicesFounded = (ListView) findViewById(R.id.friendsList);
+        this.groupListView = (View) findViewById(R.id.listGroup);
 
-        showProgress(true, progressView, nearbyDevicesFounded);
+        showProgress(true, progressView, groupListView);
 
         adapter = new FriendListAdapter(this);
         adapter.addListener(this);
-        ListView list = (ListView)findViewById(R.id.friendsList);
 
-        list.setAdapter(adapter);
+        nearbyDevicesFounded.setAdapter(adapter);
 
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -164,7 +165,7 @@ public class NearbyActivity extends InGameActivity implements GoogleApiClient.Co
                     adapter.add(new Friend(name, 0));
                     adapter.invalidate();
 
-                    showProgress(false, progressView, nearbyDevicesFounded);
+                    showProgress(false, progressView, groupListView);
                 }
 
             }

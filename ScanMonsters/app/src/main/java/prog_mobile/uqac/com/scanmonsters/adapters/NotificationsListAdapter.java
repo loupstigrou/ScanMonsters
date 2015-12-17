@@ -14,7 +14,6 @@ import java.util.Comparator;
 import java.util.List;
 
 import prog_mobile.uqac.com.scanmonsters.R;
-import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.Notification;
 import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 import prog_mobile.uqac.com.scanmonsters.user.User;
@@ -111,7 +110,7 @@ public class NotificationsListAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout layoutItem;
         if (convertView == null) {
-            layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_friend_list_list_layout, parent, false);
+            layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_friend_list_first_row_layout, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
         }

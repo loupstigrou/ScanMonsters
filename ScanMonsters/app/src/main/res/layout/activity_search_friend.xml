@@ -106,12 +106,23 @@
                 android:layout_centerInParent="true"/>
         </RelativeLayout>
 
-        <ListView
-            android:visibility="gone"
-            android:id="@+id/friendsList"
+        <RelativeLayout
+            android:id="@+id/listGroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="test" />
+            android:visibility="gone"
+            >
+
+            <include layout="@layout/activity_friend_list_first_row_layout" />
+
+            <ListView
+                android:id="@+id/friendsList"
+                android:layout_below="@id/firstRowListView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+        </RelativeLayout>
 
     </LinearLayout>
 </RelativeLayout>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" android:layout_height="wrap_content"
+    android:id="@+id/LL_Fond">
+
+    <TextView android:id="@+id/TV_Nom"
+        android:text="Nom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:textColor="@color/primary_dark"
+        android:textSize="20sp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="5dp"
+        >
+    </TextView>
+
+    <TextView
+        android:id="@+id/TV_Prenom"
+        android:text="Prénom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:textColor="@color/primary_dark"
+        android:textSize="20sp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="5dp"
+        >
+    </TextView>
+</LinearLayout>

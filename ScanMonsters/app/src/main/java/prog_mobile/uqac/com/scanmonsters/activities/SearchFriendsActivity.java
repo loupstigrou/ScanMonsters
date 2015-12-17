@@ -31,7 +31,9 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
 
     private View indexView;
     private View progressView;
-    private View friendListView;
+    private ListView friendListView;
+    private View groupListView;
+
     private TextView searchPseudoText;
 
     private FriendListAdapter adapter;
@@ -52,7 +54,8 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
 
 
         this.progressView =    (View) findViewById(R.id.wait_search_info);
-        this.friendListView = (View) findViewById(R.id.friendsList);
+        this.friendListView = (ListView) findViewById(R.id.friendsList);
+        this.groupListView = (View) findViewById(R.id.listGroup);
 
 
         this.searchPseudoText = (TextView) findViewById(R.id.search_txt);
@@ -71,11 +74,9 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
             }
         });
 
-        adapter = new FriendListAdapter(this, new ArrayList<Friend>());
+        adapter = new FriendListAdapter(this);
         adapter.addListener(this);
-        ListView list = (ListView)findViewById(R.id.friendsList);
-
-        list.setAdapter(adapter);
+        friendListView.setAdapter(adapter);
     }
 
     public void onClick(View view) {
@@ -176,7 +177,7 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
             super(context, session,
                     "searchByName", "&name=" + pseudo );
             this.pseudo = pseudo;
-            showProgress(true, progressView, (indexView.getVisibility() == View.VISIBLE) ? indexView : friendListView);
+            showProgress(true, progressView, (indexView.getVisibility() == View.VISIBLE) ? indexView : groupListView);
 
         }
 
@@ -208,7 +209,7 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
                         adapter.add(tmpFriend);
                     }
                     adapter.notifyDataSetInvalidated();
-                    showProgress(false, progressView, friendListView);
+                    showProgress(false, progressView, groupListView);
                 }
 
 

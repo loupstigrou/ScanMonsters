@@ -1,7 +1,6 @@
 package prog_mobile.uqac.com.scanmonsters.adapters;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -80,14 +79,18 @@ public class FriendListAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout layoutItem;
+
+        TextView tv_Nom;
+        TextView tv_Prenom;
+
         if (convertView == null) {
-            layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_friend_list_list_layout, parent, false);
+            layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_friend_list_row_layout, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
         }
 
-        TextView tv_Nom = (TextView)layoutItem.findViewById(R.id.TV_Nom);
-        TextView tv_Prenom = (TextView)layoutItem.findViewById(R.id.TV_Prenom);
+        tv_Nom = (TextView)layoutItem.findViewById(R.id.TV_Nom);
+        tv_Prenom = (TextView)layoutItem.findViewById(R.id.TV_Prenom);
 
         tv_Nom.setText(mListP.get(position).name);
         tv_Prenom.setText(mListP.get(position).score+"");
@@ -99,9 +102,9 @@ public class FriendListAdapter extends BaseAdapter {
         }*/
 
 //On mémorise la position du "friend" dans le composant textview
-        tv_Nom.setTag(position);
+        layoutItem.setTag(position);
 //On ajoute un listener
-        tv_Nom.setOnClickListener(new View.OnClickListener() {
+        layoutItem.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -117,6 +120,17 @@ public class FriendListAdapter extends BaseAdapter {
 
         return layoutItem;
     }
+
+   /* @Override
+    public int getViewTypeCount() {
+
+        return getCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }*/
 
 
 // -------------------------------------------------
@@ -142,6 +156,7 @@ public class FriendListAdapter extends BaseAdapter {
     public interface FriendAdapterListener {
         void onClickNom(Friend item, int position);
     }
+
 }
 
 

@@ -50,7 +50,7 @@ public class PlayersBoardActivity extends InGameActivity implements ActionBar.Ta
     private ViewPager viewPager;
     private TabsPagerAdapter adapter;
     private android.support.v7.app.ActionBar actionBar;
-    private String[] tabs = {"Users in UQAC", "Leader Board"};
+    private String[] tabs = {"Joueurs dans l'UQAC", "Leader Board"};
 
     private GetPlayersTask gpt;
 

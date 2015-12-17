@@ -26,6 +26,7 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
     private View progressView;
     private View friendListView;
+    private View groupListView;
 
     private GetFriendsService getFriendsService;
 
@@ -39,6 +40,7 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
 
         this.progressView   = (View) findViewById(R.id.wait_search_info);
         this.friendListView = (View) findViewById(R.id.friendsList);
+        this.groupListView = (View) findViewById(R.id.listGroup);
 
         datasource = new MySQLiteHelper(this);
         datasource.open();
@@ -55,8 +57,6 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
     }
 
     public void onClick(View view) {
-        @SuppressWarnings("unchecked")
-        Friend friend = null;
         Intent intent;
         switch (view.getId()) {
 
@@ -83,7 +83,7 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         {
             getFriendsService = new GetFriendsService(this, session, this);
             getFriendsService.execute();
-            showProgress(true, progressView, friendListView);
+            showProgress(true, progressView, groupListView);
         }
         else
         {
@@ -94,7 +94,7 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
     @Override
     public void onReceiveData(boolean success, String data) {
 
-        showProgress(false, progressView, friendListView);
+        showProgress(false, progressView, groupListView);
         if(!success)
         {
             // Erreur
@@ -144,6 +144,11 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
     protected void onPause() {
         datasource.close();
         super.onPause();
+    }
+    @Override
+    protected void onDestroy() {
+        datasource.close();
+        super.onDestroy();
     }
 
 
