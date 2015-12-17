@@ -42,7 +42,6 @@ public class RegistrationIntentService extends IntentService implements IService
             // [END get_token]
             Log.i(TAG, "GCM Registration Token: " + token);
 
-            // TODO: Implement this method to send any registration to your app's servers.
             sendRegistrationToServer(token);
 
             // Subscribe to topic channels
@@ -51,7 +50,7 @@ public class RegistrationIntentService extends IntentService implements IService
             // You should store a boolean that indicates whether the generated token has been
             // sent to your server. If the boolean is false, send the token to your server,
             // otherwise your server should have already received the token.
-            sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
+            //sharedPreferences.edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
             // [END register_for_gcm]
         } catch (Exception e) {
             Log.d(TAG, "Failed to complete token refresh", e);
@@ -94,8 +93,7 @@ public class RegistrationIntentService extends IntentService implements IService
 
     @Override
     public void onReceiveData(boolean success, String data) {
-
-        PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
+        if(success) PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, true).apply();
     }
     // [END subscribe_topics]
 

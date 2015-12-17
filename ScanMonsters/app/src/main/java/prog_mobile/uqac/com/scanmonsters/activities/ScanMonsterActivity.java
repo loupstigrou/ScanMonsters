@@ -1,11 +1,19 @@
 package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
+
+import prog_mobile.uqac.com.scanmonsters.gcm.QuickstartPreferences;
+import prog_mobile.uqac.com.scanmonsters.gcm.RegistrationIntentService;
 import prog_mobile.uqac.com.scanmonsters.services.LocationService;
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
@@ -25,6 +33,8 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     private Button miniGameButton;
     private TextView connectedText;
     private MySQLiteHelper mySQLiteHelper;
+
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
 
 //    private static final int REQUEST_ENABLE_BT = 1;
 //
@@ -67,6 +77,17 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
 
         String msgConnected = String.format(getResources().getString(R.string.scan_monster_description), session.getUser().getLogin());
         connectedText.setText(msgConnected);
+
+        // Service pour s'abonner aux notifications push venant du serveur
+        if (checkPlayServices()) {
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+            boolean sentToken = sharedPreferences.getBoolean(QuickstartPreferences.SENT_TOKEN_TO_SERVER, false);
+            if (!sentToken) {
+                // Start IntentService to register this application with GCM.
+                Intent intent = new Intent(this, RegistrationIntentService.class);
+                startService(intent);
+            }
+        }
 
 //        Intent discoverableIntent = new
 //                Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
@@ -150,6 +171,24 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
     private void goToMiniGameActivity() {
         Intent intent = new Intent(ScanMonsterActivity.this, SearchRoomActivity.class);
         startActivity(intent);
+    }
+
+
+
+    private boolean checkPlayServices() {
+        GoogleApiAvailability apiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = apiAvailability.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (apiAvailability.isUserResolvableError(resultCode)) {
+                apiAvailability.getErrorDialog(this, resultCode, PLAY_SERVICES_RESOLUTION_REQUEST)
+                        .show();
+            } else {
+                Log.i("ScanMonstersActivity", "This device is not supported.");
+                finish();
+            }
+            return false;
+        }
+        return true;
     }
 
 }
