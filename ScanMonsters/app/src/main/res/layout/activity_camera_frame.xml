@@ -59,6 +59,7 @@
             android:text="@string/ac_tesseract_btn_BOB"
             android:background="@color/accent"
             android:textColor="@color/icons"
-            android:id="@+id/bt_bob"/>
+            android:id="@+id/bt_bob"
+            android:onClick="bob"/>
     </LinearLayout>
 </RelativeLayout>
