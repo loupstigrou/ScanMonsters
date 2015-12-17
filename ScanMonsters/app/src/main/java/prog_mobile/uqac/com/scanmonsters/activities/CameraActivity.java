@@ -37,12 +37,17 @@ public class CameraActivity extends InGameActivity{
     private File mLocation = new File(Environment.
             getExternalStorageDirectory(),"result.jpg");
 
+    private boolean bAlreadyRun;
+    private boolean bBob;
+
     private TessOCR mTessOCR;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        bAlreadyRun = false;
+        bBob = false;
         setContentView(R.layout.activity_camera_frame);
 
         mCamera = (CameraBackground) findViewById(R.id.Camera);
@@ -91,20 +96,26 @@ public class CameraActivity extends InGameActivity{
      * @param v
      */
     public void takePhoto(View v){
-        new Thread( new Runnable() {
-            public void run() {
-                Double[] ratio = getRatio();
-                int left = (int) (ratio[1]*(double) mRectangle.getmLeftTopPosX());
-                // 0 is height
-                int top = (int) (ratio[0]*(double) mRectangle.getmLeftTopPosY());
+        if(!bAlreadyRun){
+            bAlreadyRun = true;
+            new Thread( new Runnable() {
+                public void run() {
+                    Double[] ratio = getRatio();
+                    int left = (int) (ratio[1]*(double) mRectangle.getmLeftTopPosX());
+                    // 0 is height
+                    int top = (int) (ratio[0]*(double) mRectangle.getmLeftTopPosY());
 
-                int right = (int)(ratio[1]*(double) mRectangle.getmRightBottomPosX());
+                    int right = (int)(ratio[1]*(double) mRectangle.getmRightBottomPosX());
 
-                int bottom = (int)(ratio[0]*(double) mRectangle.getmRightBottomPosY());
+                    int bottom = (int)(ratio[0]*(double) mRectangle.getmRightBottomPosY());
 
-                imageProcessing(mCamera.getPic(left, top, right, bottom));
-            }
-        }).start();
+                    imageProcessing(mCamera.getPic(left, top, right, bottom));
+                }
+            }).start();
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Traitement déjà en cours",Toast.LENGTH_LONG);
+        }
     }
 
     /**
@@ -115,6 +126,15 @@ public class CameraActivity extends InGameActivity{
         Intent intent = new Intent(this,MiniGameActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * Appui sur bouton Bob
+     * @param v
+     */
+    public void bob(View v){
+        bBob = true;
+        takePhoto(v);
     }
 
     /**
@@ -164,6 +184,12 @@ public class CameraActivity extends InGameActivity{
             Intent intent = new Intent(this,MiniGameActivity.class);
             startActivity(intent);
             finish();
+        }
+        else if(bBob && detectedRoom.equals("P4-5268")){
+            Intent intent = new Intent(this,MiniGameActivity.class);
+            startActivity(intent);
+            finish();
+            bBob = false;
         }
         else{
             Toast.makeText(this, "Vous n'êtes pas devant la bonne salle !!", Toast.LENGTH_LONG).show();
@@ -224,6 +250,10 @@ public class CameraActivity extends InGameActivity{
                             if (result != null && !result.equals("")) {
                                 checkRoom(result);
                             }
+                            else{
+                                Toast.makeText(getApplicationContext(),"Chaine vide",Toast.LENGTH_LONG).show();
+                            }
+                            bAlreadyRun = false;
                         }
                     });
                 }
