@@ -78,13 +78,15 @@ public class SessionManager {
      * Check user Log In status
      * If user is not logged in, he will return to the Main Activity
      */
-    public void checkLogin() {
-        if (!this.isLoggedIn()) {
+    public boolean checkLogin() {
+        if (!isLoggedIn()) {
             Intent intent = new Intent(this.context, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             this.context.startActivity(intent);
+            return false;
         }
+        return true;
     }
 
     /**

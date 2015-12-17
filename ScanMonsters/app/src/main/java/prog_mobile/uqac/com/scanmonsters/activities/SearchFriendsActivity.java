@@ -44,9 +44,6 @@ public class SearchFriendsActivity extends InGameActivity implements FriendListA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_friend);
 
-        this.session = new SessionManager(getApplicationContext());
-        this.session.checkLogin();
-
         // View à l'arrivée sur l'activity
         this.indexView = (View) findViewById(R.id.wait_search_index);
         ((TextView)findViewById(R.id.wait_search_index_login)).setText(this.session.getUser().getLogin());

@@ -40,9 +40,6 @@ public class NotificationsActivity extends InGameActivity implements Notificatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
 
-        this.session = new SessionManager(getApplicationContext());
-        this.session.checkLogin();
-
         this.progressView =    (View) findViewById(R.id.wait_notifications);
         this.notificationsListView = (ListView) findViewById(R.id.notificationsList);
 

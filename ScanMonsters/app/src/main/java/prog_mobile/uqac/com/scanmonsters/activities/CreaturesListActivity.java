@@ -23,10 +23,6 @@ public class CreaturesListActivity extends InGameActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_creatures_list);
 
-        this.session = new SessionManager(getApplicationContext());
-        this.session.checkLogin();
-        this.user = this.session.getUser(); // Get the current user
-
         final GridView creaturesGrid = (GridView) findViewById(R.id.creatures_list);
         creaturesGrid.setAdapter(new CreaturesGridAdapter(this, session));
 

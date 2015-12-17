@@ -31,10 +31,8 @@ public class InGameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.session = new SessionManager(getApplicationContext());
-        if (!this.session.isLoggedIn()) {
-            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
-            startActivity(intent);
+        session = new SessionManager(getApplicationContext());
+        if (!session.checkLogin()) {
             finish();
         }
         user = session.getUser();
@@ -43,9 +41,7 @@ public class InGameActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!this.session.isLoggedIn()) {
-            Intent intent = new Intent(getApplicationContext(), ScanMonsterActivity.class);
-            startActivity(intent);
+        if (!session.checkLogin()) {
             finish();
         }
     }

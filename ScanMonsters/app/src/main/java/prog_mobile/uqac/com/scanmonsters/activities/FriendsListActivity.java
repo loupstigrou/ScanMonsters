@@ -35,9 +35,6 @@ public class FriendsListActivity extends InGameActivity implements FriendListAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friends_list);
 
-        this.session = new SessionManager(getApplicationContext());
-        this.session.checkLogin();
-
         this.progressView   = (View) findViewById(R.id.wait_search_info);
         this.friendListView = (View) findViewById(R.id.friendsList);
         this.groupListView = (View) findViewById(R.id.listGroup);
