@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.asynctasks.IServiceCallback;
 import prog_mobile.uqac.com.scanmonsters.asynctasks.OfferCreatureService;
+import prog_mobile.uqac.com.scanmonsters.database.Creature;
 import prog_mobile.uqac.com.scanmonsters.database.Friend;
 import prog_mobile.uqac.com.scanmonsters.database.MySQLiteHelper;
 import prog_mobile.uqac.com.scanmonsters.asynctasks.ScoreAndCreatureService;
@@ -37,45 +38,39 @@ public class CreaturesGridAdapter extends BaseAdapter{
 
     private Context context;
     private SessionManager session;
-    private ScoreAndCreatureService getCreatures;
-    private OfferCreatureService offerCreatureService;
+
     private ArrayList<Integer> creaturesNb;
+    private ArrayList<Creature> allCreaturesData;
 
     public CreaturesGridAdapter(Context context, SessionManager session) {
         this.context = context;
         this.session = session;
 
-        this.getCreatures = new ScoreAndCreatureService(context, session);
-        getCreatures.execute((Void) null);
-
         this.creaturesNb = new ArrayList<>();
+        this.allCreaturesData = new ArrayList<>();
+    }
 
-        // Attend que l'async task soit finit
-        try {
-            getCreatures.get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+
+
+    public void add(Creature creature) {
+        allCreaturesData.add(creature);
+        creaturesNb.add(creature.id);
+    }
+    public void clear() {
+        allCreaturesData.clear();
+        creaturesNb.clear();
+    }
+
+    public Creature getCreatureById(int id) {
+        for(Creature tmpCrea : allCreaturesData)
+        {
+            if(tmpCrea.id == id) return tmpCrea;
         }
-        if(getCreatures == null) return;
+        return null;
+    }
 
-        // List des créatures possédées par l'utilisateur
-
-        if (!getCreatures.getServerResponse().equals("NOK")) {
-            String[] dataCreatures = getCreatures.getServerResponse()
-                    .split("=");
-
-            if (!dataCreatures[2].equals("EMPTY")) {
-                dataCreatures = dataCreatures[2].split(",");
-
-                for (int i = 0; i < dataCreatures.length; i++) {
-                    String creature = dataCreatures[i].split("-")[0];
-                    int creatureNb = Integer.parseInt(creature) - 1;
-                    this.creaturesNb.add(creatureNb);
-                }
-            }
-        }
+    public int getNbCreatures() {
+        return allCreaturesData.size();
     }
 
     @Override
@@ -94,9 +89,12 @@ public class CreaturesGridAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(final int idCreature, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         // Création d'une vue pour chaque utilisateur
         LinearLayout creatureView;
+
+        final int realIdCreature = position + 1;
+        final Creature tmpCreatureData = getCreatureById(realIdCreature);
 
         int viewWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, this.context.getResources().getDisplayMetrics());
         int btnDim = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, this.context.getResources().getDisplayMetrics());
@@ -108,10 +106,10 @@ public class CreaturesGridAdapter extends BaseAdapter{
 
         ImageView imageView = new ImageView(this.context);
         imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        if (this.creaturesNb.contains(idCreature))
-            imageView.setImageResource(creatureImages[idCreature]);
+        if (tmpCreatureData != null)
+            imageView.setImageResource(creatureImages[position]);
         else
-            imageView.setImageResource(shadowImages[idCreature]);
+            imageView.setImageResource(shadowImages[position]);
         creatureView.addView(imageView);
 
         // Separator
@@ -121,87 +119,34 @@ public class CreaturesGridAdapter extends BaseAdapter{
         creatureView.addView(divider);
 
         Button button = new Button(this.context);
-        button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, btnDim));
         button.setText(R.string.offer_creature);
+        button.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, btnDim));
         button.setBackground(ContextCompat.getDrawable(this.context, R.drawable.roundedbottombutton));
-        if (this.creaturesNb.contains(idCreature)) {
+        if (tmpCreatureData != null) {
             button.setTextColor(ContextCompat.getColor(this.context, R.color.accent));
-            // On click => Ouvre un dialog pour choisir à qui l'envoyer
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("A qui ? ");//("++" exemplaires)
-
-                    final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                            context,
-                            android.R.layout.select_dialog_singlechoice
-                    );
-
-                    MySQLiteHelper datasource = new MySQLiteHelper(context);
-                    datasource.open();
-
-                    List<Friend> allFriends = datasource.getAllFriends();
-                    int nbFriends = allFriends.size();
-                    if(nbFriends == 0)
-                    {
-                        builder.setMessage("Vous n'avez pas encore d'amis :/");
-                    }
-                    else {
-                        for (Friend tmpFriend : allFriends) {
-                            arrayAdapter.add(tmpFriend.name);
-                        }
-                    }
-
-                    builder.setNegativeButton(
-                            "Annuler",
-                            new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .setAdapter(
-                                    arrayAdapter,
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            String strName = arrayAdapter.getItem(which);
-                                            Toast.makeText(context, "Offre de la créature n°" +(idCreature+1)+" à "+strName, Toast.LENGTH_SHORT).show();
-                                            sendOfferCreatureRequest(strName, (idCreature+1)+"");
-                                        }
-                                    })
-                            .show();
-                }
-            });
+            if(tmpCreatureData.quantity > 1) button.setText(button.getText() + " x"+tmpCreatureData.quantity);
         } else {
             button.setTextColor(ContextCompat.getColor(this.context, R.color.primary_text));
         }
+
+        button.setTag(tmpCreatureData);
+
+//On ajoute un listener
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Creature creatureTagged = (Creature) v.getTag();
+                sendListener(creatureTagged, position);
+            }
+
+        });
         creatureView.addView(button);
 
         return creatureView;
     }
 
-    private void sendOfferCreatureRequest(String name, String dataCreature) {
-        if(offerCreatureService == null || offerCreatureService.finished())
-        {
 
-            try {
-                name = URLEncoder.encode(name, "UTF-8");
-                dataCreature = URLEncoder.encode(dataCreature, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                name = "";
-                dataCreature = "";
-            }
-
-            offerCreatureService = new OfferCreatureService(context, session, name, Notification.CREATURE_EXCHANGE_REQUEST, dataCreature);
-            offerCreatureService.execute();
-        }
-        else
-        {
-            Toast.makeText(context, "Erreur : Patiente un peu", Toast.LENGTH_SHORT).show();
-        }
-    }
 
 
 
@@ -236,6 +181,27 @@ public class CreaturesGridAdapter extends BaseAdapter{
                 R.drawable.crea_45_shadow, R.drawable.crea_46_shadow, R.drawable.crea_47_shadow, R.drawable.crea_48_shadow,
                 R.drawable.crea_49_shadow, R.drawable.crea_50_shadow
     };
+
+
+    // -------------------------------------------------
+
+
+
+    //Contient la liste des listeners
+    private ArrayList<CreatureAdapterListener> mListListener = new ArrayList<CreatureAdapterListener>();
+
+    public void addListener(CreatureAdapterListener aListener) {
+        mListListener.add(aListener);
+    }
+    private void sendListener(Creature item, int position) {
+        for(int i = mListListener.size()-1; i >= 0; i--) {
+            mListListener.get(i).onClickItem(item, position);
+        }
+    }
+
+    public interface CreatureAdapterListener {
+        void onClickItem(Creature item, int position);
+    }
 
 
 }

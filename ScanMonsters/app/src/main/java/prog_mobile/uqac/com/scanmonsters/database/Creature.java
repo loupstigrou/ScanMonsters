@@ -6,6 +6,7 @@ public class Creature {
     public int id;
     public String name;
     public int quantity;
+    public long date;
 
     public Creature(){}
 

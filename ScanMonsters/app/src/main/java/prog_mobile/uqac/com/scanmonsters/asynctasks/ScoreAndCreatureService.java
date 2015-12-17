@@ -10,11 +10,13 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
  */
 public class ScoreAndCreatureService extends BasicService {
 
-    public ScoreAndCreatureService(Context context, SessionManager session) {
+    public ScoreAndCreatureService(Context context, SessionManager session, IServiceCallback callback) {
         super(context, session,
                 "getScoreAndCreatures",
                 ""
         );
+
+        _callback = callback;
     }
 
     @Override
