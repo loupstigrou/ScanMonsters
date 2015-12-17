@@ -17,7 +17,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Players in UQAC"
+                android:text="@string/players_in_uqac"
                 android:textColor="@color/primary_text"
                 android:gravity="center_horizontal"
                 android:textSize="25sp"/>

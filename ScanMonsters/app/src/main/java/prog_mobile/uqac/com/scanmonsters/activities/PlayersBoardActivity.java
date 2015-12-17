@@ -50,7 +50,7 @@ public class PlayersBoardActivity extends InGameActivity implements ActionBar.Ta
     private ViewPager viewPager;
     private TabsPagerAdapter adapter;
     private android.support.v7.app.ActionBar actionBar;
-    private String[] tabs = {"Joueurs dans l'UQAC", "Leader Board"};
+    private String[] tabs;
 
     private GetPlayersTask gpt;
 
@@ -58,8 +58,11 @@ public class PlayersBoardActivity extends InGameActivity implements ActionBar.Ta
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_players_board);
-
         this.session.checkLogin();
+
+        tabs = new String[2];
+        tabs[0] = getText(R.string.players_in_uqac).toString().toLowerCase();
+        tabs[1] = getText(R.string.leader_board).toString().toLowerCase();
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         actionBar = getSupportActionBar();

@@ -23,6 +23,19 @@
     <string name="error_login_taken">Cet identifiant est déjà utilisé !</string>
     <string name="action_signup">Se connecter</string>
     <string name="error_wrong_login_or_password">Erreur d\'Identifiant ou Mot de Passe</string>
+
+    <string name="players_in_uqac">Joueurs dans l\'UQAC</string>
+    <string name="leader_board">Leader board</string>
+
+    <string name="warning">Attention !</string>
+    <string name="confirm_logout">Es-tu certain de vouloir te déconnecter ?</string>
+    <string name="cancel">Annuler</string>
+    <string name="log_out">Se déconnecter</string>
+
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+
+
     <string name="title_activity_tesseract">Tesseract</string>
 
     <string name="ac_tesseract_btn_gallery">Passer</string>

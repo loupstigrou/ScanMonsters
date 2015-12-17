@@ -117,15 +117,15 @@ public class InGameActivity extends AppCompatActivity {
         if (id == R.id.menu_logout) {
 
             AlertDialog alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Warning !");
-            alertDialog.setMessage("Are you sure you want to Log Out ?");
-            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            alertDialog.setTitle(getText(R.string.warning).toString());
+            alertDialog.setMessage(getText(R.string.confirm_logout).toString());
+            alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, getText(R.string.no).toString(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     return;
                 }
             });
-            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Log Out", new DialogInterface.OnClickListener() {
+            alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, getText(R.string.yes).toString(), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     session.logoutUser();
