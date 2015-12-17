@@ -115,7 +115,7 @@ public class ScanMonsterActivity extends InGameActivity {
         this.session.checkLogin();
     }
 
-    public void goToWhateverActivity(View v) {
+    public void goToInformationActivity(View v) {
         Intent intent = new Intent(ScanMonsterActivity.this, PlayersBoardActivity.class);
         startActivity(intent);
     }
@@ -125,12 +125,12 @@ public class ScanMonsterActivity extends InGameActivity {
         startActivity(intent);
     }
 
-    public void goToLocationActivity(View v) {
+    public void goToCreaturesActivity(View v) {
         Intent intent = new Intent(ScanMonsterActivity.this, CreaturesListActivity.class);
         startActivity(intent);
     }
 
-    public void goToMiniGameActivity(View v) {
+    public void goToPlayActivity(View v) {
         Intent intent = new Intent(ScanMonsterActivity.this, SearchRoomActivity.class);
         startActivity(intent);
     }

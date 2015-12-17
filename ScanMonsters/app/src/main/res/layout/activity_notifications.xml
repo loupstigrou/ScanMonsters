@@ -13,27 +13,40 @@
 
         <LinearLayout
             android:id="@+id/boutons_send_received"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
 
             <Button
                 android:id="@+id/received"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Reçues"
+                android:layout_weight="1"
+                android:textColor="@color/icons"
+                android:background="@color/accent"
+                android:text="@string/notifications_received_button"
                 android:onClick="onClick"/>
             <Button
                 android:id="@+id/sended"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Envoyées"
+                android:layout_weight="1"
+                android:textColor="@color/icons"
+                android:background="@color/accent"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:text="@string/notifications_sent_button"
                 android:onClick="onClick"/>
             <Button
                 android:id="@+id/loading_notifications"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textColor="@color/icons"
+                android:background="@color/accent"
                 android:gravity="center"
-                android:text="Recharger"
+                android:text="@string/notifications_reload_button"
                 android:onClick="onClick"/>
         </LinearLayout>
 

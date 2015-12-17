@@ -14,18 +14,28 @@
         <LinearLayout
             android:id="@+id/search_friends_options"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
             <Button
                 android:id="@+id/btn_search_by_location"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Localiser"
+                android:layout_weight="1"
+                android:textColor="@color/icons"
+                android:background="@color/accent"
+                android:layout_marginEnd="5dp"
+                android:text="@string/search_friend_locate_button"
                 android:onClick="onClick"/>
             <Button
                 android:id="@+id/btn_search_by_proximity"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="A proximité"
+                android:layout_weight="1"
+                android:textColor="@color/icons"
+                android:background="@color/accent"
+                android:layout_marginStart="5dp"
+                android:text="@string/search_friend_prox_button"
                 android:onClick="onClick"/>
 
         </LinearLayout>
@@ -54,7 +64,9 @@
                 android:layout_alignRight="@id/search_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="OK"
+                android:text="@string/search_friend_ok_button"
+                android:textColor="@color/icons"
+                android:background="@color/accent"
                 android:onClick="onClick"/>
 
         </RelativeLayout>

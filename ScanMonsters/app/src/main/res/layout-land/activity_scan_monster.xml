@@ -31,74 +31,74 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/cheat_button"
+                    android:id="@+id/game_button"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@color/accent"
+                    android:text="@string/game_button"
+                    android:textSize="27sp"
+                    android:textColor="@color/icons"
+                    android:onClick="goToPlayActivity"/>
+
+                <Button
+                    android:id="@+id/creatures_button"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_weight="1"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginBottom="10dp"
                     android:background="@color/accent"
-                    android:text="@string/cheat_button"
+                    android:text="@string/creatures_button"
                     android:textSize="27sp"
                     android:textColor="@color/icons"
-                    android:onClick="goToWhateverActivity"/>
+                    android:onClick="goToCreaturesActivity"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/friends_button"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="20dp"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginBottom="10dp"
-                    android:background="@color/accent"
-                    android:text="@string/tesseract_button"
-                    android:textSize="27sp"
-                    android:textColor="@color/icons"
-                    android:onClick="goToFriendsActivity"/>
-
-            </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/location_button"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:layout_weight="1"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="20dp"
                     android:background="@color/accent"
-                    android:text="@string/location_button"
+                    android:text="@string/friends_button"
                     android:textSize="27sp"
                     android:textColor="@color/icons"
-                    android:onClick="goToLocationActivity"/>
+                    android:onClick="goToFriendsActivity"/>
 
                 <Button
-                    android:id="@+id/mini_game_button"
+                    android:id="@+id/information_button"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="20dp"
-                    android:layout_marginBottom="20dp"
                     android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@color/accent"
-                    android:text="@string/mini_game_button"
+                    android:text="@string/information_button"
                     android:textSize="27sp"
                     android:textColor="@color/icons"
-                    android:onClick="goToMiniGameActivity"/>
+                    android:onClick="goToInformationActivity"/>
 
-        </LinearLayout>
+            </LinearLayout>
 
         </LinearLayout>
 

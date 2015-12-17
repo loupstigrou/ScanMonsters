@@ -115,12 +115,6 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <service
-            android:name=".CreatureEventService"
-            android:configChanges="orientation|keyboardHidden"
-            android:enabled="true"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <service
             android:name=".services.LocationService"
             android:enabled="true"
             android:exported="true" />

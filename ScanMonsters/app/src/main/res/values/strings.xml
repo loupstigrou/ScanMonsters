@@ -7,10 +7,8 @@
 
     <string name="inscription_button">S\'inscrire</string>
     <string name="connection_button">Se connecter</string>
-    <string name="cheat_button">Informations</string>
     <string name="tesseract_button">Lancer tesseract</string>
     <string name="friends_button">Mes amis</string>
-    <string name="mini_game_button">Jouer</string>
     <string name="title_activity_scan_monster">Scan Monsters</string>
     <string name="title_activity_inscription">Inscription</string>
     <string name="title_activity_connection">Connexion</string>
@@ -43,7 +41,6 @@
     <string name="ac_tesseract_btn_BOB">Bureau Bob</string>
     <string name="ac_tesseract_info_user">Aligner le rectangle et la plaque à scanner</string>
 
-    <string name="location_button">Mes créatures</string>
     <string name="title_activity_creatures_list">Créatures</string>
     <string name="title_activity_players_board">Informations</string>
     <string name="menu_logout">Se déconnecter</string>
@@ -99,5 +96,21 @@
     <string name="title_activity_neary_devices">Joueurs à proximité</string>
     <string name="wait_search_nearby_description_2">Pour ajouter un ami, demandez-lui d\'activer la
         recherche à proximité.</string>
+    <string name="information_button">Informations</string>
+    <string name="creatures_button">Mes créatures</string>
+    <string name="game_button">Jouer</string>
+    <string name="friends_search_button">Rechercher des amis</string>
+    <string name="friends_reload_button">Recharger</string>
+    <string name="location_hide_button">Cacher</string>
+    <string name="location_reload_button">Recharger</string>
+    <string name="location_share_button">Partager</string>
+    <string name="notifications_received_button">Reçues</string>
+    <string name="notifications_sent_button">Envoyées</string>
+    <string name="notifications_reload_button">Recharger</string>
+    <string name="search_friend_locate_button">Localiser</string>
+    <string name="search_friend_prox_button">A proximité</string>
+    <string name="search_friend_ok_button">OK</string>
+    <string name="leaderboard_pseudo_text">Pseudo</string>
+    <string name="leaderboard_score_text">Score</string>
 
 </resources>

@@ -13,28 +13,30 @@
 
         <LinearLayout
             android:id="@+id/group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/search"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Rechercher des amis"
+                android:layout_weight="1"
+                android:textColor="@color/icons"
+                android:background="@color/accent"
+                android:layout_marginEnd="8dp"
+                android:text="@string/friends_search_button"
                 android:onClick="onClick"/>
-
-           <!-- <Button
-                android:id="@+id/localise"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Localiser"
-                android:onClick="onClick"/>-->
 
             <Button
                 android:id="@+id/refresh"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Recharger"
+                android:layout_weight="1"
+                android:background="@color/accent"
+                android:textColor="@color/icons"
+                android:layout_marginStart="8dp"
+                android:text="@string/friends_reload_button"
                 android:onClick="onClick"/>
         </LinearLayout>
 
