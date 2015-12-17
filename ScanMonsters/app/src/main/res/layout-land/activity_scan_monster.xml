@@ -43,10 +43,10 @@
                     android:text="@string/cheat_button"
                     android:textSize="27sp"
                     android:textColor="@color/icons"
-                    />
+                    android:onClick="goToWhateverActivity"/>
 
                 <Button
-                    android:id="@+id/tesseract_button"
+                    android:id="@+id/friends_button"
                     android:layout_width="match_parent"
                     android:layout_height="fill_parent"
                     android:layout_weight="1"
@@ -57,7 +57,8 @@
                     android:background="@color/accent"
                     android:text="@string/tesseract_button"
                     android:textSize="27sp"
-                    android:textColor="@color/icons"/>
+                    android:textColor="@color/icons"
+                    android:onClick="goToFriendsActivity"/>
 
             </LinearLayout>
 
@@ -79,7 +80,8 @@
                     android:background="@color/accent"
                     android:text="@string/location_button"
                     android:textSize="27sp"
-                    android:textColor="@color/icons"/>
+                    android:textColor="@color/icons"
+                    android:onClick="goToLocationActivity"/>
 
                 <Button
                     android:id="@+id/mini_game_button"
@@ -93,7 +95,8 @@
                     android:background="@color/accent"
                     android:text="@string/mini_game_button"
                     android:textSize="27sp"
-                    android:textColor="@color/icons"/>
+                    android:textColor="@color/icons"
+                    android:onClick="goToMiniGameActivity"/>
 
         </LinearLayout>
 

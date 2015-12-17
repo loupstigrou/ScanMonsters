@@ -1,19 +1,15 @@
-package prog_mobile.uqac.com.scanmonsters.treatments;
+package prog_mobile.uqac.com.scanmonsters.image_processing;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Environment;
-import android.support.v4.content.ContextCompat;
-import android.widget.Toast;
 
 import com.googlecode.tesseract.android.TessBaseAPI;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 
 import prog_mobile.uqac.com.scanmonsters.R;
 

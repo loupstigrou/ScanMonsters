@@ -2,21 +2,11 @@ package prog_mobile.uqac.com.scanmonsters.activities;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Scanner;
 
 import prog_mobile.uqac.com.scanmonsters.R;
 import prog_mobile.uqac.com.scanmonsters.asynctasks.BasicService;
@@ -42,8 +32,8 @@ public class SearchRoomActivity extends InGameActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_room);
 
-        this.progressView =    (View) findViewById(R.id.wait_room_info);
-        this.roomFoundedView = (View) findViewById(R.id.search_room_info);
+        this.progressView = findViewById(R.id.wait_room_info);
+        this.roomFoundedView = findViewById(R.id.search_room_info);
 
         this.roomValueText = (TextView) findViewById(R.id.room_value_description);
         this.arriveAtRoomButton = (Button) findViewById(R.id.arrive_at_room_button);
@@ -62,8 +52,7 @@ public class SearchRoomActivity extends InGameActivity {
 
     private void arriveAtRoom()
     {
-       // Intent intent = new Intent(SearchRoomActivity.this, MiniGameActivity.class);
-        Intent intent = new Intent(SearchRoomActivity.this, OCRActivity.class);
+        Intent intent = new Intent(SearchRoomActivity.this, CameraActivity.class);
         startActivity(intent);
         finish();
     }
@@ -97,9 +86,6 @@ public class SearchRoomActivity extends InGameActivity {
                 Toast.makeText(context, "Erreur "+serverResponse, Toast.LENGTH_SHORT).show();
             }
         }
-
-
-
 
         @Override
         protected void onCancelled() {

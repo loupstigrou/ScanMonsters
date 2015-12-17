@@ -38,8 +38,10 @@
 
     <string name="title_activity_tesseract">Tesseract</string>
 
-    <string name="ac_tesseract_btn_gallery">Passer</string>
+    <string name="ac_tesseract_btn_By_Pass">Passer</string>
     <string name="ac_tesseract_btn_camera">Prendre une photo</string>
+    <string name="ac_tesseract_btn_BOB">Bureau Bob</string>
+    <string name="ac_tesseract_info_user">Aligner le rectangle et la plaque à scanner</string>
 
     <string name="location_button">Mes créatures</string>
     <string name="title_activity_creatures_list">Créatures</string>
@@ -86,7 +88,7 @@
     <string name="gcm_notif_title">ScanMonster :</string>
     <string name="gcm_send_message">Token retrieved and sent to server! You can now use gcmsender to
         send downstream messages to this app.</string>
-        <string name="registering_message">Generating InstanceID token...</string>
+    <string name="registering_message">Generating InstanceID token...</string>
     <string name="token_error_message">An error occurred while either fetching the InstanceID token,
         sending the fetched token to the server or subscribing to the PubSub topic. Please try
         running the sample again.</string>
@@ -95,6 +97,7 @@
 
 
     <string name="title_activity_neary_devices">Joueurs à proximité</string>
-    <string name="wait_search_nearby_description_2">Pour ajouter un ami, demandez-lui d\'activer la recherche à proximité.</string>
+    <string name="wait_search_nearby_description_2">Pour ajouter un ami, demandez-lui d\'activer la
+        recherche à proximité.</string>
 
 </resources>

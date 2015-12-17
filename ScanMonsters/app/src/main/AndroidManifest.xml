@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="prog_mobile.uqac.com.scanmonsters">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -30,25 +30,18 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/icon_scan_monster"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
-
-
         <meta-data
             android:name="com.google.android.nearby.messages.API_KEY"
             android:value="AIzaSyCwOaw4l9dQy9cLfU4DQbcHWwhwpzQ6sKA" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyCwOaw4l9dQy9cLfU4DQbcHWwhwpzQ6sKA"/>
-
-
-
+            android:value="AIzaSyCwOaw4l9dQy9cLfU4DQbcHWwhwpzQ6sKA" />
 
         <activity
             android:name=".activities.SplashScreen"
@@ -62,88 +55,85 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:label="@string/title_activity_main"></activity>
+            android:label="@string/title_activity_main" />
         <activity
             android:name=".activities.ScanMonsterActivity"
-            android:label="@string/title_activity_scan_monster"></activity>
+            android:label="@string/title_activity_scan_monster" />
         <activity
             android:name=".authentication.InscriptionActivity"
-            android:label="@string/title_activity_inscription"></activity>
+            android:label="@string/title_activity_inscription" />
         <activity
             android:name=".authentication.ConnectionActivity"
-            android:label="@string/title_activity_connection"></activity>
-        <activity
-            android:name=".activities.OCRActivity"
-            android:configChanges="orientation|keyboardHidden"
-            android:label="@string/title_activity_tesseract"
-            android:screenOrientation="portrait"></activity>
+            android:label="@string/title_activity_connection" />
         <activity
             android:name=".activities.CreaturesListActivity"
-            android:label="@string/title_activity_creatures_list"></activity>
+            android:label="@string/title_activity_creatures_list" />
         <activity
             android:name=".activities.MiniGameActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_mini_game"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.PlayersBoardActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_players_board"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SearchRoomActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_search_room"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.FriendsListActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_friends_list"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.SearchFriendsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_search_friend"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.NotificationsActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_notifications"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.NearbyActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_neary_devices"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activities.LocateGoogleMapActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_locate_google_map"
-            android:screenOrientation="portrait"></activity>
-
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CameraActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <service
             android:name=".CreatureEventService"
             android:configChanges="orientation|keyboardHidden"
             android:enabled="true"
             android:exported="true"
-            android:screenOrientation="portrait"></service>
+            android:screenOrientation="portrait" />
         <service
             android:name=".services.LocationService"
             android:enabled="true"
-            android:exported="true"></service>
-
-
+            android:exported="true" />
 
         <activity
             android:name=".gcm.GcmActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/title_activity_notifications"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND" >
+            android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
 
                 <!-- Receives the actual messages. -->
@@ -153,17 +143,18 @@
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <category android:name="YOUR_PACKAGE" />
-
             </intent-filter>
         </receiver>
 
-        <!-- Enables message handling (e.g.detecting different downstream message types,
+        <!--
+     Enables message handling (e.g.detecting different downstream message types,
      determining upstream send status, and automatically displaying simple
-     notifications on the app’s behalf) -->
+     notifications on the app’s behalf)
+        -->
 
         <service
             android:name=".gcm.MyGcmListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
@@ -173,7 +164,7 @@
 
         <service
             android:name=".gcm.MyInstanceIDListenerService"
-            android:exported="false" >
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
             </intent-filter>
@@ -183,9 +174,7 @@
 
         <service
             android:name=".gcm.RegistrationIntentService"
-            android:exported="false" >
-        </service>
-
+            android:exported="false"></service>
 
     </application>
 

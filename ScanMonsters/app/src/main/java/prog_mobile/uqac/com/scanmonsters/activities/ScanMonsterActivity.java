@@ -23,14 +23,10 @@ import prog_mobile.uqac.com.scanmonsters.user.SessionManager;
 /**
  * Activité principale après connexion
  */
-public class ScanMonsterActivity extends InGameActivity implements View.OnClickListener  {
+public class ScanMonsterActivity extends InGameActivity {
 
     Intent locationServiceIntent;
 
-    private Button cheatButton;
-    private Button friendsButton;
-    private Button locationButton;
-    private Button miniGameButton;
     private TextView connectedText;
     private MySQLiteHelper mySQLiteHelper;
 
@@ -64,16 +60,7 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         this.locationServiceIntent = new Intent(this, LocationService.class);
         this.startService(locationServiceIntent);
 
-        this.cheatButton = (Button) findViewById(R.id.cheat_button);
-        this.friendsButton = (Button) findViewById(R.id.friends_button);
-        this.locationButton = (Button) findViewById(R.id.location_button);
-        this.miniGameButton = (Button) findViewById(R.id.mini_game_button);
         this.connectedText = (TextView) findViewById(R.id.scan_monster_description);
-
-        this.cheatButton.setOnClickListener(this);
-        this.friendsButton.setOnClickListener(this);
-        this.locationButton.setOnClickListener(this);
-        this.miniGameButton.setOnClickListener(this);
 
         String msgConnected = String.format(getResources().getString(R.string.scan_monster_description), session.getUser().getLogin());
         connectedText.setText(msgConnected);
@@ -128,47 +115,22 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         this.session.checkLogin();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-
-            case R.id.cheat_button:
-                this.goToWhateverActivity();
-                break;
-
-            case R.id.friends_button:
-                this.goToFriendsActivity();
-                break;
-
-            case R.id.location_button:
-                this.goToLocationActivity();
-                break;
-
-            case R.id.mini_game_button:
-                this.goToMiniGameActivity();
-                break;
-
-            default:
-                break;
-        }
-    }
-
-    private void goToWhateverActivity() {
+    public void goToWhateverActivity(View v) {
         Intent intent = new Intent(ScanMonsterActivity.this, PlayersBoardActivity.class);
         startActivity(intent);
     }
 
-    private void goToFriendsActivity(){
+    public void goToFriendsActivity(View v){
         Intent intent = new Intent(ScanMonsterActivity.this, FriendsListActivity.class);
         startActivity(intent);
     }
 
-    private void goToLocationActivity() {
+    public void goToLocationActivity(View v) {
         Intent intent = new Intent(ScanMonsterActivity.this, CreaturesListActivity.class);
         startActivity(intent);
     }
 
-    private void goToMiniGameActivity() {
+    public void goToMiniGameActivity(View v) {
         Intent intent = new Intent(ScanMonsterActivity.this, SearchRoomActivity.class);
         startActivity(intent);
     }
@@ -190,5 +152,4 @@ public class ScanMonsterActivity extends InGameActivity implements View.OnClickL
         }
         return true;
     }
-
 }
