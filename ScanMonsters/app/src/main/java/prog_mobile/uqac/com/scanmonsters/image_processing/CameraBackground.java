@@ -24,7 +24,6 @@ public class CameraBackground extends SurfaceView implements SurfaceHolder.Callb
 	private Camera.Parameters mParameters;
 	private byte[] mBuffer;
 
-	// this constructor used when requested as an XML resource
 	public CameraBackground(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init();
@@ -36,13 +35,19 @@ public class CameraBackground extends SurfaceView implements SurfaceHolder.Callb
 	}
 
 	public void init() {
-		// Install a SurfaceHolder.Callback so we get notified when the
-		// underlying surface is created and destroyed.
 		SurfaceHolder mHolder = getHolder();
 		mHolder.addCallback(this);
 		mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 	}
 
+	/**
+	 * Récupère l'image à l'intérieur du rectangle
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return
+	 */
 	public Bitmap getPic(int x, int y, int width, int height){
 		System.gc(); 
 		Bitmap b = null;
@@ -62,18 +67,19 @@ public class CameraBackground extends SurfaceView implements SurfaceHolder.Callb
 		return b;
 	}
 
+	/**
+	 * Mise à jour du buffer
+	 */
 	private void updateBufferSize() {
 		mBuffer = null;
 		System.gc();
-		// prepare a buffer for copying preview data to
 		int h = mCamera.getParameters().getPreviewSize().height;
 		int w = mCamera.getParameters().getPreviewSize().width;
 		int bitsPerPixel = ImageFormat.getBitsPerPixel(mCamera.getParameters().getPreviewFormat());
 		mBuffer = new byte[w * h * bitsPerPixel / 8];
 	}
 
-	public void surfaceCreated(SurfaceHolder holder) {
-		// The Surface has been created, acquire the camera and tell it where to draw.
+	public void surfaceCreated(SurfaceHolder holder){
 		try {
 			mCamera = Camera.open();
 		}
@@ -82,14 +88,13 @@ public class CameraBackground extends SurfaceView implements SurfaceHolder.Callb
 		}
 
 		try {
-			mCamera.setPreviewDisplay(holder);
+			mCamera.setPreviewDisplay(holder); //Définition de la prévisualisation
 			updateBufferSize();
-			mCamera.addCallbackBuffer(mBuffer); // where we'll store the image data
+			mCamera.addCallbackBuffer(mBuffer); //Endroit ou l'on stocke l'image
 			mCamera.setPreviewCallbackWithBuffer(new PreviewCallback() {
-				public synchronized void onPreviewFrame(byte[] data, Camera c) {
-
-					if (mCamera != null) { // there was a race condition when onStop() was called..
-						mCamera.addCallbackBuffer(mBuffer); // it was consumed by the call, add it back
+				public synchronized void onPreviewFrame(byte[] data, Camera c){
+					if (mCamera != null) {
+						mCamera.addCallbackBuffer(mBuffer);
 					}
 				}
 			});
@@ -102,28 +107,18 @@ public class CameraBackground extends SurfaceView implements SurfaceHolder.Callb
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {
-		// Surface will be destroyed when we return, so stop the preview.
-		// Because the CameraDevice object is not a shared resource, it's very
-		// important to release it when the activity is paused.
 		mCamera.stopPreview();
-		mCamera.release();
+		mCamera.release(); //On libere les resources
 		mCamera = null;
 	}
 
-	// FYI: not called for each frame of the camera preview
-	// gets called on my phone when keyboard is slid out
-	// requesting landscape orientation prevents this from being called as camera tilts
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-		// Now that the size is known, set up the camera parameters and begin
-		// the preview.
 		try {
 			mParameters = mCamera.getParameters();
 			mParameters.set("orientation","landscape");
-			mCamera.setParameters(mParameters); // apply the changes
-		} catch (Exception e) {
-			// older phone - doesn't support these calls
-		}
-		updateBufferSize(); // then use them to calculate
+			mCamera.setParameters(mParameters); //Changement des paramètres
+		} catch (Exception e) {}
+		updateBufferSize();
 		mCamera.startPreview();
 	}
 

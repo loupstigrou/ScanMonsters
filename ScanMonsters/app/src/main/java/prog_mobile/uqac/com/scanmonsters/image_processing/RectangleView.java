@@ -71,7 +71,7 @@ public class RectangleView extends View {
 
 	private void init(Context context) {
 
-		// I need to create lines for the bounding box to connect
+		//Création des lignes du rectangle
 
 		topLine = new Paint();
 		bottomLine = new Paint();
@@ -80,18 +80,22 @@ public class RectangleView extends View {
 
 		setLineParameters(Color.RED,5);
 		
-		// Here I grab the image that will work as the corners of the bounding
-		// box and set their positions.
+		//Récupère et place le cercle sur le rectangle
 
 		mRightBottomIcon = context.getResources().getDrawable(R.drawable.corners);
 		mRightBottomIcon.setBounds((int)mRightBottomPosX, (int)mRightBottomPosY,
 				mRightBottomIcon.getIntrinsicWidth()+(int)mRightBottomPosX,
 				mRightBottomIcon.getIntrinsicHeight()+(int)mRightBottomPosY);
-		// Create our ScaleGestureDetector
+
 		mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
 
 	}
 
+	/**
+	 * Défini la couleur et l'épaisseur des lignes du rectangle
+	 * @param color
+	 * @param width
+	 */
 	private void setLineParameters(int color, float width){
 
 		topLine.setColor(color);
@@ -108,8 +112,10 @@ public class RectangleView extends View {
 	
 	}
 
-	// Draws the bounding box on the canvas. Every time invalidate() is called
-	// this onDraw method is called.
+	/**
+	 * Traçage du rectangle
+	 * @param canvas
+	 */
 	public void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
 		canvas.save();
@@ -131,6 +137,11 @@ public class RectangleView extends View {
 		canvas.restore();
 	}
 
+	/**
+	 * Gestion des touch event
+	 * @param ev
+	 * @return
+	 */
 	public boolean onTouchEvent(MotionEvent ev) {
 		final int action = ev.getAction();
 		boolean intercept = true;
@@ -142,15 +153,12 @@ public class RectangleView extends View {
 			final float x = ev.getX();
 			final float y = ev.getY();
 
-			// in CameraPreview we have Rect rec. This is passed here to return
-			// a false when the camera button is pressed so that this view ignores
-			// the touch event.
 			if ((x >= buttonRec.left) && (x <=buttonRec.right) && (y>=buttonRec.top) && (y<=buttonRec.bottom)){
 				intercept = false;
 				break;
 			}
 
-			// Remember where we started
+			// Mise en memoire des dernieres valeurs de x et y
 			mLastTouchX = x;
 			mLastTouchY = y;
 			mActivePointerId = ev.getPointerId(0);
@@ -162,8 +170,6 @@ public class RectangleView extends View {
 			final float x = ev.getX();
 			final float y = ev.getY();
 
-			// Only move if the ScaleGestureDetector isn't processing a gesture.
-			// but we ignore here because we are not using ScaleGestureDetector.
 			if (!mScaleDetector.isInProgress()) {
 				final float dx = x - mLastTouchX;
 				final float dy = y - mLastTouchY;
@@ -174,12 +180,12 @@ public class RectangleView extends View {
 				invalidate();
 			}
 
-			// Calculate the distance moved
+			// Calcule de la distance parcouru
 			final float dx = x - mLastTouchX;
 			final float dy = y - mLastTouchY;
 
 
-			// Move the object
+			// On bouge l'objet
 			if (mPosX >= 0 && mPosX <=800){
 				mPosX += dx;
 			}
@@ -204,11 +210,10 @@ public class RectangleView extends View {
 			mLeftBottomPosX = mRightBottomPosX - 800;//200;
 			mLeftBottomPosY = mRightBottomPosY;//1000;
 
-			// Remember this touch position for the next move event
 			mLastTouchX = x;
 			mLastTouchY = y;
 
-			// Invalidate to request a redraw
+			// On redessine le rectanlge
 			invalidate();
 			break;
 		}
@@ -219,13 +224,11 @@ public class RectangleView extends View {
 		}
 
 		case MotionEvent.ACTION_POINTER_UP: {
-			// Extract the index of the pointer that left the touch sensor
 			final int pointerIndex = (action & MotionEvent.ACTION_POINTER_INDEX_MASK) 
 			>> MotionEvent.ACTION_POINTER_INDEX_SHIFT;
 			final int pointerId = ev.getPointerId(pointerIndex);
-			if (pointerId == mActivePointerId) {
-				// This was our active pointer going up. Choose a new
-				// active pointer and adjust accordingly.
+			if (pointerId == mActivePointerId)
+			{
 				final int newPointerIndex = pointerIndex == 0 ? 1 : 0;
 				mLastTouchX = ev.getX(newPointerIndex);
 				mLastTouchY = ev.getY(newPointerIndex);
@@ -242,7 +245,7 @@ public class RectangleView extends View {
 		public boolean onScale(ScaleGestureDetector detector) {
 			mScaleFactor *= detector.getScaleFactor();
 
-			// Don't let the object get too small or too large.
+			//Limite la taille du rectangle
 			mScaleFactor = Math.max(0.1f, Math.min(mScaleFactor, 5.0f));
 
 			invalidate();

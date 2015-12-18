@@ -17,13 +17,13 @@ public class OpencvTreatment {
         Mat imageSource;
         imageSource = new Mat(basePicture.getWidth(), basePicture.getHeight(), CvType.CV_8UC1);
         Utils.bitmapToMat(basePicture, imageSource);
-        Imgproc.cvtColor(imageSource, imageSource, Imgproc.COLOR_RGB2GRAY);
+        Imgproc.cvtColor(imageSource, imageSource, Imgproc.COLOR_RGB2GRAY); //passage en nuance de gris
 
         if(imageSource.empty()){
             Log.d("Chargement OpenCV", "Image Vide");
             return null;
         }
-        Imgproc.threshold(imageSource,imageSource,60,255,Imgproc.THRESH_BINARY);
+        Imgproc.threshold(imageSource,imageSource,60,255,Imgproc.THRESH_BINARY); //binarisation de l'image
         imageSource = eraseLine(imageSource);
         return imageSource;
     }
